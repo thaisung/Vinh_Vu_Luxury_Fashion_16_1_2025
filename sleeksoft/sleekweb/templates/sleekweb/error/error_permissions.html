@@ -1,0 +1,203 @@
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    {% tailwind_css %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản của bạ chưa được cấp quyền cho những trang quản trị</title>
+    <!-- Import jQuery từ CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.rawgit.com/travist/jsencrypt/master/bin/jsencrypt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-base64@2.5.2/base64.min.js"></script>
+    {% comment %} <script src="https://cdn.usefathom.com/script.js" data-site="UGPDODOP" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jodit@3.8.4/build/jodit.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jodit@3.8.4/build/jodit.min.js"></script> {% endcomment %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Merienda:wght@300..900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=MuseoModerno:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Signika:wght@300..700&display=swap');
+        </style>
+    <style>
+        body {
+            font-family: "Merriweather Sans", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <style>
+
+        .marquee {
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee:hover {
+            animation-play-state: paused; /* Dừng animation khi di chuột vào */
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+    <style>
+        @keyframes zoom {
+            0% {
+              transform: scale(1);
+            }
+            25% {
+              transform: scale(1.1);
+            }
+            50% {
+              transform: scale(1);
+            }
+            75% {
+                transform: scale(1.1);
+              }
+            100% {
+                transform: scale(1);
+              }
+          }
+          
+          @-webkit-keyframes heartBeat {
+            0% {
+                -webkit-transform: scale(1);
+                transform: scale(1)
+            }
+        
+            14% {
+                -webkit-transform: scale(1.1);
+                transform: scale(1.1)
+            }
+        
+            28% {
+                -webkit-transform: scale(1);
+                transform: scale(1)
+            }
+        
+            42% {
+                -webkit-transform: scale(1.1);
+                transform: scale(1.1)
+            }
+        
+            70% {
+                -webkit-transform: scale(1);
+                transform: scale(1)
+            }
+        }
+        
+        @keyframes heartBeat {
+            0% {
+                -webkit-transform: scale(1);
+                transform: scale(1)
+            }
+        
+            14% {
+                -webkit-transform: scale(1.1);
+                transform: scale(1.1)
+            }
+        
+            28% {
+                -webkit-transform: scale(1);
+                transform: scale(1)
+            }
+        
+            42% {
+                -webkit-transform: scale(1.1);
+                transform: scale(1.1)
+            }
+        
+            70% {
+                -webkit-transform: scale(1);
+                transform: scale(1)
+            }
+        }
+          .animate-zoom {
+            -webkit-animation-name: heartBeat;
+            animation-name: heartBeat;
+            -webkit-animation-duration: 1.4s;
+            animation-duration: 1.4s;
+            -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite
+        }          
+    </style>
+    <style>
+        .scale-105 {
+            transform: scale(1.05);
+          }
+          .transition-transform {
+            transition: transform 0.3s ease;
+          }
+    </style>
+    <style>
+        .SMN_effect-49 svg, .SMN_effect-49 a {
+            transition: 0.35s;
+        }
+        
+        .SMN_effect-49 svg:hover, .SMN_effect-49 a:not(.bg-green-600):hover {
+            text-shadow: 0 0 15px #22c55e;
+            -moz-transform: scale(1.05);
+            -webkit-transform: scale(1.05);
+            -o-transform: scale(1.05);
+            transform: scale(1.05);
+            color: #22c55e;
+            fill:#22c55e;
+        }
+        
+          
+    </style>
+
+
+</head>
+<body class="bg-stone-500 h-screen flex flex-col">
+    <main class=" bg-stone-900 grow flex flex-col gap-[30px] items-center justify-center p-[30px]">
+        <h1 class="text-[30px] font-bold text-red-500">Tài khoản của bạ chưa được cấp quyền cho những trang quản trị</h1>
+    </main>
+    <!-- JavaScript để kiểm tra jQuery đã được import thành công -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+          $("#lable_language").hover(
+            function() {
+              $("#select_language").fadeIn("slow");
+            },
+            function() {
+              $("#select_language").fadeOut("slow");
+            }
+          );
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#icon_search').on('click', function() {
+                $('#form_search').fadeIn("slow"); // Hiển thị form với hiệu ứng hiển thị từ mờ dần
+                $('#search_val').val("");
+            });
+        
+            $('#close_form_search').on('click', function() {
+                $('#form_search').fadeOut("slow"); // Ẩn form với hiệu ứng biến mất từ rõ dần
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#user_action').on('click', function() {
+                $('#tab_user_action').fadeToggle("slow");
+            });
+
+            // Khi nhấp vào bất kỳ đâu trên tài liệu
+            $(document).on('click', function(event) {
+                // Nếu nhấp chuột xảy ra bên ngoài #user_action và #tab_user_action
+                if (!$(event.target).closest('#user_action').length && !$(event.target).closest('#tab_user_action').length) {
+                    $('#tab_user_action').fadeOut("slow");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

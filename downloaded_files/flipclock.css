@@ -1,0 +1,867 @@
+.flip-clock-wrapper.clearfix:after, .flip-clock-wrapper:after {
+    clear: both
+}
+
+.she-popover {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%
+}
+
+.she-popover .she-popover-content {
+    position: absolute;
+    z-index: 500
+}
+
+.she-popover .she-popover-content.she-popover-placement-leftBottom {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+    left: 0
+}
+
+.she-popover .she-popover-content.she-popover-placement-leftBottom .she-popover-arrow {
+    left: 15px
+}
+
+.she-popover .she-popover-content.she-popover-placement-leftBottom .she-popover-inner {
+    text-align: left
+}
+
+.she-popover .she-popover-content .she-popover-arrow {
+    color: #fff;
+    background: #fff;
+    width: 8.49px;
+    height: 8.49px;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: absolute;
+    display: block;
+    border-style: solid;
+    box-shadow: -2px -2px 5px rgba(0, 0, 0, .06);
+    top: -2px;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    left: 50%
+}
+
+.she-popover .she-popover-content .she-popover-inner {
+    display: inline-block;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, .08);
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 4px 12px;
+    line-height: 27px;
+    color: #222;
+    font-size: 12px;
+    font-weight: 400;
+    background: #fff
+}
+
+.she-popover .she-popover-content .she-popover-inner .la-line-scale {
+    height: 27px;
+    color: #ff696e
+}
+
+.she-popover .she-popover-content .she-popover-inner .la-line-scale > div {
+    height: 27px
+}
+
+.she-index .outfit-index-title {
+    width: 100%;
+    font-size: 38px;
+    text-transform: uppercase;
+    padding: 40px 0 30px;
+    text-align: center;
+    color: #222;
+    font-weight: 700
+}
+
+.she-index .outfit-swiper {
+    position: relative;
+    margin: 0 auto 30px 0
+}
+
+.she-index .outfit-swiper:hover .outfit-next, .she-index .outfit-swiper:hover .outfit-prev {
+    opacity: .7;
+    -webkit-transition: opacity .3s;
+    transition: opacity .3s
+}
+
+.she-index .outfit-swiper .index-outfit-img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 0
+}
+
+.she-index .outfit-swiper .outfit-next, .she-index .outfit-swiper .outfit-prev {
+    color: #222;
+    text-align: center;
+    cursor: pointer;
+    background: #fff;
+    opacity: 0;
+    font-size: 32px;
+    width: 48px;
+    height: 48px
+}
+
+.she-index .outfit-swiper .outfit-next:hover, .she-index .outfit-swiper .outfit-prev:hover {
+    opacity: 1 !important
+}
+
+.she-index .outfit-swiper .swiper-button-disabled {
+    display: none !important
+}
+
+.she-index .outfit-swiper .outfit-next {
+    left: auto;
+    right: 0
+}
+
+.she-index .outfit-swiper .outfit-prev {
+    right: auto;
+    left: 0
+}
+
+.she-index .outfit-swiper .outfit-swiper-container .item-img {
+    width: 100%
+}
+
+.she-index .outfit-swiper .outfit-swiper-container .swiper-slide {
+    width: 20%;
+    cursor: pointer
+}
+
+.she-index .outfit-swiper .outfit-swiper-container .swiper-slide:hover .outfit-shop {
+    display: block
+}
+
+.she-index .outfit-swiper .outfit-swiper-container .swiper-slide > a {
+    display: block;
+    position: relative;
+    height: 0;
+    padding-top: 132%
+}
+
+.she-index .outfit-swiper .outfit-swiper-container .swiper-slide > a > .item-img {
+    position: absolute;
+    left: 0;
+    top: 0
+}
+
+.she-index .outfit-swiper .outfit-swiper-container .swiper-slide > a .outfit-shop {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, .82);
+    color: #222;
+    font-size: 16px;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    display: none
+}
+
+.config-index img {
+    width: 100%
+}
+
+.config-index .index-video {
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 33.3333%
+}
+
+.config-index .index-video iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%
+}
+
+.config-index .index-image {
+    overflow: hidden;
+    position: relative
+}
+
+.config-index .index-image .index-image-wrap .index-image-item {
+    padding: 0
+}
+
+.config-index .index-image .index-image-wrap .index-image-item > a {
+    cursor: pointer;
+    display: inline-block;
+    height: 100%;
+    width: 100%
+}
+
+.config-index .index-image .index-image-wrap .index-image-item > a > img {
+    width: 100%;
+    border: none
+}
+
+.config-index .index-image .index-image-wrap .index-image-hotZone a {
+    display: block;
+    width: 100%;
+    height: 100%
+}
+
+.config-index .index-swiper {
+    overflow: hidden
+}
+
+.config-index .index-swiper .swiper-slide a {
+    display: block;
+    width: 100%;
+    height: 100%
+}
+
+.config-index .index-combination .static-img a, .config-index .index-combination .swiper-slide a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer
+}
+
+.config-index .index-swiper .iconfont {
+    font-size: 36px;
+    color: #fff
+}
+
+.config-index .index-combination {
+    overflow: hidden
+}
+
+.config-index .index-combination .index-swiper, .config-index .index-combination .static-img {
+    padding-left: 0 !important;
+    padding-right: 0 !important
+}
+
+.config-index .index-combination .swiper-container.left {
+    float: left !important
+}
+
+.config-index .index-combination .swiper-container.right {
+    float: right !important
+}
+
+.config-index .index-combination .swiper-slide {
+    position: relative;
+    height: 100%;
+    width: 100%
+}
+
+.config-index .index-combination .swiper-slide img {
+    width: 100%;
+    height: 100%
+}
+
+.flip-clock-wrapper.clearfix:after, .flip-clock-wrapper.clearfix:before, .flip-clock-wrapper:after, .flip-clock-wrapper:before {
+    content: " ";
+    display: table
+}
+
+.config-index .index-combination .static-img img {
+    width: 100%;
+    height: 100%
+}
+
+.config-index .index-combination .static-img:last-child a {
+    bottom: 3.3334%
+}
+
+.config-index .carousel-button .swiper-button-prev {
+    left: 10px;
+    right: auto
+}
+
+.config-index .carousel-button .swiper-button-next {
+    right: 10px;
+    left: auto
+}
+
+.config-index .c-carousel-list .carousel-name {
+    margin-top: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.config-index .c-carousel-list .carousel-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    margin-top: 5px
+}
+
+.config-index .c-carousel-list .swiper-button-next.swiper-button-disabled, .config-index .c-carousel-list .swiper-button-prev.swiper-button-disabled {
+    background: rgba(255, 255, 255, .4);
+    font-size: 32px;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    opacity: .4
+}
+
+.config-index .c-carousel-list .swiper-button-next, .config-index .c-carousel-list .swiper-button-prev {
+    background: #fff;
+    font-size: 32px;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    opacity: .7
+}
+
+.flip-clock-wrapper * {
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden
+}
+
+.flip-clock-wrapper a {
+    cursor: pointer;
+    text-decoration: none;
+    color: #ccc
+}
+
+.flip-clock-wrapper a:hover {
+    color: #fff
+}
+
+.flip-clock-wrapper {
+    font: 400 11px "Helvetica Neue", Helvetica, sans-serif;
+    -webkit-user-select: none;
+    text-align: center;
+    position: relative;
+    margin: 1em 0 0;
+}
+
+@media (max-width: 767px) {
+    .flip-clock-wrapper {
+        margin: 0 0 15px;
+    }
+}
+
+.flip-clock-meridium {
+    background: 0 0 !important;
+    box-shadow: 0 0 0 !important;
+    font-size: 36px !important
+}
+
+.flip-clock-meridium a {
+    color: #313333
+}
+
+.flip-clock-wrapper ul {
+    list-style: none;
+    position: relative;
+    float: left;
+    margin: 2px;
+    width: 30px;
+    height: 42px;
+    font-size: 80px;
+    font-weight: 700;
+    line-height: 78px;
+    border-radius: 6px;
+    background: #000;
+    padding: 0;
+}
+
+.flip-clock-wrapper ul li {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 40px;
+    text-decoration: none !important
+}
+
+.flip-clock-wrapper ul li:first-child {
+    z-index: 2
+}
+
+.flip-clock-wrapper ul li a {
+    display: block;
+    height: 100%;
+    -webkit-perspective: 200px;
+    perspective: 200px;
+    margin: 0 !important;
+    overflow: visible !important;
+    cursor: default !important
+}
+
+.flip-clock-wrapper ul li a div {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    font-size: 80px;
+    overflow: hidden;
+    outline: transparent solid 1px
+}
+
+.flip-clock-wrapper ul li a div .shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2
+}
+
+.flip-clock-wrapper ul li a div.up {
+    -webkit-transform-origin: 50% 100%;
+    -ms-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+    top: 0
+}
+
+.flip-clock-wrapper ul li a div.up:after {
+    content: "";
+    position: absolute;
+    top: 44px;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    height: 3px;
+    background-color: #000;
+}
+
+.flip-clock-wrapper ul li a div.down {
+    -webkit-transform-origin: 50% 0;
+    -ms-transform-origin: 50% 0;
+    transform-origin: 50% 0;
+    bottom: 0;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px
+}
+
+.flip-clock-wrapper ul li a div div.inn {
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 200%;
+    color: #ccc;
+    text-shadow: 0 1px 2px #000;
+    text-align: center;
+    background-color: #333;
+    border-radius: 6px;
+    font-size: 30px;
+}
+
+.flip-clock-wrapper ul li a div.up div.inn {
+    top: 0
+}
+
+.flip-clock-wrapper ul li a div.down div.inn {
+    bottom: 0
+}
+
+.flip-clock-wrapper ul.play li.flip-clock-before {
+    z-index: 3
+}
+
+.flip-clock-wrapper .flip {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .7)
+}
+
+.flip-clock-wrapper ul.play li.flip-clock-active {
+    -webkit-animation: asd .5s .5s linear both;
+    animation: asd .5s .5s linear both;
+    z-index: 5
+}
+
+.flip-clock-divider {
+    float: left;
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: 78px;
+}
+
+.flip-clock-divider:first-child {
+    width: 0
+}
+
+.flip-clock-dot {
+    display: block;
+    background: #323434;
+    width: 7px;
+    height: 7px;
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+    left: 7px;
+}
+
+.flip-clock-divider .flip-clock-label {
+    position: absolute;
+    top: -1.5em;
+    right: -86px;
+    color: #000;
+    text-shadow: none
+}
+
+.flip-clock-divider.minutes .flip-clock-label {
+    right: -88px
+}
+
+.flip-clock-divider.seconds .flip-clock-label {
+    right: -91px
+}
+
+.flip-clock-dot.top {
+    top: 13px;
+}
+
+.flip-clock-dot.bottom {
+    bottom: 45px
+}
+.flip-clock-divider.days .flip-clock-label, .flip-clock-divider.hours .flip-clock-label, .flip-clock-divider.minutes .flip-clock-label,.flip-clock-divider.seconds .flip-clock-label{
+    display: none;
+}
+@-webkit-keyframes asd {
+    0% {
+        z-index: 2
+    }
+    100%, 20% {
+        z-index: 4
+    }
+}
+
+@keyframes asd {
+    0% {
+        z-index: 2
+    }
+    100%, 20% {
+        z-index: 4
+    }
+}
+
+.flip-clock-wrapper ul.play li.flip-clock-active .down {
+    z-index: 2;
+    -webkit-animation: turn .5s .5s linear both;
+    animation: turn .5s .5s linear both
+}
+
+@-webkit-keyframes turn {
+    0% {
+        -webkit-transform: rotateX(90deg)
+    }
+    100% {
+        -webkit-transform: rotateX(0)
+    }
+}
+
+@keyframes turn {
+    0% {
+        -webkit-transform: rotateX(90deg);
+        transform: rotateX(90deg)
+    }
+    100% {
+        -webkit-transform: rotateX(0);
+        transform: rotateX(0)
+    }
+}
+
+.flip-clock-wrapper ul.play li.flip-clock-before .up {
+    z-index: 2;
+    -webkit-animation: turn2 .5s linear both;
+    animation: turn2 .5s linear both
+}
+
+@-webkit-keyframes turn2 {
+    0% {
+        -webkit-transform: rotateX(0)
+    }
+    100% {
+        -webkit-transform: rotateX(-90deg)
+    }
+}
+
+@keyframes turn2 {
+    0% {
+        -webkit-transform: rotateX(0);
+        transform: rotateX(0)
+    }
+    100% {
+        -webkit-transform: rotateX(-90deg);
+        transform: rotateX(-90deg)
+    }
+}
+
+.flip-clock-wrapper ul li.flip-clock-active {
+    z-index: 3
+}
+
+.flip-clock-wrapper ul.play li.flip-clock-before .up .shadow {
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, .1) 0, #000 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(0, 0, 0, .1)), color-stop(100%, #000));
+    background: 0 0, top, 0, 100% #000;
+    background: -ms-linear-gradient(top, rgba(0, 0, 0, .1) 0, #000 100%);
+    background: 0 0, bottom, 0, 100% #000;
+    -webkit-animation: show .5s linear both;
+    animation: show .5s linear both
+}
+
+.flip-clock-wrapper ul.play li.flip-clock-active .up .shadow {
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, .1) 0, #000 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(0, 0, 0, .1)), color-stop(100%, #000));
+    background: 0 0, top, 0, 100% #000;
+    background: -ms-linear-gradient(top, rgba(0, 0, 0, .1) 0, #000 100%);
+    background: 0 0, bottom, 0, 100% #000;
+    -webkit-animation: hide .5s .3s linear both;
+    animation: hide .5s .3s linear both
+}
+
+.flip-clock-wrapper ul.play li.flip-clock-before .down .shadow {
+    background: -moz-linear-gradient(top, #000 0, rgba(0, 0, 0, .1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #000), color-stop(100%, rgba(0, 0, 0, .1)));
+    background: 0 0, top, 0, 100% rgba(0, 0, 0, .1);
+    background: -ms-linear-gradient(top, #000 0, rgba(0, 0, 0, .1) 100%);
+    background: 0 0, bottom, 0, 100% rgba(0, 0, 0, .1);
+    -webkit-animation: show .5s linear both;
+    animation: show .5s linear both
+}
+
+.flip-clock-wrapper ul.play li.flip-clock-active .down .shadow {
+    background: -moz-linear-gradient(top, #000 0, rgba(0, 0, 0, .1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #000), color-stop(100%, rgba(0, 0, 0, .1)));
+    background: 0 0, top, 0, 100% rgba(0, 0, 0, .1);
+    background: -ms-linear-gradient(top, #000 0, rgba(0, 0, 0, .1) 100%);
+    background: 0 0, bottom, 0, 100% rgba(0, 0, 0, .1);
+    -webkit-animation: hide .5s .3s linear both;
+    animation: hide .5s .2s linear both
+}
+
+@-webkit-keyframes show {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+@keyframes show {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+@-webkit-keyframes hide {
+    0% {
+        opacity: 1
+    }
+    100% {
+        opacity: 0
+    }
+}
+
+@keyframes hide {
+    0% {
+        opacity: 1
+    }
+    100% {
+        opacity: 0
+    }
+}
+
+.lightning-deals-swiper {
+    position: relative;
+    margin-top: 30px;
+    padding-bottom: 25px
+}
+
+.lightning-deals-swiper .discount-next, .lightning-deals-swiper .discount-prev {
+    font-size: 24px;
+    font-weight: 700
+}
+
+.lightning-deals-swiper .discount-next.swiper-button-disabled, .lightning-deals-swiper .discount-prev.swiper-button-disabled {
+    opacity: .15
+}
+
+.lightning-deals-swiper .discount-prev {
+    left: 0
+}
+
+.lightning-deals-swiper .discount-next {
+    right: 0
+}
+
+.lightning-deals-title {
+    width: 95%;
+    display: block;
+    margin: 0 auto;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 36px;
+    color: #333;
+    font-weight: 900;
+    letter-spacing: 3px;
+    position: relative
+}
+
+.flash-countdown-text, .flashsl-countdown {
+    position: relative;
+    font-size: 22px;
+    text-align: center
+}
+
+.lightning-deals-title .falsh-sale-i-ctn {
+    display: inline-block;
+    padding: 1px;
+    box-sizing: content-box;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #000;
+    letter-spacing: 0
+}
+
+.lightning-deals-title:hover {
+    text-decoration: none
+}
+
+.lightning-deals-title:hover .flash-view-more {
+    text-decoration: underline
+}
+
+.flashsl-countdown {
+    left: -90px;
+    display: inline-block;
+    font-weight: 700;
+    vertical-align: 5px;
+    pointer-events: none
+}
+
+.flash-countdown-text {
+    left: 113px;
+    font-weight: 700
+}
+
+.falshsl-digit {
+    display: inline-block;
+    margin: 0 -80px;
+    vertical-align: middle;
+    -webkit-transform: scale(.5);
+    -ms-transform: scale(.5);
+    transform: scale(.5)
+}
+
+.flash-view-more {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    font-size: 14px;
+    height: 20px;
+    font-weight: 700;
+    right: 0;
+    text-decoration: none
+}
+
+.fs-disc-icon {
+    position: absolute;
+    top: -5px;
+    left: 0
+}
+
+.fs-disc-icon .icon-flashsale {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 60px;
+    color: #FCD364
+}
+
+.fs-disc-icon > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    padding: 12px 0;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 1.2;
+    font-size: 18px
+}
+
+.ld-price {
+    margin: 8px 0;
+    position: relative
+}
+
+.ld-retial-price {
+    font-size: 16px;
+    text-decoration: line-through
+}
+
+.ld-sale-price {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: 700;
+    color: #D53332;
+    margin-right: 8px
+}
+
+.ld-progress-con {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    margin-bottom: 8px
+}
+
+.ld-progress-con .total {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #f6f6f6
+}
+
+.ld-progress-con .sold {
+    position: absolute;
+    height: 100%;
+    background: #FCD364
+}
+@media screen and (max-width: 768px){
+    .flip-clock-wrapper ul li{
+        line-height: 20px;
+    }
+    .flip-clock-dot.bottom{
+        bottom: 4px;
+    }
+    .flip-clock-dot{
+        left: 3px;
+        width: 3px;
+        height: 3px;
+    }
+    .flip-clock-dot.top {
+        top: 5px;
+    }
+    .flip-clock-divider{
+        width: 8px;
+        height: 18px;
+    }
+    .flip-clock-wrapper ul li a div div.inn{
+        font-size: 13px;
+    }
+    .flip-clock-wrapper ul{
+        border-radius: 2px;
+        width: 17px;
+        height: 20px;
+    }
+}

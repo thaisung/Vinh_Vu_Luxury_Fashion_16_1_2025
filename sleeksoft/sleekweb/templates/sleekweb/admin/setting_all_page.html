@@ -1,0 +1,465 @@
+{% extends './base.html' %}
+{% block content %}
+<div class="flex-1 flex-col w-full h-full" style="width: calc(100% - 250px);">
+    <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800 flex px-[10px]  md:justify-center items-start md:items-center">
+        <button class="open_menu_website p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-green">
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        <!-- Search input -->
+        <h1 class="text-[25px] font-bold text-stone-900">Cài đặt hệ thống</h1>
+    </header>
+    <main class="relative flex flex-col gap-2  p-[10px] overflow-y-auto bg-stone-100 grow">
+        <h1 class="text-[18px] font-bold text-stone-800">Danh sách các bảng cài đặt</h1>
+        <form id=""  method="post" action="{% url 'setting_all' %}"
+            class="form_create xxx  flex ">
+            {% csrf_token %}
+            <div
+                class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">Email hệ thống</h3>
+                <div class="grid grid-cols-2 gap-2 w-full">
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Host</span>
+                        <input name="EMAIL_HOST" value="{% if obj_setting_email %}{{obj_setting_email.EMAIL_HOST}}{% endif %}" required 
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Port</span>
+                        <input name="EMAIL_PORT" value="{% if obj_setting_email %}{{obj_setting_email.EMAIL_PORT}}{% endif %}" required 
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Username</span>
+                        <input name="EMAIL_HOST_USER" value="{% if obj_setting_email %}{{obj_setting_email.EMAIL_HOST_USER}}{% endif %}" required 
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Password</span>
+                        <input name="EMAIL_HOST_PASSWORD" value="{% if obj_setting_email %}{{obj_setting_email.EMAIL_HOST_PASSWORD}}{% endif %}" required 
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">SMTPSecure</span>
+                        <select name="SMTPSecure" required 
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                            <option value="TLS" {% if obj_setting_email and obj_setting_email.EMAIL_USE_TLS %}selected{% endif %} class="bg-white">TLS</option>
+                            <option value="SSL" {% if obj_setting_email and obj_setting_email.EMAIL_USE_SSL %}selected{% endif %} class="bg-white">SSL</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="submit"
+                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+                        Cập nhật
+                    </button>
+                </div>
+            </div>
+        </form>
+    </main>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".open_form_create").click(function () {
+            $(".xxx").hide();
+            $(".form_create").show();
+        });
+        $(".close_form_create").click(function () {
+            $(".form_create").hide();
+        });
+
+        $(".open_form_change_password").click(function () {
+            $(".xxx").hide();
+            $(".form_change_password").show();
+            $("#username_change_password").text($(this).data('username'));
+            $("#id_user_change_password").val($(this).data('id'));
+        });
+        $(".close_form_change_password").click(function () {
+            $(".form_change_password").hide();
+        });
+
+        $(".open_form_approve").click(function () {
+            $(".xxx").hide();
+            $(".form_approve").show();
+            $("#username_approve").text($(this).data('username'));
+            $("#id_user_approve").val($(this).data('id'));
+        });
+        $(".close_form_approve").click(function () {
+            $(".form_approve").hide();
+        });
+        
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open_form_update").click(function () {
+            $(".xxx").hide();
+            $(".form_update").show();
+            $("#id_update").val($(this).data('id'));
+            $("#name_update").val($(this).data('name'));
+        });
+
+        $(".close_form_update").click(function () {
+            $(".form_update").hide();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open_form_delete").click(function () {
+            $(".xxx").hide();
+            $(".form_delete").show();
+            $("#id_delete").val($(this).data('id'));
+            $("#text_delete").text($(this).data('name'));
+        });
+
+        $(".close_form_delete").click(function () {
+            $(".form_delete").hide();
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#open_container_form_create_user').click(function(){
+            $('#container_form_create_user').show();
+        });
+        $('#close_container_form_create_user').click(function(){
+            $('#container_form_create_user').hide();
+        });
+
+        $('#open_form_delete_check_list_user').click(function(){
+            $('#form_delete_check_list_user').show();
+        });
+        $('.close_form_delete_check_list_user').click(function(){
+            $('#form_delete_check_list_user').hide();
+        });
+
+        $('.open_container_form_recharge_user').click(function(){
+            $('#container_form_recharge_user').show();
+        });
+        $('#close_container_form_recharge_user').click(function(){
+            $('#container_form_recharge_user').hide();
+        });
+
+        $('.open_form_change_password_user').click(function(){
+            $('#form_change_password_user').show();
+        });
+        $('#close_form_change_password_user').click(function(){
+            $('#form_change_password_user').hide();
+        });
+
+               
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#form_create_user').on('submit', function(event) {
+            event.preventDefault();
+        
+            var formData = new FormData(this);  // Tạo FormData từ form hiện tại
+
+            $.ajax({
+                url: '{% url 'user_page_admin' %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
+                contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = response.redirect_url;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(response) {
+                    console.log('Tạo tài khoản thất bại', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#form_change_password').on('submit', function(event) {
+            event.preventDefault();
+        
+            var formData = new FormData(this);  // Tạo FormData từ form hiện tại
+
+            $.ajax({
+                url: '{% url 'change_password_user_page_admin' %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
+                contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        $(".form_change_password").fadeOut(300, function() {
+                            $(".form_change_password input").val('');
+                            alert(response.message);
+                        });
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(response) {
+                    console.log('Đổi mật khẩu thất bại', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#form_approve').on('submit', function(event) {
+            event.preventDefault();
+        
+            var formData = new FormData(this);  // Tạo FormData từ form hiện tại
+
+            $.ajax({
+                url: '{% url 'approve_user_page_admin' %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
+                contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = response.redirect_url;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(response) {
+                    console.log('Phê duyệt thất bại', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#form_delete_check_list_user').on('submit', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '{% url 'delete_check_list_user_admin' %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    check_list: $('#check_list').val(),
+                    text_check_list: $('#text_check_list').val()
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.redirect_url;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (response) {
+                    console.log('Xóa thất bại', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Bắt sự kiện khi nhấn nút "Xóa người dùng"
+        $('.open_form_delete_user').on('click', function() {
+            // Tìm form xóa tương ứng với nút được nhấn và hiển thị nó
+            $(this).closest('th').find('.form_delete_user').removeClass('hidden');
+        });
+        // Bắt sự kiện khi nhấn nút "Hủy" trong form
+        $('.close_form_delete_user').on('click', function() {
+            // Ẩn form xóa khi nhấn "Hủy"
+            $(this).closest('.form_delete_user').addClass('hidden');
+            $("input").val("");
+        });
+
+        // Bắt sự kiện khi nhấn nút "Xóa người dùng"
+        $('.open_form_recharge_user').on('click', function() {
+            // Tìm form xóa tương ứng với nút được nhấn và hiển thị nó
+            $(this).closest('th').find('.form_recharge_user').removeClass('hidden');
+        });
+        // Bắt sự kiện khi nhấn nút "Hủy" trong form
+        $('.close_form_recharge_user').on('click', function() {
+            // Ẩn form xóa khi nhấn "Hủy"
+            $(this).closest('.form_recharge_user').addClass('hidden');
+            $("input").val("");
+        });
+
+        // Bắt sự kiện khi nhấn nút "Xóa người dùng"
+        $('.open_form_change_password_user').on('click', function() {
+            // Tìm form xóa tương ứng với nút được nhấn và hiển thị nó
+            $(this).closest('th').find('.form_change_password_user').removeClass('hidden');
+        });
+        // Bắt sự kiện khi nhấn nút "Hủy" trong form
+        $('.close_form_change_password_user').on('click', function() {
+            // Ẩn form xóa khi nhấn "Hủy"
+            $(this).closest('.form_change_password_user').addClass('hidden');
+            $("input").val("");
+        });
+    });    
+</script>
+<script>
+    // JavaScript/jQuery
+    $(document).ready(function() {
+        // Khi checkbox 'check_all_user' thay đổi trạng thái
+        $('#check_all_user').on('change', function() {
+            var isChecked = $(this).is(':checked');
+            
+            // Cập nhật trạng thái của tất cả các checkbox 'check_user'
+            $('.check_user').prop('checked', isChecked);
+
+            // Rà soát tất cả các checkbox 'check_user' được chọn và lưu giá trị vào input hidden
+            updateCheckedValues();
+        });
+
+        // Khi bất kỳ checkbox 'check_user' thay đổi trạng thái
+        $('.check_user').on('change', function() {
+            // Kiểm tra trạng thái của checkbox 'check_all_user'
+            var allChecked = $('.check_user').length === $('.check_user:checked').length;
+            $('#check_all_user').prop('checked', allChecked);
+
+            // Rà soát tất cả các checkbox 'check_user' được chọn và lưu giá trị vào input hidden
+            updateCheckedValues();
+        });
+
+        function updateCheckedValues() {
+            var checkedValues = [];
+            $('.check_user:checked').each(function() {
+                checkedValues.push($(this).val());
+            });
+            $('#check_list').val(JSON.stringify(checkedValues)); // Gán mảng giá trị vào input hidden
+            if (checkedValues.length > 0) {
+                $('#open_form_delete_check_list_user').show();
+            } else {
+                $('#open_form_delete_check_list_user').hide();
+            }
+        }
+    });
+</script>
+<script>
+    // selecting required element
+    const element = document.querySelector(".pagination ul");
+    let totalPages = {{list_user.paginator.num_pages}};
+    let page = {{list_user.number}};
+
+    //calling function with passing parameters and adding inside element which is ul tag
+    element.innerHTML = createPagination(totalPages, page);
+    function createPagination(totalPages, page) {
+        let liTag = '';
+        let active;
+        let beforePage = page - 1;
+        let afterPage = page + 1;
+
+        // Hiển thị nút "Trang trước" nếu không phải là trang đầu tiên
+        if (page > 1) {
+            liTag += `<a href="?p=${page - 1}" class="btn prev"><span><i class="fas fa-angle-left"></i>Trang trước</span></a>`;
+        }
+
+        // Nếu tổng số trang nhỏ hơn 8, hiển thị tất cả các trang mà không cần dấu ba chấm
+        if (totalPages < 8) {
+            for (let i = 1; i <= totalPages; i++) {
+                active = (page == i) ? "active" : "";
+                liTag += `<a href="?p=${i}" class="numb ${active}"><span>${i}</span></a>`;
+            }
+        } else {
+            // Nếu tổng số trang >= 8, hiển thị có điều kiện các trang với dấu ba chấm
+            if (page > 2) {
+                liTag += `<a href="?p=1" class="first numb"><span>1</span></a>`;
+                if (page > 3) {
+                    liTag += `<a class="dots"><span>...</span></a>`;
+                }
+            }
+
+            // Điều chỉnh trước và sau trang hiện tại
+            if (page == totalPages) {
+                beforePage = beforePage - 2;
+            } else if (page == totalPages - 1) {
+                beforePage = beforePage - 1;
+            }
+            if (page == 1) {
+                afterPage = afterPage + 2;
+            } else if (page == 2) {
+                afterPage = afterPage + 1;
+            }
+
+            // Hiển thị các trang trong khoảng trước và sau trang hiện tại
+            for (let plength = beforePage; plength <= afterPage; plength++) {
+                if (plength > totalPages) continue;
+                if (plength == 0) plength = 1;
+                active = (page == plength) ? "active" : "";
+                liTag += `<a href="?p=${plength}" class="numb ${active}"><span>${plength}</span></a>`;
+            }
+
+            // Hiển thị trang cuối cùng với dấu ba chấm nếu cần
+            if (page < totalPages - 1) {
+                if (page < totalPages - 2) {
+                    liTag += `<a class="dots"><span>...</span></a>`;
+                }
+                liTag += `<a href="?p=${totalPages}" class="last numb"><span>${totalPages}</span></a>`;
+            }
+        }
+
+        // Hiển thị nút "Trang sau" nếu không phải là trang cuối cùng
+        if (page < totalPages) {
+            liTag += `<a href="?p=${page + 1}" class="btn next"><span>Trang sau <i class="fas fa-angle-right"></i></span></a>`;
+        }
+
+        element.innerHTML = liTag;
+        return liTag;
+    }
+</script>
+<style>
+    input[type="checkbox"] {
+        color: #22c55e;
+        --tw-ring-color: #22c55e !important; /* Dùng !important đúng cách */
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    }    
+    input[type='checkbox']:checked {
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e") !important;
+    }
+</style>
+<style>
+    option {
+      background-color: black; /* Màu nền của các tùy chọn */
+    }
+</style>
+<style>
+    .loader {
+        width: 80px;
+        height: 80px;
+        border: 13px dotted #facc15;
+        border-radius: 50%;
+        display: inline-block;
+        position: relative;
+        box-sizing: border-box;
+        animation: rotation 2s linear infinite;
+      }
+      
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }  
+</style>
+{% endblock %}

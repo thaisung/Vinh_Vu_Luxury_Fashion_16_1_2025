@@ -1,0 +1,1015 @@
+{% extends './base.html' %}
+{% block content %}
+<div class="flex flex-col w-full h-full">
+    <header class="z-10 py-4 bg-white border-b-[1px] border-stone-200 dark:bg-gray-800 flex px-[10px]  items-start md:items-center w-full">
+        <button class="open_menu_website p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-green"
+          @click="toggleSideMenu" aria-label="Menu">
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        <!-- Search input -->
+        <div class="flex justify-center items-start gap-2 w-full">
+          <div class="flex flex-col md:flex-row justify-start h-full   gap-3 ">
+            <button class="open_form_create flex gap-2 shadow-md items-center justify-between self-start px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+              <svg class="fill-white w-[20px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span class="whitespace-nowrap hidden md:block">Tạo Sản phẩm mới trong ({{obj_Category_product_child.Name}})</span>
+            </button>
+          </div>
+          <form class="flex justify-center items-center  gap-2 grow md:grow-0">
+            <div class="flex  relative items-center w-full md:w-[300px]">
+              <input placeholder="Tìm kiếm Sản phẩm" name="s" value="{{s}}"
+                class="block pr-[30px] w-full bg-stone-100 text-sm text-stone-800 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md " />
+              <button type="submit" class="absolute right-0 cursor-pointer">
+                <svg class="w-[30px]" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+                  <title>icon 111 search</title>
+                  <desc>Created with Sketch.</desc>
+                  <defs></defs>
+                  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                    <g id="icon-111-search" sketch:type="MSArtboardGroup" fill="#000000">
+                      <path
+                        d="M19.4271164,21.4271164 C18.0372495,22.4174803 16.3366522,23 14.5,23 C9.80557939,23 6,19.1944206 6,14.5 C6,9.80557939 9.80557939,6 14.5,6 C19.1944206,6 23,9.80557939 23,14.5 C23,16.3366522 22.4174803,18.0372495 21.4271164,19.4271164 L27.0119176,25.0119176 C27.5621186,25.5621186 27.5575313,26.4424687 27.0117185,26.9882815 L26.9882815,27.0117185 C26.4438648,27.5561352 25.5576204,27.5576204 25.0119176,27.0119176 L19.4271164,21.4271164 L19.4271164,21.4271164 Z M14.5,21 C18.0898511,21 21,18.0898511 21,14.5 C21,10.9101489 18.0898511,8 14.5,8 C10.9101489,8 8,10.9101489 8,14.5 C8,18.0898511 10.9101489,21 14.5,21 L14.5,21 Z"
+                        id="search" sketch:type="MSShapeGroup"></path>
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+    </header>
+    <main class="relative flex flex-col gap-2 p-[10px] bg-stone-100 grow">
+        <div class="flex gap-1">
+            <a href="{% url 'category_product_ad' %}" class="text-[18px] font-bold text-stone-800 hover:underline">Danh sách các Danh mục sản phẩm</a>
+            |
+            <a href="{% url 'category_product_child_ad' Slug=obj_Category_product_child.Belong_Category_product.Slug %}" class="text-[18px] font-bold text-sky-400 hover:underline">{{obj_Category_product_child.Belong_Category_product.Name}}</a>
+            |
+            <a href="{% url 'product_ad' Slug=obj_Category_product_child.Slug %}" class="text-[18px] font-bold text-lime-600 hover:underline">{{obj_Category_product_child.Name}}</a>
+        </div>
+        <div class="w-full flex gap-3">
+            <div class="w-[60%]">
+                <div class="content draggableDiv w-full overflow-x-auto">
+                    <table class="w-full whitespace-nowrap">
+                        <thead>
+                            <tr
+                                class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-stone-200 dark:text-gray-400 dark:bg-gray-800">
+                                <th class="px-4 py-3 ">
+                                    <input type="checkbox" id="check_all_lead" class="rounded-md w-[20px] h-[20px]  bg-transparent"/>
+                                </th>
+                                <th class="px-4 py-3">Ảnh đại diện</th>
+                                <th class="px-4 py-3">Tên sản phẩm</th>
+                                <th class="px-4 py-3">Mô tả</th>
+                                <th class="px-4 py-3">Giá (VND)</th>
+                                <th class="px-4 py-3">Giảm giá (%)</th>
+                                <th class="px-4 py-3">
+                                    <div class="flex justify-between items-center">
+                                        Kích thước - Số lượng
+                                    </div>
+                                </th>
+                                <th class="px-4 py-3">Thương hiệu</th>
+                                <th class="px-4 py-3">Thời gian tạo</th>
+                                <!-- <th class="px-4 py-3">Chức năng</th> -->
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800 ">
+                            {% for i in List_Product %}
+                            <tr class="text-gray-700 dark:text-gray-400 h-full">
+                                <td class="px-4 py-3 text-sm">
+                                    <input type="checkbox" value={{i.id}} class="check_lead rounded-md w-[20px] h-[20px]  bg-transparent"/>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <img class="w-[80px]" src="{{i.product_photo_detail.all.first.Photo.url}}" />
+                                </td>
+                                <td title="Cập nhật"
+                                data-id="{{i.id}}"
+                                data-name="{{i.Name}}"
+                                data-price="{{i.Price}}"
+                                data-description="{{i.Description}}"
+                                data-discount="{{i.discount}}"
+                                data-trademark-id="{{i.Trademark.id}}"
+                                data-slug="{{obj_Category_product_child.Slug}}"
+                                data-slugg="{{i.Slug}}"
+                                class="  open_form_update group  font-medium  cursor-pointer  hover:text-green-600 px-4 py-3 text-sm text whitespace-nowrap">
+                                    <span class="inline-block align-middle hover:underline">{{i.Name}}</span>
+                                    <svg class="hover:text-green-600 w-[20px] fill-stone-800 inline-block align-middle"  viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+                                        <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
+                                        <title>icon 135 pen angled</title>
+                                        <desc>Created with Sketch.</desc>
+                                        <defs></defs>
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                                            <g id="icon-135-pen-angled" sketch:type="MSArtboardGroup" class=" group-hover:fill-green-600 fill-stone-800">
+                                                <path d="M23.1464466,12.0278086 L11.8535534,23.3207019 L11.8535534,23.3207019 L7.85355339,19.3207019 L19.1464466,8.02780864 L23.1464466,12.0278086 L23.1464466,12.0278086 Z M23.8535534,11.3207018 L25.5801067,9.59414849 C26.3642921,8.8099631 26.3661881,7.54044334 25.5897496,6.76400487 L24.4102504,5.58450561 C23.6313906,4.80564584 22.372781,4.80147421 21.5801067,5.59414851 L19.8535534,7.32070186 L23.8535534,11.3207018 L23.8535534,11.3207018 Z M11.1464466,24.0278086 L11,24.1742552 L6,25.1742552 L7,20.1742552 L7.14644661,20.0278086 L11.1464466,24.0278086 L11.1464466,24.0278086 Z" id="pen-angled" sketch:type="MSShapeGroup"></path>
+                                            </g>
+                                        </g>
+                                    </svg>                            
+                                </td>
+                                <td class="px-4 py-3 text-sm max-w-[200px] overflow-x-auto whitespace-nowrap">
+                                    {{i.Description|linebreaksbr}}
+                                </td>
+                                <td class="format-number px-4 py-3 text-sm hover:underline whitespace-nowrap">
+                                    {{i.Price}}
+                                </td>
+                                <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                    {{i.Discount}}
+                                </td>
+                                <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex flex-col gap-1 border-r-[1px] border-stone-300 pr-2 mr-2">
+                                            {% for j in i.product_size_detail.all %}
+                                            <div class="flex gap-1 items-center">
+                                                <form method="post" action="{% url 'update_size_product_ad' %}"  class="flex gap-1">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="id_product"  value="{{i.id}}" class="rounded w-[80px] h-[30px] text-center">
+                                                    <input type="hidden" name="id_size_product"  value="{{j.id}}" class="rounded w-[80px] h-[30px] text-center">
+                                                    <div class="flex gap-2 items-center">
+                                                        <input name="Size" type="text" value="{{ j.Size|default_if_none:'' }}" onchange="this.form.submit()" class="rounded w-[80px] h-[30px] text-center">
+                                                        -
+                                                        <input name="Quantity" type="number" value="{{ j.Quantity|default_if_none:'' }}" onchange="this.form.submit()"  class="rounded w-[80px] h-[30px] text-center">
+                                                    </div>
+                                                </form>
+                                                <form method="post" action="{% url 'delete_size_product_ad' %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="id_size_product"  value="{{j.id}}" class="rounded w-[80px] h-[30px] text-center">
+                                                    <input type="hidden" name="id_product"  value="{{i.id}}" class="rounded w-[80px] h-[30px] text-center">
+                                                    <button type="submit">
+                                                        <svg  class="open_form_delete fill-red-600 hover:fill-red-700 cursor-pointer w-[20px]" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 72.434 72.437" style="enable-background:new 0 0 72.434 72.437;" xml:space="preserve">
+                                                            <path  d="M36.22,0C16.212,0,0,16.215,0,36.223c0,19.999,16.212,36.214,36.22,36.214
+                                                                s36.214-16.215,36.214-36.214C72.434,16.215,56.228,0,36.22,0z M51.812,48.083l-4.565,4.565l-11.02-11.021L24.86,52.995
+                                                                l-4.565-4.565l11.367-11.367L20.639,26.04l4.568-4.565l11.02,11.02l11.349-11.343l4.565,4.565L40.792,37.063L51.812,48.083z"></path>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        <form method="post" action="{% url 'size_product_ad' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id_product"  value="{{i.id}}" class="rounded w-[80px] h-[30px] text-center">
+                                            <button type="submit">
+                                                <svg class="fill-green-500 stroke-green-500 w-[22px] cursor-pointer p-0"  viewBox="0 0 64 64"  xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M32 5.5C26.9526 5.49717 22.0095 6.93641 17.7525 9.64829C13.4955 12.3602 10.1019 16.2318 7.97119 20.8074C5.84047 25.383 5.06131 30.4721 5.72545 35.4756C6.38959 40.4791 8.46938 45.1887 11.72 49.05V49.05C11.98 49.37 12.25 49.67 12.56 50.05C12.6479 50.1357 12.7313 50.2258 12.81 50.32C12.96 50.48 13.12 50.63 13.27 50.78L13.45 50.96L13.7 51.2C14.02 51.51 14.34 51.8 14.65 52.05C14.96 52.3 15.38 52.68 15.73 52.94C16.08 53.2 16.37 53.43 16.73 53.66L17.01 53.85C17.22 54 17.44 54.15 17.62 54.26L18.23 54.64H18.29C19.04 55.09 19.76 55.48 20.49 55.84H20.6C20.92 56 21.25 56.14 21.6 56.27C22.8383 56.8 24.1154 57.2346 25.42 57.57C25.81 57.67 26.2 57.76 26.6 57.84C27 57.92 27.36 58 27.71 58.05L28.18 58.12C28.46 58.17 28.76 58.2 29.04 58.23L29.56 58.29C29.86 58.29 30.18 58.29 30.5 58.35H30.76C31.18 58.35 31.6 58.35 32.02 58.35C32.44 58.35 32.86 58.35 33.28 58.35H33.54C33.86 58.35 34.18 58.35 34.54 58.28L34.99 58.23C35.3 58.23 35.6 58.17 35.79 58.13L36.3 58.05C36.7 58.05 37.08 57.92 37.46 57.84L38.67 57.57C39.9562 57.2319 41.2162 56.8007 42.44 56.28C42.77 56.14 43.09 56 43.44 55.84L42.78 54.49L43.55 55.79C44.28 55.43 45 55.04 45.75 54.59L45.84 54.53L46.36 54.2C46.5772 54.0747 46.7875 53.9379 46.99 53.79L47.27 53.6C47.61 53.37 47.95 53.11 48.27 52.88C48.59 52.65 49.02 52.28 49.35 51.99C49.68 51.7 50.02 51.42 50.28 51.16L50.58 50.87L50.38 50.67C50.7148 50.6162 51.0214 50.4505 51.25 50.2L51.51 49.92C51.78 49.63 52.05 49.33 52.31 49.01C55.5499 45.1459 57.6196 40.4374 58.2759 35.4376C58.9322 30.4379 58.1478 25.3547 56.0149 20.7853C53.882 16.216 50.4892 12.3504 46.2351 9.64273C41.9811 6.93507 37.0426 5.49786 32 5.5V5.5ZM50 47.12V47.17C49.76 47.45 49.53 47.72 49.32 47.94L48.99 48.29C48.7965 48.5066 48.6682 48.7736 48.62 49.06L48.42 48.86L48.21 49.06C47.95 49.31 47.69 49.55 47.39 49.8C47.09 50.05 46.76 50.33 46.39 50.6C46.02 50.87 45.83 51.03 45.5 51.27L45.29 51.4C45.13 51.52 44.96 51.63 44.73 51.77L44.26 52.07H44.2C43.53 52.48 42.89 52.84 42.31 53.07C42.241 53.0946 42.1741 53.1247 42.11 53.16C41.84 53.29 41.58 53.41 41.28 53.53C40.1953 53.9919 39.0791 54.3762 37.94 54.68L36.82 55C36.49 55.07 36.17 55.14 35.82 55.19C35.7 55.19 35.58 55.24 35.36 55.26C35.14 55.28 34.92 55.32 34.67 55.35H34.24C33.97 55.35 33.7 55.4 33.42 55.41H33.1C32.3642 55.46 31.6258 55.46 30.89 55.41H30.62C30.34 55.41 30.07 55.41 29.84 55.35H29.35L28.59 55.25L28.17 55.19C27.83 55.19 27.51 55.07 27.17 55C26.83 54.93 26.44 54.84 26.11 54.76C24.9524 54.4591 23.8192 54.0713 22.72 53.6C22.45 53.49 22.18 53.37 21.94 53.25L21.79 53.18C21.1037 52.8576 20.436 52.4971 19.79 52.1H19.73L19.2 51.77C19.03 51.66 18.86 51.55 18.7 51.43L18.59 51.37C18.5436 51.3215 18.4896 51.2809 18.43 51.25C18.15 51.05 17.87 50.85 17.56 50.61C17.25 50.37 16.92 50.1 16.56 49.8C16.2 49.5 16.02 49.33 15.72 49.04L15.55 48.88L15.35 48.68L15 48.27L14.77 48C14.52 47.74 14.29 47.47 14.05 47.19V47.14C11.1739 43.7134 9.33571 39.5371 8.75134 35.1018C8.16696 30.6665 8.86072 26.1566 10.7511 22.102C12.6414 18.0474 15.6498 14.6166 19.4228 12.2128C23.1957 9.80899 27.5764 8.53206 32.05 8.53206C36.5236 8.53206 40.9043 9.80899 44.6772 12.2128C48.4501 14.6166 51.4585 18.0474 53.3489 22.102C55.2392 26.1566 55.933 30.6665 55.3486 35.1018C54.7643 39.5371 52.926 43.7134 50.05 47.14L50 47.12Z"></path>
+                                                    <path d="M47.1798 30.5003H33.4998V16.8203C33.4998 16.4225 33.3418 16.041 33.0605 15.7597C32.7792 15.4783 32.3976 15.3203 31.9998 15.3203C31.602 15.3203 31.2205 15.4783 30.9392 15.7597C30.6579 16.041 30.4998 16.4225 30.4998 16.8203V30.5003H16.8198C16.422 30.5003 16.0405 30.6583 15.7592 30.9397C15.4779 31.221 15.3198 31.6025 15.3198 32.0003C15.3198 32.3981 15.4779 32.7797 15.7592 33.061C16.0405 33.3423 16.422 33.5003 16.8198 33.5003H30.4998V47.1803C30.4998 47.5781 30.6579 47.9597 30.9392 48.241C31.2205 48.5223 31.602 48.6803 31.9998 48.6803C32.3976 48.6803 32.7792 48.5223 33.0605 48.241C33.3418 47.9597 33.4998 47.5781 33.4998 47.1803V33.5003H47.1798C47.5776 33.5003 47.9592 33.3423 48.2405 33.061C48.5218 32.7797 48.6798 32.3981 48.6798 32.0003C48.6798 31.6025 48.5218 31.221 48.2405 30.9397C47.9592 30.6583 47.5776 30.5003 47.1798 30.5003Z" ></path>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                    {{i.Belong_Trademark.Name}}
+                                </td>
+                                <td class="px-4 py-3 text-sm whitespace-nowrap ">
+                                    {{i.Creation_time|date:"H:i d-m-Y"}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination {% if List_Product.paginator.num_pages <= 1 %}hidden{% endif %} border-t-[1px] border-stone-200 flex items-center justify-center" >
+                    <ul class="flex items-center justify-center">page</ul>
+                </div>
+                <button id="open_form_delete_check_list_lead" style="display:none;" class="p-2 rounded-md bg-red-600 font-medium text-stone-100 mt-2">Xóa danh sách Sản phẩm đã chọn</button>
+            </div>
+            <div class="grow">
+                <table class="whitespace-nowrap rounded-lg w-full">
+                    <thead>
+                        <tr
+                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-stone-200 dark:text-gray-400 dark:bg-gray-800">
+                            <th class="px-4 py-3">Danh mục SP</th>
+                            <th class="px-4 py-3">Số Thư mục</th>
+                            <th class="px-4 py-3">Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800 ">
+                        {% for i in List_Category_product %}
+                        <tr class="text-gray-700 dark:text-gray-400 h-full">
+                            <td class="px-4 py-3 text-xs font-semibold whitespace-nowrap">
+                                <a class="text-sky-400 text-[18px] font-semibold">{{i.Name}}</a>
+                            </td>
+                            <td class="px-4 py-3 text-[18px] font-semibold whitespace-nowrap">
+                                {{i.category_product_detail.all.count}}
+                            </td>
+                            <td class="px-4 py-3 text-[18px] font-semibold whitespace-nowrap">
+                                <a title="Thêm Thư mục" href="{% url 'category_product_child_ad' Slug=i.Slug %}">
+                                    <svg  class="fill-green-500 stroke-green-500 w-[30px] cursor-pointer p-0"  viewBox="0 0 64 64"  xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M32 5.5C26.9526 5.49717 22.0095 6.93641 17.7525 9.64829C13.4955 12.3602 10.1019 16.2318 7.97119 20.8074C5.84047 25.383 5.06131 30.4721 5.72545 35.4756C6.38959 40.4791 8.46938 45.1887 11.72 49.05V49.05C11.98 49.37 12.25 49.67 12.56 50.05C12.6479 50.1357 12.7313 50.2258 12.81 50.32C12.96 50.48 13.12 50.63 13.27 50.78L13.45 50.96L13.7 51.2C14.02 51.51 14.34 51.8 14.65 52.05C14.96 52.3 15.38 52.68 15.73 52.94C16.08 53.2 16.37 53.43 16.73 53.66L17.01 53.85C17.22 54 17.44 54.15 17.62 54.26L18.23 54.64H18.29C19.04 55.09 19.76 55.48 20.49 55.84H20.6C20.92 56 21.25 56.14 21.6 56.27C22.8383 56.8 24.1154 57.2346 25.42 57.57C25.81 57.67 26.2 57.76 26.6 57.84C27 57.92 27.36 58 27.71 58.05L28.18 58.12C28.46 58.17 28.76 58.2 29.04 58.23L29.56 58.29C29.86 58.29 30.18 58.29 30.5 58.35H30.76C31.18 58.35 31.6 58.35 32.02 58.35C32.44 58.35 32.86 58.35 33.28 58.35H33.54C33.86 58.35 34.18 58.35 34.54 58.28L34.99 58.23C35.3 58.23 35.6 58.17 35.79 58.13L36.3 58.05C36.7 58.05 37.08 57.92 37.46 57.84L38.67 57.57C39.9562 57.2319 41.2162 56.8007 42.44 56.28C42.77 56.14 43.09 56 43.44 55.84L42.78 54.49L43.55 55.79C44.28 55.43 45 55.04 45.75 54.59L45.84 54.53L46.36 54.2C46.5772 54.0747 46.7875 53.9379 46.99 53.79L47.27 53.6C47.61 53.37 47.95 53.11 48.27 52.88C48.59 52.65 49.02 52.28 49.35 51.99C49.68 51.7 50.02 51.42 50.28 51.16L50.58 50.87L50.38 50.67C50.7148 50.6162 51.0214 50.4505 51.25 50.2L51.51 49.92C51.78 49.63 52.05 49.33 52.31 49.01C55.5499 45.1459 57.6196 40.4374 58.2759 35.4376C58.9322 30.4379 58.1478 25.3547 56.0149 20.7853C53.882 16.216 50.4892 12.3504 46.2351 9.64273C41.9811 6.93507 37.0426 5.49786 32 5.5V5.5ZM50 47.12V47.17C49.76 47.45 49.53 47.72 49.32 47.94L48.99 48.29C48.7965 48.5066 48.6682 48.7736 48.62 49.06L48.42 48.86L48.21 49.06C47.95 49.31 47.69 49.55 47.39 49.8C47.09 50.05 46.76 50.33 46.39 50.6C46.02 50.87 45.83 51.03 45.5 51.27L45.29 51.4C45.13 51.52 44.96 51.63 44.73 51.77L44.26 52.07H44.2C43.53 52.48 42.89 52.84 42.31 53.07C42.241 53.0946 42.1741 53.1247 42.11 53.16C41.84 53.29 41.58 53.41 41.28 53.53C40.1953 53.9919 39.0791 54.3762 37.94 54.68L36.82 55C36.49 55.07 36.17 55.14 35.82 55.19C35.7 55.19 35.58 55.24 35.36 55.26C35.14 55.28 34.92 55.32 34.67 55.35H34.24C33.97 55.35 33.7 55.4 33.42 55.41H33.1C32.3642 55.46 31.6258 55.46 30.89 55.41H30.62C30.34 55.41 30.07 55.41 29.84 55.35H29.35L28.59 55.25L28.17 55.19C27.83 55.19 27.51 55.07 27.17 55C26.83 54.93 26.44 54.84 26.11 54.76C24.9524 54.4591 23.8192 54.0713 22.72 53.6C22.45 53.49 22.18 53.37 21.94 53.25L21.79 53.18C21.1037 52.8576 20.436 52.4971 19.79 52.1H19.73L19.2 51.77C19.03 51.66 18.86 51.55 18.7 51.43L18.59 51.37C18.5436 51.3215 18.4896 51.2809 18.43 51.25C18.15 51.05 17.87 50.85 17.56 50.61C17.25 50.37 16.92 50.1 16.56 49.8C16.2 49.5 16.02 49.33 15.72 49.04L15.55 48.88L15.35 48.68L15 48.27L14.77 48C14.52 47.74 14.29 47.47 14.05 47.19V47.14C11.1739 43.7134 9.33571 39.5371 8.75134 35.1018C8.16696 30.6665 8.86072 26.1566 10.7511 22.102C12.6414 18.0474 15.6498 14.6166 19.4228 12.2128C23.1957 9.80899 27.5764 8.53206 32.05 8.53206C36.5236 8.53206 40.9043 9.80899 44.6772 12.2128C48.4501 14.6166 51.4585 18.0474 53.3489 22.102C55.2392 26.1566 55.933 30.6665 55.3486 35.1018C54.7643 39.5371 52.926 43.7134 50.05 47.14L50 47.12Z"></path>
+                                        <path d="M47.1798 30.5003H33.4998V16.8203C33.4998 16.4225 33.3418 16.041 33.0605 15.7597C32.7792 15.4783 32.3976 15.3203 31.9998 15.3203C31.602 15.3203 31.2205 15.4783 30.9392 15.7597C30.6579 16.041 30.4998 16.4225 30.4998 16.8203V30.5003H16.8198C16.422 30.5003 16.0405 30.6583 15.7592 30.9397C15.4779 31.221 15.3198 31.6025 15.3198 32.0003C15.3198 32.3981 15.4779 32.7797 15.7592 33.061C16.0405 33.3423 16.422 33.5003 16.8198 33.5003H30.4998V47.1803C30.4998 47.5781 30.6579 47.9597 30.9392 48.241C31.2205 48.5223 31.602 48.6803 31.9998 48.6803C32.3976 48.6803 32.7792 48.5223 33.0605 48.241C33.3418 47.9597 33.4998 47.5781 33.4998 47.1803V33.5003H47.1798C47.5776 33.5003 47.9592 33.3423 48.2405 33.061C48.5218 32.7797 48.6798 32.3981 48.6798 32.0003C48.6798 31.6025 48.5218 31.221 48.2405 30.9397C47.9592 30.6583 47.5776 30.5003 47.1798 30.5003Z" ></path>
+                                        </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="grow">
+                <table class="whitespace-nowrap rounded-lg w-full">
+                    <thead>
+                        <tr
+                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-stone-200 dark:text-gray-400 dark:bg-gray-800">
+                            <th class="px-4 py-3">
+                                <div class="flex justify-between items-center">
+                                    Thương hiệu SP
+                                </div>
+                            </th>
+                            <th class="px-4 py-3">
+                                <div class="flex justify-between items-center">
+                                    Chức năng
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800 ">
+                        {% for i in List_Trademark %}
+                        <tr class="text-gray-700 dark:text-gray-400 h-full">
+                            <td class="px-4 py-3 text-xs font-semibold whitespace-nowrap">
+                                <a  class="text-sky-400 text-[18px] font-semibold ">{{i.Name}}</a>
+                            </td>
+                            <td class="px-4 py-3 text-[18px] font-semibold whitespace-nowrap">
+                                <a title="Thêm Thương hiệu" href="{% url 'trademark_ad' %}">
+                                    <svg  class="fill-green-500 stroke-green-500 w-[30px] cursor-pointer p-0"  viewBox="0 0 64 64"  xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M32 5.5C26.9526 5.49717 22.0095 6.93641 17.7525 9.64829C13.4955 12.3602 10.1019 16.2318 7.97119 20.8074C5.84047 25.383 5.06131 30.4721 5.72545 35.4756C6.38959 40.4791 8.46938 45.1887 11.72 49.05V49.05C11.98 49.37 12.25 49.67 12.56 50.05C12.6479 50.1357 12.7313 50.2258 12.81 50.32C12.96 50.48 13.12 50.63 13.27 50.78L13.45 50.96L13.7 51.2C14.02 51.51 14.34 51.8 14.65 52.05C14.96 52.3 15.38 52.68 15.73 52.94C16.08 53.2 16.37 53.43 16.73 53.66L17.01 53.85C17.22 54 17.44 54.15 17.62 54.26L18.23 54.64H18.29C19.04 55.09 19.76 55.48 20.49 55.84H20.6C20.92 56 21.25 56.14 21.6 56.27C22.8383 56.8 24.1154 57.2346 25.42 57.57C25.81 57.67 26.2 57.76 26.6 57.84C27 57.92 27.36 58 27.71 58.05L28.18 58.12C28.46 58.17 28.76 58.2 29.04 58.23L29.56 58.29C29.86 58.29 30.18 58.29 30.5 58.35H30.76C31.18 58.35 31.6 58.35 32.02 58.35C32.44 58.35 32.86 58.35 33.28 58.35H33.54C33.86 58.35 34.18 58.35 34.54 58.28L34.99 58.23C35.3 58.23 35.6 58.17 35.79 58.13L36.3 58.05C36.7 58.05 37.08 57.92 37.46 57.84L38.67 57.57C39.9562 57.2319 41.2162 56.8007 42.44 56.28C42.77 56.14 43.09 56 43.44 55.84L42.78 54.49L43.55 55.79C44.28 55.43 45 55.04 45.75 54.59L45.84 54.53L46.36 54.2C46.5772 54.0747 46.7875 53.9379 46.99 53.79L47.27 53.6C47.61 53.37 47.95 53.11 48.27 52.88C48.59 52.65 49.02 52.28 49.35 51.99C49.68 51.7 50.02 51.42 50.28 51.16L50.58 50.87L50.38 50.67C50.7148 50.6162 51.0214 50.4505 51.25 50.2L51.51 49.92C51.78 49.63 52.05 49.33 52.31 49.01C55.5499 45.1459 57.6196 40.4374 58.2759 35.4376C58.9322 30.4379 58.1478 25.3547 56.0149 20.7853C53.882 16.216 50.4892 12.3504 46.2351 9.64273C41.9811 6.93507 37.0426 5.49786 32 5.5V5.5ZM50 47.12V47.17C49.76 47.45 49.53 47.72 49.32 47.94L48.99 48.29C48.7965 48.5066 48.6682 48.7736 48.62 49.06L48.42 48.86L48.21 49.06C47.95 49.31 47.69 49.55 47.39 49.8C47.09 50.05 46.76 50.33 46.39 50.6C46.02 50.87 45.83 51.03 45.5 51.27L45.29 51.4C45.13 51.52 44.96 51.63 44.73 51.77L44.26 52.07H44.2C43.53 52.48 42.89 52.84 42.31 53.07C42.241 53.0946 42.1741 53.1247 42.11 53.16C41.84 53.29 41.58 53.41 41.28 53.53C40.1953 53.9919 39.0791 54.3762 37.94 54.68L36.82 55C36.49 55.07 36.17 55.14 35.82 55.19C35.7 55.19 35.58 55.24 35.36 55.26C35.14 55.28 34.92 55.32 34.67 55.35H34.24C33.97 55.35 33.7 55.4 33.42 55.41H33.1C32.3642 55.46 31.6258 55.46 30.89 55.41H30.62C30.34 55.41 30.07 55.41 29.84 55.35H29.35L28.59 55.25L28.17 55.19C27.83 55.19 27.51 55.07 27.17 55C26.83 54.93 26.44 54.84 26.11 54.76C24.9524 54.4591 23.8192 54.0713 22.72 53.6C22.45 53.49 22.18 53.37 21.94 53.25L21.79 53.18C21.1037 52.8576 20.436 52.4971 19.79 52.1H19.73L19.2 51.77C19.03 51.66 18.86 51.55 18.7 51.43L18.59 51.37C18.5436 51.3215 18.4896 51.2809 18.43 51.25C18.15 51.05 17.87 50.85 17.56 50.61C17.25 50.37 16.92 50.1 16.56 49.8C16.2 49.5 16.02 49.33 15.72 49.04L15.55 48.88L15.35 48.68L15 48.27L14.77 48C14.52 47.74 14.29 47.47 14.05 47.19V47.14C11.1739 43.7134 9.33571 39.5371 8.75134 35.1018C8.16696 30.6665 8.86072 26.1566 10.7511 22.102C12.6414 18.0474 15.6498 14.6166 19.4228 12.2128C23.1957 9.80899 27.5764 8.53206 32.05 8.53206C36.5236 8.53206 40.9043 9.80899 44.6772 12.2128C48.4501 14.6166 51.4585 18.0474 53.3489 22.102C55.2392 26.1566 55.933 30.6665 55.3486 35.1018C54.7643 39.5371 52.926 43.7134 50.05 47.14L50 47.12Z"></path>
+                                        <path d="M47.1798 30.5003H33.4998V16.8203C33.4998 16.4225 33.3418 16.041 33.0605 15.7597C32.7792 15.4783 32.3976 15.3203 31.9998 15.3203C31.602 15.3203 31.2205 15.4783 30.9392 15.7597C30.6579 16.041 30.4998 16.4225 30.4998 16.8203V30.5003H16.8198C16.422 30.5003 16.0405 30.6583 15.7592 30.9397C15.4779 31.221 15.3198 31.6025 15.3198 32.0003C15.3198 32.3981 15.4779 32.7797 15.7592 33.061C16.0405 33.3423 16.422 33.5003 16.8198 33.5003H30.4998V47.1803C30.4998 47.5781 30.6579 47.9597 30.9392 48.241C31.2205 48.5223 31.602 48.6803 31.9998 48.6803C32.3976 48.6803 32.7792 48.5223 33.0605 48.241C33.3418 47.9597 33.4998 47.5781 33.4998 47.1803V33.5003H47.1798C47.5776 33.5003 47.9592 33.3423 48.2405 33.061C48.5218 32.7797 48.6798 32.3981 48.6798 32.0003C48.6798 31.6025 48.5218 31.221 48.2405 30.9397C47.9592 30.6583 47.5776 30.5003 47.1798 30.5003Z" ></path>
+                                        </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form method="POST" action="{% url 'product_ad' Slug=obj_Category_product_child.Slug %}" enctype="multipart/form-data" style="display:none;"
+            class="form_create xxx fixed z-9999   pb-[10px] md:pt-[0px] md:pb-[0px] overflow-x-auto inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <div
+                class="relative p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">Tạo Sản phẩm mới trong <span class="text-lime-600">({{obj_Category_product_child.Name}})</span></h3>
+                <div class="grid grid-cols-2 gap-2 w-full">
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Tên Sản phẩm</span>
+                        <input name="Name" required
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Giá </span>
+                        <input name="Price" required  type="number" min="1000"
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                    </label>
+                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                        <span class="font-medium text-stone-600">Mô tả</span>
+                        <textarea name="Description" required class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "></textarea>
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Giảm giá (%)</span>
+                        <input name="Discount"  type="number" min="0" max="100"
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                    </label>
+                    <label class="flex flex-col text-sm w-full">
+                        <span class="font-medium text-stone-600">Thương hiệu</span>
+                        <select name="Belong_Trademark" required
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                            <option value="">--Không Thương hiệu--</option>
+                            {% for i in List_Trademark %}
+                            <option value="{{i.id}}">{{i.Name}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label class="block text-sm w-full col-span-2">
+                        <span class="font-medium text-stone-600">Ảnh sản phẩm</span>
+                        <input name="files_img" required type="file" multiple accept=".jpg,.png,.webp,.jpeg"
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                    </label>
+                </div>
+                <div style="display: none;" id="loader_form_create" class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
+                    <span  class="loader"></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="submit"
+                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+                        Tạo ngay
+                    </button>
+                    <a
+                        class=" close_form_create cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Hủy
+                    </a>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function() {
+                    $('.form_create').on('submit', function(event) {
+                        $('#loader_form_create').show();
+                    });
+                });
+            </script>
+            <style>
+                .loader {
+                    width: 80px;
+                    height: 80px;
+                    border: 13px dotted #22c55e;
+                    border-radius: 50%;
+                    display: inline-block;
+                    position: relative;
+                    box-sizing: border-box;
+                    animation: rotation 2s linear infinite;
+                }
+                
+                @keyframes rotation {
+                    0% {
+                    transform: rotate(0deg);
+                    }
+                    100% {
+                    transform: rotate(360deg);
+                    }
+                }  
+            </style>
+        </form>
+        <form method="POST"  style="display:none;" enctype="multipart/form-data"
+            class="form_update xxx fixed z-9999   pb-[10px] md:pt-[0px] md:pb-[0px] overflow-x-auto inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <input type="hidden" name="id_lead_update" id="id_lead_update" />
+            <div
+                class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">Cập nhật Sản phẩm</h3>
+                <div id="content_update_product" class="grid grid-cols-2 gap-2 w-full">
+                </div>
+                <div style="display: none;" id="loader_form_update" class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
+                    <span  class="loader"></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="submit"
+                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+                        Cập nhật
+                    </button>
+                    <a
+                        class=" close_form_update cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Hủy
+                    </a>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function() {
+                    $('.form_update').on('submit', function(event) {
+                        $('#loader_form_update').show();
+                        var Slug= $(this).data('slug')
+                        var Slugg= $(this).data('slugg')
+                        $.ajax({
+                            url: "/ad/update-product/" + Slug + "/"+ Slugg + "/", // URL của API
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
+                            contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
+                            data: formData,
+                            success: function(response) {
+                                if (response.success) {
+                                    window.location.href = response.redirect_url;
+                                } else {
+                                    alert(response.message);
+                                }
+                            },
+                            error: function(response) {
+                                console.log('Đăng nhập thất bại', response);
+                            }
+                        });
+                    });
+                });
+            </script>
+            <script>
+                document.getElementById("files_img").addEventListener("change", function() {
+                    let files = Array.from(this.files);
+                    files.sort((a, b) => a.name.localeCompare(b.name)); // Sắp xếp theo tên
+                    this.files = new FileList(...files);
+                });                
+            </script>            
+        </form>
+        <form id="form_delete_check_list_lead" style="display:none;" class=" xxx px-[10px] fixed z-9999 inset-0  flex justify-center items-center bg-black bg-opacity-50">
+            <div id="" class="relative  flex gap-3 flex-col justify-center items-center p-4 bg-white rounded-lg shadow-md text-red-500 font-medium ">
+                <input type="hidden" id="check_list" />
+                <span>* Danh sách Sản phẩm đã chọn sẽ bị xóa *</span>
+                <span class="text-stone-500">Nhập "<span class="text_code text-green-500">Tôi đồng ý xóa danh sách Sản phẩm đã chọn</span>" vào ô bên dưới và tiến hành xóa</span>
+                <input type="text"  placeholder="" id="text_check_list"  class=" w-full rounded-md text-center bg-stone-200 text-green-500" required/>
+                <div></div>
+                <div class="flex items-center gap-2">
+                    <button type="submit"
+                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+                        Xóa Sản phẩm đã chọn
+                    </button>
+                    <a
+                        class="close_form_delete_check_list_lead cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Hủy
+                    </a>
+                </div>
+            </div>
+        </form>
+        <div style="display:none;"
+            class="form_update_report xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <input type="hidden" name="id_lead_update_report" id="id_lead_update_report" />
+            <div
+                class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">
+                    <span class="underline">Báo cáo</span> Sản phẩm
+                    <br>
+                    <span class="text_lead_report text-green-500">"Vũ Văn Thái"</span>
+                </h3>
+                <div class="grid grid-cols-1 w-full">
+                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                        <textarea name="report_update" id="report_update" required class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "></textarea>
+                    </label>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a
+                        class=" close_form_update_report cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Đóng
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div style="display:none;"
+            class="form_update_history xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <input type="hidden" name="id_lead_update_history" id="id_lead_update_history" />
+            <div
+                class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">
+                    <span class="underline">Ghi chú lịch sử</span> Sản phẩm
+                    <br>
+                    <span class="text_lead_history text-green-500">"Vũ Văn Thái"</span>
+                </h3>
+                <div class="grid grid-cols-1 w-full">
+                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                        <textarea name="history_update" id="history_update" required class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "></textarea>
+                    </label>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a
+                        class=" close_form_update_history cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Đóng
+                    </a>
+                </div>
+            </div>
+        </div>
+        <form method="POST" action="{% url 'upload_file_lead_page_admin' %}" enctype="multipart/form-data" style="display:none;"
+            class="form_upload_file xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <div
+                class="relative p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">Nhập file Sản phẩm mới (.xlsx)</h3>
+                <div class="grid grid-cols-1  w-full">
+                    <label class="block text-sm w-full">
+                        <input name="file_upload" type="file" accept=".xlsx" required
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                    </label>
+                </div>
+                <div style="display: none;" id="loader_form_upload_file" class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
+                    <span  class="loader"></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="submit"
+                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+                        Tạo dữ liệu
+                    </button>
+                    <a
+                        class=" close_form_upload_file cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Hủy
+                    </a>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function() {
+                    $('.form_upload_file').on('submit', function(event) {
+                        $('#loader_form_upload_file').show();
+                    });
+
+                    $('.close_form_upload_file').on('click', function(event) {
+                        $('.form_upload_file').hide();
+                    });
+                    $('.open_form_upload_file').on('click', function(event) {
+                        $(".xxx").hide();
+                        $('.form_upload_file').show();
+                    });
+                });
+            </script>
+            <style>
+                .loader {
+                    width: 80px;
+                    height: 80px;
+                    border: 13px dotted #22c55e;
+                    border-radius: 50%;
+                    display: inline-block;
+                    position: relative;
+                    box-sizing: border-box;
+                    animation: rotation 2s linear infinite;
+                }
+                
+                @keyframes rotation {
+                    0% {
+                    transform: rotate(0deg);
+                    }
+                    100% {
+                    transform: rotate(360deg);
+                    }
+                }  
+            </style>
+        </form>
+        <form method="POST" action="{% url 'Select_setting_lead_admin' %}" enctype="multipart/form-data" style="display:none;"
+            class="form_setting_select xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <div
+                class="relative p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">Cập nhật lựa chọn</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 h-[500px]">
+                    <label class="flex flex-col text-sm w-full h-full " >
+                        <span class="font-medium text-stone-600">Khu vực</span>
+                        <textarea  name="Area" id="Area_st" required class=" text-start w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray  rounded-md ">
+                        </textarea>
+                    </label>
+                    <label class="flex flex-col text-sm w-full  h-full">
+                        <span class="font-medium text-stone-600">Sản phẩm</span>
+                        <textarea name="Product" id="Product_st" required class="text-start w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray  rounded-md ">
+                        </textarea>
+                    </label>
+                    <label class="flex flex-col text-sm w-full h-full">
+                        <span class="font-medium text-stone-600">Nhu cầu</span>
+                        <textarea name="Demand" id="Demand_st" required class=" text-startw-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray  rounded-md ">
+                        </textarea>
+                    </label>
+                    <label class="flex flex-col text-sm w-full h-full">
+                        <span class="font-medium text-stone-600">Nguồn</span>
+                        <textarea name="Source" id="Source_st" required class=" text-startw-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray  rounded-md ">
+                        </textarea>
+                    </label>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="submit"
+                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+                        Cập nhật
+                    </button>
+                    <a
+                        class=" close_form_setting_select cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Hủy
+                    </a>
+                </div>
+            </div>
+        </form>
+        <div id="view_report" style="display:none;"
+            class="view_report xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <div
+                class="relative p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center h-[600px]">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">
+                    Danh sách báo cáo Sản phẩm
+                    <br>
+                    <span id="name_lead_report" class="text-green-500"></span>
+                </h3>
+                <div id="text_html_report" class="flex flex-col  w-full bg-stone-200 rounded-md p-2 grow overflow-y-auto overflow-x-auto">
+                </div>
+                <div style="display: none;" id="loader_form_upload_file" class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
+                    <span  class="loader"></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a
+                        class=" close_view_report cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Đóng
+                    </a>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function() {
+                    $('.close_view_report').on('click', function(event) {
+                        $('.view_report').hide();
+                    });
+                    $('.open_view_report').on('click', function(event) {
+                        $(".xxx").hide();
+                        $.ajax({
+                            url: '{% url "get_list_report_history" %}',  // URL của API bạn muốn gọi
+                            method: 'GET',
+                            data: {
+                                'type_get':'Report',
+                                'id_lead_report_history': $(this).data('id'),  // Gửi dữ liệu tìm kiếm với key là 's'
+                                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    let reportHtml = '';  // Biến để lưu HTML của báo cáo
+                                    // Lặp qua các dữ liệu trả về (giả sử response.data chứa các đối tượng cần hiển thị)
+                                    response.data.forEach(function(item, index) {
+                                        // Chuyển đổi Creation_time thành định dạng mong muốn (ví dụ: ngày-tháng-năm giờ:phút)
+                                        let reportNumber = index + 1;
+                                        let formattedReport = item.report.replace(/\n/g, '<br>');  // Thay \n bằng <br>
+                                        // Tạo HTML cho mỗi báo cáo
+                                        reportHtml += `
+                                            <div class="flex flex-col gap-1 text-sm w-full">
+                                                <span>${reportNumber} ------------------------------------------------ ${item.Creation_time}</span>
+                                                <span>${formattedReport}</span>
+                                            </div>
+                                            <br>
+                                        `;
+                                    });
+                                    $('#text_html_report').html('');
+                                    // Chèn HTML vào trong phần tử #text_html_report
+                                    $('#text_html_report').append(reportHtml);
+
+                                } else {
+                                    console.log('Không tìm thấy chiến dịch nào');
+                                }
+                            },
+                            error: function (response) {
+                                console.log('Tìm kiếm thất bại', response);
+                            }
+                        });
+                        $('#name_lead_report').text($(this).data('name'));
+                        $('.view_report').show();
+                    });
+                });
+            </script>
+        </div>
+        <div id="view_history" style="display:none;"
+            class="view_history xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <div
+                class="relative p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center h-[600px]">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">
+                    Danh sách ghi chú lịch sử Sản phẩm
+                    <br>
+                    <span id="name_lead_history" class="text-green-500"></span>
+                </h3>
+                <div id="text_html_history" class="flex flex-col  w-full bg-stone-200 rounded-md p-2 grow overflow-y-auto overflow-x-auto">
+                </div>
+                <div style="display: none;" id="loader_form_upload_file" class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
+                    <span  class="loader"></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a
+                        class=" close_view_history cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Đóng
+                    </a>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function() {
+                    $('.close_view_history').on('click', function(event) {
+                        $('.view_history').hide();
+                    });
+                    $('.open_view_history').on('click', function(event) {
+                        $(".xxx").hide();
+                        $.ajax({
+                            url: '{% url "get_list_report_history" %}',  // URL của API bạn muốn gọi
+                            method: 'GET',
+                            data: {
+                                'type_get':'History',
+                                'id_lead_report_history': $(this).data('id'),  // Gửi dữ liệu tìm kiếm với key là 's'
+                                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    let reportHtml = '';  // Biến để lưu HTML của báo cáo
+                                    // Lặp qua các dữ liệu trả về (giả sử response.data chứa các đối tượng cần hiển thị)
+                                    response.data.forEach(function(item, index) {
+                                        // Chuyển đổi Creation_time thành định dạng mong muốn (ví dụ: ngày-tháng-năm giờ:phút)
+                                        let reportNumber = index + 1;
+                                        let formattedReport = item.history.replace(/\n/g, '<br>');  // Thay \n bằng <br>
+                                        // Tạo HTML cho mỗi báo cáo
+                                        reportHtml += `
+                                            <div class="flex flex-col gap-1 text-sm w-full">
+                                                <span>${reportNumber} ------------------------------------------------ ${item.Creation_time}</span>
+                                                <span>${formattedReport}</span>
+                                            </div>
+                                            <br>
+                                        `;
+                                    });
+                                    $('#text_html_history').html('');
+                                    // Chèn HTML vào trong phần tử #text_html_report
+                                    $('#text_html_history').append(reportHtml);
+
+                                } else {
+                                    console.log('Không tìm thấy chiến dịch nào');
+                                }
+                            },
+                            error: function (response) {
+                                console.log('Tìm kiếm thất bại', response);
+                            }
+                        });
+                        $('#name_lead_history').text($(this).data('name'));
+                        $('.view_history').show();
+                    });
+                });
+            </script>
+        </div>
+    </main>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".open_form_Report").click(function () {
+            $(".xxx").hide();
+            $(".form_update_report").show();
+            $("#id_lead_update_report").val($(this).data('id'));
+            $("#report_update").val($(this).data('report'));
+            $(".text_lead_report").text($(this).data('name'));
+        });
+        $(".close_form_update_report").click(function () {
+            $(".form_update_report").hide();
+        });
+
+        $(".open_form_History").click(function () {
+            $(".xxx").hide();
+            $(".form_update_history").show();
+            $("#id_lead_update_history").val($(this).data('id'));
+            $("#history_update").val($(this).data('history'));
+            $(".text_lead_history").text($(this).data('name'));
+        });
+        $(".close_form_update_history").click(function () {
+            $(".form_update_history").hide();
+        });
+
+        $(".open_form_setting_select").click(function () {
+            $(".xxx").hide();
+            $.ajax({
+                url: '{% url "get_setting" %}',  // URL của API bạn muốn gọi
+                method: 'GET',
+                data: {
+                    's':'',  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log('fghfgh');
+                        $("#Area_st").val(response.data.Area);
+                        $("#Product_st").val(response.data.Product);
+                        $("#Demand_st").val(response.data.Demand);
+                        $("#Source_st").val(response.data.Source);
+                    } else {
+                        console.log('Không tìm thấy nhân viên nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+            $(".form_setting_select").show();
+        });
+        $(".close_form_setting_select").click(function () {
+            $(".form_setting_select").hide();
+        });
+    });
+</script>
+<script>
+    $(document).on('click', '.import_campaign', function () {
+        $("#Belong_Campaign_label").val($(this).data('campaign-name'));
+        $("#Belong_Campaign").val($(this).data('campaign-id'));
+    });
+</script>
+
+<script>
+    $(document).on('click', '.import_campaign_update', function () {
+        $("#Belong_Campaign_label_update").val($(this).data('campaign-name'));
+        $("#Belong_Campaign_update").val($(this).data('campaign-id'));
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".open_form_create").click(function () {
+            $(".xxx").hide();
+            $(".form_create").show();
+            $.ajax({
+                url: '{% url "search_user_page_admin" %}',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's':'',  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_user').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        $('#menu_list_user').append(`
+                        <span data-user-name="--Ngẫu nhiên--" data-user-id="--Ngẫu nhiên--" class="import_user cursor-pointer hover:text-green-700">
+                            --Ngẫu nhiên--
+                        </span>
+                        `);
+                        for (let i = 0; i < response.list_user.length; i++) {
+                            const user = response.list_user[i];
+                            $('#menu_list_user').append(`
+                                <span data-user-name="${user.Full_name}" data-user-id="${user.id}" class="import_user cursor-pointer hover:text-green-700">
+                                    ${user.Full_name}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy nhân viên nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+        $(".close_form_create").click(function () {
+            $(".form_create").hide();
+            $("input, textarea, select").val(""); // Xóa giá trị của tất cả thẻ nhập liệu
+            $("input[type='file']").val(null); // Xóa giá trị của thẻ input file riêng
+        });
+
+        $('#open_form_delete_check_list_lead').click(function(){
+            $(".xxx").hide();
+            $('#form_delete_check_list_lead').show();
+        });
+        $('.close_form_delete_check_list_lead').click(function(){
+            $('#form_delete_check_list_lead').hide();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open_form_update").click(function () {
+            $(".xxx").hide();
+            $(".form_update").show();
+            var Slug= $(this).data('slug')
+            var Slugg= $(this).data('slugg')
+            $(".form_update").attr('action', "/ad/update-product/" + Slug + "/" + Slugg + "/");
+            $.ajax({
+                url: "/ad/update-product/" + Slug + "/"+Slugg + "/", // URL của API
+                type: "GET", // Phương thức GET
+                data: {
+                    title: "Tiêu đề mới",
+                    description: "Đây là nội dung được cập nhật bằng jQuery (GET)!"
+                },
+                success: function (response) {
+                    // Chèn mã HTML trả về vào <div>
+                    $("#content_update_product").html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Có lỗi xảy ra: ", error);
+                }
+            });
+        });
+
+        $(".close_form_update").click(function () {
+            $(".form_update").hide();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open_form_delete").click(function () {
+            $(".xxx").hide();
+            $(".form_delete").show();
+            $("#id_delete").val($(this).data('id'));
+            $("#text_delete").text($(this).data('name'));
+        });
+
+        $(".close_form_delete").click(function () {
+            $(".form_delete").hide();
+        });
+    });
+</script>
+
+
+<script>
+    // JavaScript/jQuery
+    $(document).ready(function() {
+        // Khi checkbox 'check_all_user' thay đổi trạng thái
+        $('#check_all_lead').on('change', function() {
+            var isChecked = $(this).is(':checked');
+            
+            // Cập nhật trạng thái của tất cả các checkbox 'check_lead'
+            $('.check_lead').prop('checked', isChecked);
+
+            // Rà soát tất cả các checkbox 'check_lead' được chọn và lưu giá trị vào input hidden
+            updateCheckedValues();
+        });
+
+        // Khi bất kỳ checkbox 'check_lead' thay đổi trạng thái
+        $('.check_lead').on('change', function() {
+            // Kiểm tra trạng thái của checkbox 'check_all_lead'
+            var allChecked = $('.check_lead').length === $('.check_lead:checked').length;
+            $('#check_all_lead').prop('checked', allChecked);
+
+            // Rà soát tất cả các checkbox 'check_lead' được chọn và lưu giá trị vào input hidden
+            updateCheckedValues();
+        });
+
+        function updateCheckedValues() {
+            var checkedValues = [];
+            $('.check_lead:checked').each(function() {
+                checkedValues.push($(this).val());
+            });
+            $('#check_list').val(JSON.stringify(checkedValues)); // Gán mảng giá trị vào input hidden
+            if (checkedValues.length > 0) {
+                $('#open_form_delete_check_list_lead').show();
+            } else {
+                $('#open_form_delete_check_list_lead').hide();
+            }
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#form_delete_check_list_lead').on('submit', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '{% url 'delete_check_list_product_ad' Slug=obj_Category_product_child.Slug %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    check_list: $('#check_list').val(),
+                    text_check_list: $('#text_check_list').val()
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.redirect_url;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (response) {
+                    console.log('Xóa thất bại', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    // selecting required element
+    const element = document.querySelector(".pagination ul");
+    let totalPages = {{list_lead.paginator.num_pages}};
+    let page = {{list_lead.number}};
+    let s_l = "{{ s|default:'' }}";  // Nếu s không có giá trị, dùng giá trị mặc định là ''
+    let f_l = "{{ f|default:'' }}";  // Nếu f không có giá trị, dùng giá trị mặc định là ''
+    let st_l = "{{ st|default:'' }}";  // Nếu st không có giá trị, dùng giá trị mặc định là ''
+
+    //calling function with passing parameters and adding inside element which is ul tag
+    element.innerHTML = createPagination(totalPages, page);
+    function createPagination(totalPages, page) {
+        let liTag = '';
+        let active;
+        let beforePage = page - 1;
+        let afterPage = page + 1;
+
+        // Hiển thị nút "Trang trước" nếu không phải là trang đầu tiên
+        if (page > 1) {
+            liTag += `<a href="?p=${page - 1}&s=${s_l}&f=${f_l}&st=${st_l}" class="btn prev"><span><i class="fas fa-angle-left"></i>Trang trước</span></a>`;
+        }
+
+        // Nếu tổng số trang nhỏ hơn 8, hiển thị tất cả các trang mà không cần dấu ba chấm
+        if (totalPages < 8) {
+            for (let i = 1; i <= totalPages; i++) {
+                active = (page == i) ? "active" : "";
+                liTag += `<a href="?p=${i}&s=${s_l}&f=${f_l}&st=${st_l}" class="numb ${active}"><span>${i}</span></a>`;
+            }
+        } else {
+            // Nếu tổng số trang >= 8, hiển thị có điều kiện các trang với dấu ba chấm
+            if (page > 2) {
+                liTag += `<a href="?p=1&s=${s_l}&f=${f_l}&st=${st_l}" class="first numb"><span>1</span></a>`;
+                if (page > 3) {
+                    liTag += `<a class="dots"><span>...</span></a>`;
+                }
+            }
+
+            // Điều chỉnh trước và sau trang hiện tại
+            if (page == totalPages) {
+                beforePage = beforePage - 2;
+            } else if (page == totalPages - 1) {
+                beforePage = beforePage - 1;
+            }
+            if (page == 1) {
+                afterPage = afterPage + 2;
+            } else if (page == 2) {
+                afterPage = afterPage + 1;
+            }
+
+            // Hiển thị các trang trong khoảng trước và sau trang hiện tại
+            for (let plength = beforePage; plength <= afterPage; plength++) {
+                if (plength > totalPages) continue;
+                if (plength == 0) plength = 1;
+                active = (page == plength) ? "active" : "";
+                liTag += `<a href="?p=${plength}&s=${s_l}&f=${f_l}&st=${st_l}" class="numb ${active}"><span>${plength}</span></a>`;
+            }
+
+            // Hiển thị trang cuối cùng với dấu ba chấm nếu cần
+            if (page < totalPages - 1) {
+                if (page < totalPages - 2) {
+                    liTag += `<a class="dots"><span>...</span></a>`;
+                }
+                liTag += `<a href="?p=${totalPages}&s=${s_l}&f=${f_l}&st=${st_l}" class="last numb"><span>${totalPages}</span></a>`;
+            }
+        }
+
+        // Hiển thị nút "Trang sau" nếu không phải là trang cuối cùng
+        if (page < totalPages) {
+            liTag += `<a href="?p=${page + 1}&s=${s_l}&f=${f_l}&st=${st_l}" class="btn next"><span>Trang sau <i class="fas fa-angle-right"></i></span></a>`;
+        }
+
+        element.innerHTML = liTag;
+        return liTag;
+    }
+</script>
+{% endblock %}

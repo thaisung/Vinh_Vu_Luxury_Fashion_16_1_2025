@@ -1,0 +1,314 @@
+{% extends './base.html' %}
+{% block content %}
+<main class="tp_product_category">
+    <div id="collection" class="collection-page ">
+        <div class="main-content clearfix">
+            <div class="breadcrumb-shop">
+                <div class="padding-lf-40 clearfix">
+                    <div class=" ">
+                        <ol class="breadcrumb breadcrumb-arrows clearfix" itemscope=""
+                            itemtype="https://schema.org/BreadcrumbList">
+                            <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+                                <a itemprop="item" href="/" target="_self">
+                                    <i class="fa fa-home"></i>
+                                    <span itemprop="name">Trang chủ</span>
+                                </a>
+                                <meta itemprop="position" content="1">
+                            </li>
+                            <li class="active" itemprop="itemListElement" itemscope=""
+                                itemtype="https://schema.org/ListItem">
+                                <span itemprop="name">{{obj_category_child.Name}}</span>
+                                <meta itemprop="position" content="2">
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="banner-collection-header padding-lf-40 bnCategoryImg">
+                <img data-sizes="auto" class="lazyload" src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
+                    data-src="https://pos.nvncdn.com/609d6b-117900/pc/20240107_F0r6KGa9.gif" alt="Áo">
+            </div>
+
+            <div class="padding-lf-40 clearfix">
+                <div id="collection-body" class="wrap-collection-body clearfix">
+                    <div class="wrap-collection-title clearfix">
+                        <div class="heading-collection clearfix">
+
+
+                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                <h2 class="title tp_title titleCategory">{{obj_category_child.Name}}</h2>
+                                <div class="append-search visible-xs"></div>
+                                <div class="filter-custom hidden-sm hidden-xs removeMobile" style="z-index: 99999;">
+                                    <span>Bộ lọc</span>
+
+                                    <div class="groupFilterNew" style="z-index: 99999;">
+                                        <div class="titleFilter clearfix">
+
+                                            <div class="layered_subtitle dropdown-filter">
+                                                <span>Kích cỡ</span>
+                                                <span class="icon-control"><i class="fa fa-sort-down"></i></span>
+                                            </div>
+
+                                            <div
+                                                class="layered_subtitle dropdown-filter tp_product_category_filter_brand">
+                                                <span>Thương hiệu</span>
+                                                <span class="icon-control"><i class="fa fa-sort-down"></i></span>
+                                            </div>
+
+                                            <div class="layered_subtitle dropdown-filter price-filter">
+                                                <span>Khoảng giá</span>
+                                                <span class="icon-control"><i class="fa fa-sort-down"></i></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="contentFilter clearfix">
+                                            <div class="filter-size s-filter">
+                                                <ul class="check-box-list clearfix">
+                                                    <li class="filter-item">
+                                                        <a href="{% url 'category_product_cl' Slug=obj_category_child.Slug %}?f_size=&f_trademark={{f_trademark}}&f_arrange={{f_arrange}}">
+                                                            <input type="checkbox" {% if not f_size %}checked{% endif %} class="size-filter" data-size="">
+                                                        <label>
+                                                            <span class="button tp_button"></span>
+                                                            Loại bỏ </label>
+                                                        </a>
+                                                    </li>
+                                                    {% for i in List_Size_product %}
+                                                    <li class="filter-item">
+                                                        <a href="{% url 'category_product_cl' Slug=obj_category_child.Slug %}?f_size={{i.Size}}&f_trademark={{f_trademark}}&f_arrange={{f_arrange}}">
+                                                            <input type="checkbox" {% if i.Size == f_size %}checked{% endif %} class="size-filter" data-size="{{ i.Size }}">
+                                                        <label>
+                                                            <span class="button tp_button"></span>
+                                                            {{i.Size}} </label>
+                                                        </a>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+
+
+                                            <div class="filter-brand s-filter tp_product_category_filter_brand">
+                                                <ul class="check-box-list clearfix">
+                                                    <li class="filter-item" >
+                                                        <a href="{% url 'category_product_cl' Slug=obj_category_child.Slug %}?f_size={{f_size}}&f_trademark=&f_arrange={{f_arrange}}">
+                                                            <input type="checkbox" {% if not f_trademark %}checked{% endif %} class="brand-filter" data-brand="{{ i.Name }}">
+                                                        <label for="">
+                                                            <span class="button tp_button"></span>
+                                                            Loại bỏ</label>
+                                                        </a>
+                                                    </li>
+                                                    {% for i in List_Trademark %}
+                                                    <li class="filter-item" >
+                                                        <a href="{% url 'category_product_cl' Slug=obj_category_child.Slug %}?f_size={{f_size}}&f_trademark={{i.Name}}&f_arrange={{f_arrange}}">
+                                                            <input type="checkbox" {% if i.Name == f_trademark %}checked{% endif %} class="brand-filter" data-brand="{{ i.Name }}">
+                                                        <label for="">
+                                                            <span class="button tp_button"></span>
+                                                            {{i.Name}}</label>
+                                                        </a>
+                                                    </li>
+                                                    {% endfor %}
+                                                    </li>
+                                            </div>
+                                            <div class="filter-price s-filter tp_product_category_filter_price">
+                                                <ul class="check-box-list clearfix">
+                                                    <li class="filter-item"
+                                                        data-filter="/ao-pc571904.html?price=0: 200000">
+                                                        <input type="checkbox">
+                                                        <label><span class="button tp_button"></span>Dưới 200,000
+                                                        </label>
+                                                    </li>
+                                                    <li class="filter-item"
+                                                        data-filter="/ao-pc571904.html?price= 200000: 500000">
+                                                        <input type="checkbox">
+                                                        <label><span class="button tp_button"></span>Từ 200,000 -
+                                                            500,000 </label>
+                                                    </li>
+                                                    <li class="filter-item"
+                                                        data-filter="/ao-pc571904.html?price= 500000: 1000000">
+                                                        <input type="checkbox">
+                                                        <label><span class="button tp_button"></span>Từ 500,000 -
+                                                            1,000,000 </label>
+                                                    </li>
+                                                    <li class="filter-item"
+                                                        data-filter="/ao-pc571904.html?price= 1000000">
+                                                        <input type="checkbox">
+                                                        <label><span class="button tp_button"></span>Trên 1,000,000
+                                                        </label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="append-search"></div>
+                                    <div class="append-url hide"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <div class="outerSort">
+                                    <div class="borderFilterMobile visbile-xs visible-sm filterSmallScreen">
+                                        <a href="javascript:void(0)" class="filterClick">
+                                            <i class="fa fa-filter"></i>
+                                            <span class="visible-xs">Bộ lọc</span>
+                                        </a>
+                                    </div>
+                                    <div class="borderFilterMobile option browse-tags">
+                                        <form method="get" id="filter-form" action="{% url 'category_product_cl' Slug=obj_category_child.Slug %}">
+                                            <label class="lb-filter" for="sort-by">Sắp xếp theo:</label>
+                                            <span class="custom-dropdown custom-dropdown--grey">
+                                                <span class="visible-xs btnSortMobile">
+                                                    <i class="fa fa-sort"></i>
+                                                </span>
+                                                <select class="sort-by custom-dropdown__select" id="f_arrange" name="f_arrange">
+                                                    <option value="" {% if not f_arrange %}selected{% endif %}>Mới nhất</option>
+                                                    <option value="priceDesc" {% if  f_arrange == 'priceDesc' %}selected{% endif %}>Giá giảm dần</option>
+                                                    <option value="priceAsc" {% if  f_arrange == 'priceAsc' %}selected{% endif %}>Giá tăng dần</option>
+                                                    <option value="discount" {% if  f_arrange == 'discount' %}selected{% endif %}>Sale</option>
+                                                </select>
+                                            </span>
+                                        </form>
+                                        <script>
+                                            $(document).ready(function() {
+                                                $('#f_arrange').change(function() {
+                                                    // Lấy giá trị các tham số
+                                                    var f_size = '{{ f_size }}';
+                                                    var f_trademark = '{{ f_trademark }}';
+                                                    var f_arrange = $('#f_arrange').val();
+                                        
+                                                    // Tạo URL với các tham số
+                                                    var actionUrl = "{% url 'category_product_cl' Slug=obj_category_child.Slug %}";
+                                                    var newUrl = actionUrl + "?f_size=" + f_size + "&f_trademark=" + f_trademark + "&f_arrange=" + f_arrange;
+                                                    
+                                                    // Chuyển hướng đến URL mới
+                                                    window.location.href = newUrl;
+                                                });
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix filter-here">
+                        <div class=" content-product-list product-list filter clearfix fixBox" itemscope=""
+                            itemtype="https://schema.org/ItemList">
+                            <link itemprop="url" href="https://cuongpopauth.com/ao-pc571904.html">
+                            <meta itemprop="numberOfItems" content="483">
+                            {% for k in List_Product_filter %}
+                            <div class="product-resize col-xs-6 col-sm-3 pro-loop" data-id="40776044">
+                                <div class="product-block" data-anmation="1">
+                                    {% if k.Discount > 0 %}
+                                    <div class="goodsli-discount goodsli-promo">sale</div>
+                                    {% endif %}
+                                    <div class="product-img image-resize">
+                                        <a href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-p40776044.html"
+                                            target="" class="p-img-box added">
+                                            <picture>
+                                                <source media="(max-width: 767px)"
+                                                    srcset="{{k.photo_1.Photo.url}}">
+                                                <source media="(min-width: 768px)"
+                                                    srcset="{{k.photo_1.Photo.url}}">
+                                                <img height="280" width="280" class="img-loop lazyload" data-sizes="auto"
+                                                    src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
+                                                    data-src="{{k.photo_1.Photo.url}}"
+                                                    alt="{{k.Name}}"
+                                                    fetchpriority="high">
+                                            </picture>
+                                            <picture><img class="img-loop img-hover"
+                                                    src="{{k.photo_2.Photo.url}}"
+                                                    alt="{{k.photo_2.Photo.url}}">
+                                            </picture>
+                                        </a>
+                                        {% if k.is_out_of_stock %}
+                                        <div class="out-of-stock">Hết hàng</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="product-info">
+                                        <div class="product-detail clearfix">
+                                            <div class="product-size-cus" psid="40776044">
+                                                {% for s in k.product_size_detail.all %}
+                                                <a
+                                                    href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-41-p40776045.html"
+                                                    class="text-main" value="40776045" title="41">
+                                                    {{s.Size}}</a>
+                                                {% endfor %}
+                                                </div>
+                                            <div class="box-pro-detail">
+                                                <h3 class="pro-name">
+                                                    <a href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-p40776044.html"
+                                                        target="" class="tp_product_name">{{k.Name}}</a>
+                                                </h3>
+                                                <div class="box-pro-prices">
+                                                    {% if k.Discount > 0 %}
+                                                    <p class="pro-price highlight tp_product_price">
+                                                        <span class="priceSale format-number">{{k.Price_Discount}}₫</span>
+                                                        <span class="pro-price-del"><del
+                                                                class="compare-price format-number">{{k.Price}}₫</del></span>
+                                                    </p>
+                                                    {% else %}
+                                                    <p class="pro-price highlight tp_product_price">
+                                                        <span class="priceSale format-number">{{k.Price}}₫</span>
+                                                    </p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="frameSale">
+                                            <div class="activeLabelStatus  icpercent">
+                                                {% if k.Discount > 0 %}
+                                                <div class="product-saleNew">Giảm {{k.Discount}}%</div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    {% if not k.is_out_of_stock %}
+                                    <div class="actionLoop visible-lg tp_button">
+                                        <a class="quickView styleBtnBuy notClick" data-id="{{k.id}}"><i
+                                                class="fa fa-shopping-cart"></i> Mua nhanh</a>
+                                        <a class="styleBtnBuy" target=""
+                                            href="{% url 'detail_product_cl' Slug=k.Slug %}"><i
+                                                class="fa fa-eye"></i> Xem chi tiết</a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="row pagination-theme clearfix text-center">
+                            <div id="pagination" class="clearfix">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="paginator"><span class="labelPages">49 - 72 / 507</span><span
+                                        class="titlePages">&nbsp;&nbsp;Trang: </span><a rel="nofollow, noindex"
+                                        class="paging-first" title="Trang đầu"
+                                        href="/ao-pc571904.html?page=1"></a><a rel="nofollow, noindex"
+                                        class="paging-previous ico" href="/ao-pc571904.html?page=2"></a><a
+                                        rel="nofollow, noindex" href="/ao-pc571904.html?page=2">2</a><span
+                                        class="currentPage">3</span><a rel="nofollow, noindex"
+                                        href="/ao-pc571904.html?page=4">4</a><a rel="nofollow, noindex"
+                                        class="paging-next ico" href="/ao-pc571904.html?page=4"></a><a
+                                        rel="nofollow, noindex" class="paging-last" title="Trang cuối"
+                                        href="/ao-pc571904.html?page=22"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebarFilter">
+        <div class="innerSidebarFilter">
+
+        </div>
+    </div>
+
+</main>
+{% endblock %}

@@ -1,0 +1,219 @@
+.nvn_table_of_contents {
+    background: #F4F4F4;
+}
+
+.nvn_table_of_contents_list ul{
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.nvn_table_of_contents_list li{
+    list-style: none !important;
+}
+
+.nvn_table_of_contents_list .lv2 {
+    padding-left: 20px;
+}
+
+.nvn_table_of_contents_list .lv3 {
+    padding-left: 40px;
+}
+
+.nvn_table_of_contents_list .lv4 {
+    padding-left: 60px;
+}
+
+.nvn_table_of_contents_list .lv5 {
+    padding-left: 80px;
+}
+
+.nvn_table_of_contents_list .lv6 {
+    padding-left: 100px;
+}
+
+.tocIcon{
+    position: relative;
+    height: 16px;
+    width: 26px;
+}
+
+.tocIcon div{
+    width: 100%;
+    display: block;
+    font-size: 0;
+    height: 2px;
+    background: #000;
+    border-radius: 2px;
+}
+
+.tocIcon:after,
+.tocIcon:before{
+    content: '';
+    position: absolute;
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #000;
+    border-radius: 2px;
+}
+
+.tocIcon:after{
+    top: 50%;
+}
+
+.tocIcon:before{
+    top: 100%;
+}
+
+.default_hide {
+    display: none;
+}
+
+.nvn_table_of_contents_list {
+    margin-top: 20px;
+}
+
+.nvn_table_of_contents_heading {
+    cursor: pointer;
+}
+
+/*Popup đơn hàng đã mua*/
+._purchaseContent {
+    max-width: 400px;
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    z-index: 9;
+    padding: 15px;
+    background: #fff;
+    transition: .4s ease all;
+    opacity: 0;
+    visibility: hidden;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 7px;
+}
+
+._purchaseItem ._closePurchase {
+    color: #999;
+    font-size: 14px;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    cursor: pointer;
+    z-index: 99;
+}
+
+._purchaseItem img {
+    width: 100%;
+    margin-right: 10px;
+}
+
+._purchaseContent.showP {
+    opacity: 1;
+    visibility: visible;
+    z-index: 99;
+}
+
+._purchaseContent .orderLeft {
+    margin-right: 15px;
+    width: 30%;
+}
+
+._purchaseContent .orderRight {
+    width: 70%;
+}
+
+._purchaseContent .purchase-info {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #aaa;
+}
+
+._purchaseContent .purchase-c-name b {
+    max-height: 42px;
+    line-height: 21px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+}
+.flash-message-container {
+    background: rgba(0, 0, 0, 0);
+    display: none;
+    z-index: 9999;
+}
+.flash-message-container#msgModal {
+    background: rgba(0, 0, 0, 0.3);
+}
+.flash-message-container .flash-message {
+    border-radius: 4px;
+    box-shadow: 0px 0px 48px 0px rgba(0, 0, 0, 0.12);
+    width: 320px;
+}
+.flash-message-container .flash-message.success, .flash-message-container .flash-message.alert {
+    background: #ebf6e6;
+    color: #2a7500;
+}
+.flash-message-container .flash-message.success .svg-success, .flash-message-container .flash-message.alert .svg-success {
+    display: inline-block;
+}
+.flash-message-container .flash-message.success .svg-error, .flash-message-container .flash-message.alert .svg-error {
+    display: none;
+}
+.flash-message-container .flash-message.error {
+    background: #fbece6;
+    color: #d53c00;
+}
+.flash-message-container .flash-message.error .svg-success {
+    display: none;
+}
+.flash-message-container .flash-message.error .svg-error {
+    display: inline-block;
+}
+._listContent{
+    padding: 15px 15px 0 15px;
+    width: 100%;
+    display: none;
+}
+._listBanks .item-Bank {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+._listBanks .item-Bank .block-banks-left{
+    width: 60%;
+}
+._listBanks .item-Bank .block-banks-right{
+    width: 40%;
+    text-align: right;
+}
+._listBanks .item-Bank .block-banks-left .mini-banks-left{
+    padding: 5px 5px 5px 0;
+}
+._listBanks .item-Bank .block-banks-left .mini-banks-right strong{
+    display: block;
+}
+._listBanks .item-Bank .block-banks-left, ._listBanks .item-Bank .block-banks-left .mini-banks-left{
+    float: left;
+}
+._listBanks .item-Bank .block-banks-right{
+    float: right;
+}
+._listBanks .item-Bank .block-banks-right img{
+    padding: 10px 0;
+}
+._listBanks .item-Bank .listContent.listBanks{
+    padding: 0;
+}
+._listBankWrp.deactive_bank{
+    pointer-events:none !important;
+}
+._listBankWrp.deactive_bank .item-Bank{
+    background: #eee;
+    opacity: 0.5;
+}
+

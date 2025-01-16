@@ -1,0 +1,498 @@
+{% extends './base.html' %}
+{% block content %}
+<div class="flex-1 flex-col w-full h-full" style="width: calc(100% - 250px);">
+    <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800 flex px-[10px] justify-center items-start md:items-center w-full">
+        <button class="open_menu_website p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-green"
+          @click="toggleSideMenu" aria-label="Menu">
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        <!-- Search input -->
+        <form id="form_filter" class="flex flex-col  items-center gap-2 w-full">
+          <div class="flex justify-center items-center flex-col md:flex-row gap-2 grow md:grow-0 w-full">
+            <select name="f" onchange="this.form.submit()"
+              class="bg-stone-100 text-sm text-stone-800 w-full lg:w-[250px]  focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+              <option value="" {% if f == '' %}selected{% endif %} class="bg-stone-100">--- Thống kê Danh mục sản phẩm chung ---</option>
+              {% for i in List_Campaign %}
+              <option value="{{i.id}}" {% if f == i.id %}selected{% endif %} class="bg-stone-100">{{i.Name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="flex w-full justify-center gap-2">
+            <div class="flex flex-col items-end lg:flex-row lg:w-auto gap-2 w-full">
+              <select name="d" id="day"
+              class="bg-stone-100 text-sm text-stone-800 w-full lg:w-[150px]  focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+              <option value="" class="bg-stone-100">--- Ngày ---</option>
+              {% for i in days %}
+              <option value="{{i}}" {% if d == i %}selected{% endif %} class="bg-stone-100">{{i}}</option>
+              {% endfor %}
+            </select>
+            <select name="m" id="month"
+              class="bg-stone-100 text-sm text-stone-800 w-full lg:w-[150px]  focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+              <option value="" class="bg-stone-100">--- Tháng ---</option>
+              {% for i in months %}
+              <option value="{{i}}" {% if m == i %}selected{% endif %} class="bg-stone-100">{{i}}</option>
+              {% endfor %}
+            </select>
+            <select name="y" id="year"
+              class="bg-stone-100 text-sm text-stone-800 w-full lg:w-[150px]  focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+              <option value="" class="bg-stone-100">--- Năm ---</option>
+              {% for i in years %}
+              <option value="{{i}}" {% if y == i %}selected{% endif %} class="bg-stone-100">{{i}}</option>
+              {% endfor %}
+            </select>
+            </div>
+            <div class="flex flex-col lg:flex-row lg:w-auto gap-2 w-full">
+              <select name="w" id="week"
+              class="bg-stone-100 text-sm text-stone-800 w-full lg:w-[150px]  focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+              <option value="" class="bg-stone-100">--- Tuần ---</option>
+              {% for i in weeks %}
+              <option value="{{i}}" {% if w == i %}selected{% endif %} class="bg-stone-100">{{i}}</option>
+              {% endfor %}
+            </select>
+            <select name="q" id="quarter" 
+              class="bg-stone-100 text-sm text-stone-800 w-full lg:w-[150px]  focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+              <option value="" class="bg-stone-100">--- Quý ---</option>
+              {% for i in quarters %}
+              <option value="{{i}}" {% if q == i %}selected{% endif %} class="bg-stone-100">{{i}}</option>
+              {% endfor %}
+            </select>
+            </div>
+            <script>
+              $(document).ready(function() {
+                // Thêm tùy chọn ngày mới
+                  $('#day').change(function() {
+                    if (!$('#month').val()) { // Kiểm tra nếu dropdown 'year' chưa được chọn
+                        $(this).val(''); // Reset giá trị của 'quarter'
+                        alert('Vui lòng chọn tháng trước khi chọn ngày !'); // Thông báo nhắc người dùng
+                        return;
+                    };
+                    $('#week').val(''); // Reset giá trị của 'week'
+                    $('#form_filter').submit();
+                  });
+                  $('#week').change(function() {
+                    if (!$('#month').val()) { // Kiểm tra nếu dropdown 'year' chưa được chọn
+                        $(this).val(''); // Reset giá trị của 'quarter'
+                        alert('Vui lòng chọn tháng trước khi chọn tuần !'); // Thông báo nhắc người dùng
+                        return;
+                    };
+                    $('#day').val(''); // Reset giá trị của 'day'
+                    $('#quarter').val(''); // Reset giá trị của 'day'
+                    $('#form_filter').submit();
+                  });
+                  $('#month').change(function() {
+                      if (!$('#year').val()) { // Kiểm tra nếu dropdown 'year' chưa được chọn
+                        $(this).val(''); // Reset giá trị của 'quarter'
+                        alert('Vui lòng chọn năm trước khi chọn tháng !'); // Thông báo nhắc người dùng
+                        return;
+                      }
+                      $('#quarter').val(''); // Reset giá trị của 'quarter'
+                      $('#form_filter').submit();
+                  });
+                  $('#quarter').change(function() {
+                    if (!$('#year').val()) { // Kiểm tra nếu dropdown 'year' chưa được chọn
+                        $(this).val(''); // Reset giá trị của 'quarter'
+                        alert('Vui lòng chọn năm trước khi chọn quý !'); // Thông báo nhắc người dùng
+                        return;
+                      } 
+                      $('#month').val(''); // Reset giá trị của 'month'
+                      $('#week').val(''); // Reset giá trị của 'week'
+                      $('#day').val(''); // Reset giá trị của 'day'
+                      $('#form_filter').submit();
+                  });
+                  $('#year').change(function() {
+                    if (!$('#year').val()) { // Kiểm tra nếu dropdown 'year' chưa được chọn
+                        $('#quarter').val(''); // Reset giá trị của 'quarter'
+                        $('#month').val(''); // Reset giá trị của 'month'
+                        $('#week').val(''); // Reset giá trị của 'week'
+                        $('#day').val(''); // Reset giá trị của 'day'
+                    }
+                    $('#form_filter').submit();
+                    });
+              });
+            </script>
+          </div>
+        </form>
+    </header>
+    <main class="relative flex flex-col items-center gap-2  p-6  bg-stone-100 ">
+        {% if request.user.is_superuser or request.user.is_manage %}
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+                <a href="{% url 'campaign_page_admin' %}" class="bg-[url('/upload/banner/campaign.webp')] bg-cover bg-center flex flex-col gap-4 justify-center items-center rounded-lg bg-sky-200 shadow-md p-[10px] h-[250px]">
+                    <h2 class="text-[30px] font-bold text-green-500 cursor-pointer p-3 bg-stone-900 bg-opacity-80 rounded-full">Chiến dịch</h2>
+                    <div class="flex justify-center items-center gap-3 bg-stone-900 bg-opacity-80 rounded-full p-3">
+                        <span class="font-bold text-[15px] text-stone-100 ">Tổng chiến dịch : {{number_campaign}}</span>
+                    </div>
+                </a>
+                <a href="{% url 'lead_page_admin' %}" class="bg-[url('/upload/banner/lead.png')] bg-cover bg-center flex flex-col gap-4 justify-center items-center rounded-lg bg-sky-200 shadow-md p-[10px] h-[250px]">
+                    <h2 class="text-[30px] font-bold text-sky-500 cursor-pointer p-3 bg-stone-900 bg-opacity-80 rounded-full">Khách hàng</h2>
+                    <div class="flex justify-center items-center gap-3 bg-stone-900 bg-opacity-80 rounded-full p-3">
+                        <span class="font-bold text-[15px] text-stone-100 ">Tổng khách hàng : {{number_lead}}</span>
+                    </div>
+                </a>
+                <a href="{% url 'user_page_admin' %}" class="bg-[url('/upload/banner/user.jpg')] bg-cover bg-center flex flex-col gap-4 justify-center items-center rounded-lg bg-sky-200 shadow-md p-[10px] h-[250px]">
+                    <h2 class="text-[30px] font-bold text-stone-100 cursor-pointer p-3 bg-stone-900 bg-opacity-80 rounded-full">Nhân sự</h2>
+                    <div class="flex flex-col justify-center items-center gap-3 bg-stone-900 bg-opacity-80 rounded-lg p-3">
+                        <span class="font-bold text-[15px] text-stone-100">Tổng nhân sự : {{number_user}}</span>
+                        <span class="font-bold text-[15px] text-green-600">Đã phê duyệt : {{number_user_approve}}</span>
+                        <span class="font-bold text-[15px] text-red-600">Chờ phê duyệt : {{number_user_not_approve}}</span>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+        {% if not f %}
+            {% if request.user.is_superuser or request.user.is_manage %}
+                <div class="grid grid-cols-2 md:grid-cols-3  gap-4 text-stone-700  w-full mt-4">
+                    <a href="{% url 'lead_page_admin' %}?st=Chưa tư vấn" class=" col-span-2 md:col-span-1 flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-stone-200">
+                        <span class="">
+                            Chưa tư vấn
+                        </span>
+                        <span>
+                            {{List_Lead_CTV}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_admin' %}?st=Đã tư vấn" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#a6f0fa]">
+                        <span class="">
+                            Đã tư vấn
+                        </span>
+                        <span>
+                            {{List_Lead_DTV}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_admin' %}?st=Gửi thông tin" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#d2ff9e]">
+                        <span class="">
+                            Gửi thông tin
+                        </span>
+                        <span>
+                            {{List_Lead_GTT}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_admin' %}?st=Đã xem dự án" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#ffac92]">
+                        <span class="">
+                            Đã xem dự án
+                        </span>
+                        <span>
+                            {{List_Lead_DXDA}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_admin' %}?st=KH không tiềm năng" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#bcbcbc]">
+                        <span class="">
+                            KH không tiềm năng
+                        </span>
+                        <span>
+                            {{List_Lead_KHKTN}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_admin' %}?st=KH Đã booking" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#FF9800]">
+                        <span class="">
+                            KH Đã booking
+                        </span>
+                        <span>
+                            {{List_Lead_KHDB}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_admin' %}?st=KH đã xem nhà mẫu" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#03A9F4]">
+                        <span class="">
+                            KH đã xem nhà mẫu
+                        </span>
+                        <span>
+                            {{List_Lead_KHDXNM}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_admin' %}?st=KH tiềm năng" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#ffee5d]">
+                        <span class="">
+                            KH tiềm năng
+                        </span>
+                        <span>
+                            {{List_Lead_KHTN}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_admin' %}?st=KH Đã mua" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#ff6262]">
+                        <span class="">
+                            KH Đã mua
+                        </span>
+                        <span>
+                            {{List_Lead_KHDM}}
+                        </span>
+                    </a>
+                </div>
+            {% elif request.user.is_staff %}
+                <div class="grid grid-cols-2 md:grid-cols-3  gap-4 text-stone-700  w-full mt-4">
+                    <a href="{% url 'lead_page_staff' %}?st=Chưa tư vấn" class=" col-span-2 md:col-span-1 flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-stone-200">
+                        <span class="">
+                            Chưa tư vấn
+                        </span>
+                        <span>
+                            {{List_Lead_CTV}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_staff' %}?st=Đã tư vấn" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#a6f0fa]">
+                        <span class="">
+                            Đã tư vấn
+                        </span>
+                        <span>
+                            {{List_Lead_DTV}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_staff' %}?st=Gửi thông tin" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#d2ff9e]">
+                        <span class="">
+                            Gửi thông tin
+                        </span>
+                        <span>
+                            {{List_Lead_GTT}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_staff' %}?st=Đã xem dự án" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#ffac92]">
+                        <span class="">
+                            Đã xem dự án
+                        </span>
+                        <span>
+                            {{List_Lead_DXDA}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_staff' %}?st=KH không tiềm năng" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#bcbcbc]">
+                        <span class="">
+                            KH không tiềm năng
+                        </span>
+                        <span>
+                            {{List_Lead_KHKTN}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_staff' %}?st=KH Đã booking" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#FF9800]">
+                        <span class="">
+                            KH Đã booking
+                        </span>
+                        <span>
+                            {{List_Lead_KHDB}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_staff' %}?st=KH đã xem nhà mẫu" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#03A9F4]">
+                        <span class="">
+                            KH đã xem nhà mẫu
+                        </span>
+                        <span>
+                            {{List_Lead_KHDXNM}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_staff' %}?st=KH tiềm năng" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#ffee5d]">
+                        <span class="">
+                            KH tiềm năng
+                        </span>
+                        <span>
+                            {{List_Lead_KHTN}}
+                        </span>
+                    </a>
+                    <a href="{% url 'lead_page_staff' %}?st=KH Đã mua" class="flex flex-col items-center gap-1 font-bold text-[20px] p-2 rounded-md bg-[#ff6262]">
+                        <span class="">
+                            KH Đã mua
+                        </span>
+                        <span>
+                            {{List_Lead_KHDM}}
+                        </span>
+                    </a>
+                </div>
+            {% endif %}
+            <div id="all_campaign" class="flex justify-center w-full h-[600px] mt-4"></div>
+            <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+            <script>
+                // Lấy phần tử chứa biểu đồ
+                var chartDom = document.getElementById('all_campaign');
+                var myChart = echarts.init(chartDom);
+
+                // Tùy chọn cấu hình biểu đồ
+                var option = {
+                    title: {
+                        text: 'Biểu đồ thống kê KH theo tất cả các CD',
+                        left: 'center', // Căn giữa theo chiều ngang
+                        bottom: 0, // Đặt tiêu đề nằm dưới cùng,
+                        textStyle: {
+                            fontFamily: 'Roboto, Arial, sans-serif',
+                            fontSize: 20, // Kích thước chữ "medium" (vừa phải)
+                            fontWeight: '700', // Trọng lượng chữ trung bình
+                            color: '#333' // Màu chữ
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: { type: 'shadow' }
+                    },
+                    grid: {
+                        left: '2%',
+                        right: '2%',
+                        bottom: '10%',
+                        top: '0%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value', // Trục x hiển thị giá trị
+                        boundaryGap: [0, 0.01], // Khoảng cách giữa các cột và trục
+                        axisLabel: {
+                            fontFamily: 'Roboto, Arial, sans-serif',
+                            fontSize: 15,
+                            fontWeight: '500',
+                        }
+                    },
+                    yAxis: {
+                        type: 'category', // Trục y hiển thị danh mục
+                        data: [
+                        {% for i in List_Campaign %}
+                        '{{i.Name}}',
+                        {% endfor %}
+                        ], // Các nhãn danh mục
+                        axisLabel: {
+                            fontFamily: 'Roboto, Arial, sans-serif',
+                            fontSize: 15,
+                            fontWeight: '500',
+                            color: '#0ea5e9',
+                            overflow: 'truncate',  // Tránh bị cắt mất phần chữ
+                            align: 'right', // Căn giữa tên danh mục
+                        }
+                    },
+                    series: [
+                        {
+                            name: 'Giá trị',
+                            type: 'bar', // Loại biểu đồ cột
+                            data: [
+                            {% for i in List_Campaign %}
+                            {
+                                value: {{ i.lead_count }},
+                                itemStyle: { color: '#7dd3fc' }
+                            }
+                            {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            ],
+                            barWidth: 40, // Độ dày của cột
+                            barMaxWidth: 40, // Độ rộng tối đa (nếu cần)
+                            barGap: '100%', // Giảm khoảng cách giữa các cột
+                            label: {
+                                show: true,
+                                position: 'insideRight',
+                                fontFamily: 'Roboto, Arial, sans-serif',
+                                fontSize: 15,
+                                fontWeight: '600',
+                                position: 'right',  // Đặt nhãn ở trên đỉnh cột
+                            }
+                        }
+                    ]
+                };
+
+                // Áp dụng cấu hình cho biểu đồ
+                myChart.setOption(option);
+            </script>
+        {% else %}
+            <div id="campaign" class="flex justify-center w-full h-[600px] "></div>
+            <script>
+                // Lấy phần tử chứa biểu đồ
+                var chartDom = document.getElementById('campaign');
+                var myChart = echarts.init(chartDom);
+            
+                // Tùy chọn cấu hình biểu đồ
+                var option = {
+                    title: [
+                            {
+                                text: '{{obj_Campaign.Name}}',
+                                left: 'center', // Căn giữa theo chiều ngang
+                                top: '5%', // Đặt tiêu đề ở phía dưới
+                                textStyle: {
+                                    fontFamily: 'Roboto, Arial, sans-serif',
+                                    fontSize: 16, // Kích thước chữ nhỏ hơn
+                                    fontWeight: '600', // Trọng lượng chữ nhẹ hơn
+                                    color: '#0ea5e9' // Màu chữ nhạt hơn
+                                }
+                            },
+                            {
+                                text: 'Biểu đồ thống kê KH theo CD',
+                                left: 'center', // Căn giữa theo chiều ngang
+                                bottom: '3%', // Đặt tiêu đề ở phía trên
+                                textStyle: {
+                                    fontFamily: 'Roboto, Arial, sans-serif',
+                                    fontSize: 20, // Kích thước chữ
+                                    fontWeight: '700', // Trọng lượng chữ
+                                    color: '#333' // Màu chữ
+                                }
+                            }
+                    ],
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: { type: 'shadow' }
+                    },
+                    grid: {
+                        left: '5%',  // Căn lề trái
+                        right: '5%', // Căn lề phải
+                        bottom: '10%', // Căn lề dưới
+                        top: '15%', // Đẩy nội dung xuống dưới tiêu đề
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category', // Trục x hiển thị danh mục
+                        data: [
+                            'Chưa tư vấn',
+                            'Đã tư vấn',
+                            'Gửi thông tin',
+                            'Đã xem dự án',
+                            'KH không tiềm năng',
+                            'KH Đã booking',
+                            'KH đã xem nhà mẫu',
+                            'KH tiềm năng',
+                            'KH Đã mua'
+                        ], // Các nhãn danh mục
+                        axisLabel: {
+                            fontFamily: 'Roboto, Arial, sans-serif',
+                            fontSize: 14,
+                            fontWeight: '500',
+                            color: '#44403c',
+                            rotate: 45, // Xoay nhãn để tránh trùng lặp
+                            overflow: 'truncate' // Tránh bị cắt chữ
+                        }
+                    },
+                    yAxis: {
+                        type: 'value', // Trục y hiển thị giá trị
+                        axisLabel: {
+                            fontFamily: 'Roboto, Arial, sans-serif',
+                            fontSize: 15,
+                            fontWeight: '500',
+                            color: '#333'
+                        }
+                    },
+                    series: [
+                        {
+                            name: 'Giá trị',
+                            type: 'bar', // Loại biểu đồ cột
+                            data: [
+                                {value:'{{List_Lead_CTV}}', itemStyle:{color:'#e7e5e4'}},
+                                {value:'{{List_Lead_DTV}}', itemStyle:{color:'#a6f0fa'}},
+                                {value:'{{List_Lead_GTT}}', itemStyle:{color:'#d2ff9e'}},
+                                {value:'{{List_Lead_DXDA}}', itemStyle:{color:'#ffac92'}},
+                                {value:'{{List_Lead_KHKTN}}', itemStyle:{color:'#bcbcbc'}},
+                                {value:'{{List_Lead_KHDB}}', itemStyle:{color:'#FF9800'}},
+                                {value:'{{List_Lead_KHDXNM}}', itemStyle:{color:'#03A9F4'}},
+                                {value:'{{List_Lead_KHTN}}', itemStyle:{color:'#ffee5d'}},
+                                {value:'{{List_Lead_KHDM}}', itemStyle:{color:'#ff6262'}}
+                            ],
+                            barWidth: 30, // Độ rộng của cột
+                            label: {
+                                show: true,
+                                position: 'top', // Đặt nhãn ở trên đỉnh cột
+                                fontFamily: 'Roboto, Arial, sans-serif',
+                                fontSize: 14,
+                                fontWeight: '600',
+                                color: '#333'
+                            }
+                        }
+                    ]
+                };
+            
+                // Áp dụng cấu hình cho biểu đồ
+                myChart.setOption(option);
+            </script>        
+        {% endif %}
+    </main>
+</div>
+<style>
+    #main{
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+</style>
+{% endblock %}

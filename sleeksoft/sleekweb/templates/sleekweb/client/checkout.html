@@ -1,0 +1,902 @@
+<!-- T0298 -->
+<!DOCTYPE html>
+<html lang="vi-VN" data-nhanh.vn-template="T0298">
+
+<head>
+    <link rel="preconnect" href="https://web.nvnstatic.net/" crossorigin>
+    <link rel="preconnect" href="https://pos.nvncdn.com/" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <meta charset="utf-8">
+    <meta name="msvalidate.01" content="173B099E16D3DD996AB7B95F3177F725" />
+    <title>Thanh toán</title>
+    <meta name="DC.language" content="scheme&#x3D;utf-8&#x20;content&#x3D;vi">
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+    <meta name="google-site-verification" content="">
+    <meta name="facebook-domain-verification" content="">
+    <link href="&#x2F;cart&#x2F;checkout" rel="canonical">
+    <link href="https&#x3A;&#x2F;&#x2F;pos.nvncdn.com&#x2F;609d6b-117900&#x2F;store&#x2F;20230522_sZKJQK5B.jpg"
+        rel="icon" type="image&#x2F;vnd.microsoft.icon">
+    <link rel="stylesheet" href="https://web.nvnstatic.net/css/bootstrap/bootstrap-3.3.2.min.css?v=5" type="text/css">
+    <link rel="stylesheet" href="https://web.nvnstatic.net/css/font-awesome.min.css?v=5" type="text/css">
+    <link rel="stylesheet" href="https://web.nvnstatic.net/js/jquery/fancybox-2.1.5/source/jquery.fancybox.css?v=5"
+        type="text/css">
+    <link rel="stylesheet" href="https://web.nvnstatic.net/css/validationEngine.jquery.css?v=5" type="text/css">
+    <link rel="stylesheet" href="https://web.nvnstatic.net/css/appLib.css" type="text/css">
+    <link rel="stylesheet" href="https://web.nvnstatic.net/tp/T0298/css/checkout.css?v=34" type="text/css">
+    <script defer type="text/javascript" src="https://web.nvnstatic.net/js/jquery/jquery.min.js?v=32"></script>
+    <script defer type="text/javascript" src="https://web.nvnstatic.net/js/jquery/jquery.cookie.js?v=32"></script>
+    <script defer type="text/javascript"
+        src="https://web.nvnstatic.net/js/jquery/jquery-ui-1.10.3.custom.min.js?v=32"></script>
+    <script defer type="text/javascript" src="https://web.nvnstatic.net/js/jquery/jquery-ui.min.js?v=32"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script defer type="text/javascript"
+        src="https://web.nvnstatic.net/js/bootstrap/bootstrap-3.3.2.min.js?v=32"></script>
+    <script defer type="text/javascript" src="https://web.nvnstatic.net/js/jquery/jquery.number.min.js?v=32"></script>
+    <script defer type="text/javascript"
+        src="https://web.nvnstatic.net/js/jquery/fancybox-2.1.5/source/jquery.fancybox.js?v=32"></script>
+    <script defer type="text/javascript"
+        src="https://web.nvnstatic.net/js/jquery/jquery.validationEngine.js?v=32"></script>
+    <script defer type="text/javascript"
+        src="https://web.nvnstatic.net/js/jquery/jquery.validationEngine-vi.js?v=32"></script>
+    <script defer type="text/javascript" src="/static/js/lib.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style type="text/css">
+        .tp_background {
+            background: #f0f0f0 !important
+        }
+
+        body.tp_background,
+        div,
+        dl,
+        dt,
+        dd,
+        ul,
+        ol,
+        li,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        pre,
+        code,
+        form,
+        fieldset,
+        legend,
+        input,
+        button,
+        textarea,
+        select,
+        span,
+        a,
+        p,
+        sub,
+        blockquote,
+        th,
+        td {
+            font-family: Roboto
+        }
+
+        .tp_button:hover {
+            background: #f0f0f0 !important
+        }
+
+        .tp_title {
+            color: #0d0d0d !important
+        }
+
+        .tp_title,
+        .tp_title>span {
+            background: #f0f0f0 !important
+        }
+
+        .tp_product_price {
+            font-size: 17px !important
+        }
+
+        .tp_product_price_old {
+            font-size: 15px !important
+        }
+
+        .tp_product_name {
+            font-size: 15px !important
+        }
+
+        .tp_product_category_box {
+            display: block !important
+        }
+
+        .tp_product_discount {
+            display: block !important
+        }
+
+        .tp_product_detail .tp_product_detail_suggest {
+            display: block !important
+        }
+
+        .tp_product_detail .tp_product_detail_suggest {
+            display: block !important
+        }
+
+        .tp_product_detail .tp_product_detail_history {
+            display: block !important
+        }
+
+        .tp_product_detail .tp_product_detail_tag {
+            display: none !important
+        }
+
+        .tp_product_detail .tp_product_detail_price {
+            font-size: 20px !important
+        }
+
+        .tp_product_detail .tp_product_detail_price_old {
+            font-size: 20px !important
+        }
+
+        .tp_product_category .tp_product_category_filter_attribute {
+            display: block !important
+        }
+
+        .tp_product_category .tp_product_category_filter_brand {
+            display: block !important
+        }
+
+        .tp_product_category .tp_product_category_filter_category {
+            display: block !important
+        }
+
+        .tp_product_category .tp_product_category_filter_price {
+            display: none !important
+        }
+    </style>
+    <style type="text/css">
+        img {
+            max-width: 100%;
+        }
+
+        img.lazyload {
+            opacity: 0.001;
+            object-fit: scale-down !important;
+        }
+
+        .fb-customerchat>span>iframe.fb_customer_chat_bounce_out_v2 {
+            max-height: 0 !important;
+        }
+
+        .fb-customerchat>span>iframe.fb_customer_chat_bounce_in_v2 {
+            max-height: calc(100% - 80px) !important;
+        }
+    </style>
+    <script src="https://pos.nvnstatic.net/cache/location.vn.js?v=250103_094355" defer></script>
+    <script src="https://web.nvnstatic.net/js/lazyLoad/lazysizes.min.js" async></script>
+    <style>
+        figure.image {
+            clear: both;
+            display: table;
+            margin: .9em auto;
+            min-width: 50px;
+            text-align: center;
+            width: auto !important;
+        }
+
+        figure.image img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            min-width: 100%;
+        }
+
+        figure.image>figcaption {
+            background-color: #f7f7f7;
+            caption-side: bottom;
+            color: #333;
+            display: block;
+            font-size: .75em;
+            outline-offset: -1px;
+            padding: .6em;
+            word-break: break-word;
+        }
+
+        figure.image img,
+        img.image_resized {
+            height: auto !important;
+            aspect-ratio: auto !important;
+        }
+    </style>
+    <script src="https://web.nvnstatic.net/js/translate/vi-vn.js" defer></script><!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NF5FVPSN3E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-NF5FVPSN3E');
+    </script><!-- Google Analytics -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-XXXXX-Y', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <!-- End Google Analytics --><!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '741307727516901');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=741307727516901&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+
+<body>
+    <input type="hidden" value="117900" id="storeId">
+    <div class="wrapper">
+        <script defer type="text/javascript" src="/static/js/order.js"></script>
+        <div class="content">
+
+            <div class="wrap">
+                <div action=""  id="formCheckOut" class="clearfix">
+                    <div class="main">
+                        <div class="main-header">
+                            <a href="/" class="logo">
+                                <img src="https://pos.nvncdn.com/609d6b-117900/store/20230522_sZKJQK5B.jpg" alt="Home">
+                            </a>
+
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="/cart/">Giỏ hàng</a>
+                                </li>
+                                <li class="breadcrumb-item breadcrumb-item-current">Thanh toán</li>
+                            </ul>
+
+                        </div>
+
+
+
+                        <form class="main-content">
+
+
+                            <div class="step">
+                                <div class="step-sections steps-onepage" step="1">
+                                    <div class="section">
+                                        <div class="section-header">
+                                            <h2 class="section-title">Thông tin giao hàng</h2>
+                                        </div>
+
+
+                                        <div class="section-content section-customer-information no-mb">
+                                            <div class="fieldset">
+                                                <div class="field field-required  ">
+                                                    <div class="field-input-wrapper">
+                                                        <label class="field-label" for="billing_address_full_name">Họ và
+                                                            tên</label>
+                                                        <input placeholder="Họ và tên" required
+                                                            class="field-input validate[required]" size="30" type="text"
+                                                            id="billing_address_full_name" name="customerName" value="">
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="field  field-two-thirds  ">
+                                                    <div class="field-input-wrapper">
+                                                        <label class="field-label"
+                                                            for="checkout_user_email">Email</label>
+                                                        <input placeholder="Email" required class="field-input " size="30"
+                                                            type="email" id="checkout_user_email" name="customerEmail"
+                                                            value="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="field field-required field-third ">
+                                                    <div class="field-input-wrapper">
+                                                        <label class="field-label" for="billing_address_phone">Số điện
+                                                            thoại</label>
+                                                        <input placeholder="Số điện thoại" required
+                                                            class="customerPointCheck customerMobile field-input validate[required, custom[phone]]"
+                                                            size="30" maxlength="10" type="tel" id="customerMobile"
+                                                            name="customerMobile" autocomplete="off" value="">
+                                                        <div id="searchCustomer"></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="field field-required  ">
+                                                    <div class="field-input-wrapper">
+                                                        <label class="field-label" for="billing_address_address1">Địa
+                                                            chỉ</label>
+                                                        <input placeholder="Địa chỉ" required
+                                                            class="field-input validate[required]" size="30" type="text"
+                                                            id="billing_address_address1" name="customerAddress"
+                                                            value="">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="section-content">
+                                            <div class="fieldset">
+
+
+                                                <div class="field field-show-floating-label field-required field-half ">
+                                                    <div class="field-input-wrapper field-input-wrapper-select">
+                                                        <label class="field-label" for="cityId">Tỉnh/ Thành phố </label>
+                                                        <select class="field-input validate[required]" required id="cityId"
+                                                            name="customerCityId">
+                                                            <option value="">Chọn Tỉnh/ thành phố</option>
+                                                            <option value='256'>An Giang</option>
+                                                            <option value='257'>Bà Rịa - Vũng Tàu</option>
+                                                            <option value='260'>Bình Dương</option>
+                                                            <option value='262'>Bình Phước</option>
+                                                            <option value='263'>Bình Thuận</option>
+                                                            <option value='261'>Bình Định</option>
+                                                            <option value='315'>Bạc Liêu</option>
+                                                            <option value='265'>Bắc Cạn</option>
+                                                            <option value='259'>Bắc Giang</option>
+                                                            <option value='258'>Bắc Ninh</option>
+                                                            <option value='264'>Bến Tre</option>
+                                                            <option value='274'>Cao Bằng</option>
+                                                            <option value='273'>Cà Mau</option>
+                                                            <option value='266'>Cần Thơ</option>
+                                                            <option value='275'>Gia Lai</option>
+                                                            <option value='276'>Hà Giang</option>
+                                                            <option value='277'>Hà Nam</option>
+                                                            <option value='254'>Hà Nội</option>
+                                                            <option value='278'>Hà Tĩnh</option>
+                                                            <option value='281'>Hòa Bình</option>
+                                                            <option value='282'>Hưng Yên</option>
+                                                            <option value='279'>Hải Dương</option>
+                                                            <option value='280'>Hải Phòng</option>
+                                                            <option value='314'>Hậu Giang</option>
+                                                            <option value='255'>Hồ Chí Minh</option>
+                                                            <option value='267'>Khánh Hòa</option>
+                                                            <option value='283'>Kiên Giang</option>
+                                                            <option value='284'>Kon Tum</option>
+                                                            <option value='285'>Lai Châu</option>
+                                                            <option value='288'>Long An</option>
+                                                            <option value='269'>Lào Cai</option>
+                                                            <option value='286'>Lâm Đồng</option>
+                                                            <option value='287'>Lạng Sơn</option>
+                                                            <option value='272'>Nam Định</option>
+                                                            <option value='289'>Nghệ An</option>
+                                                            <option value='290'>Ninh Bình</option>
+                                                            <option value='291'>Ninh Thuận</option>
+                                                            <option value='292'>Phú Thọ</option>
+                                                            <option value='293'>Phú Yên</option>
+                                                            <option value='294'>Quảng Bình</option>
+                                                            <option value='295'>Quảng Nam</option>
+                                                            <option value='296'>Quảng Ngãi</option>
+                                                            <option value='270'>Quảng Ninh</option>
+                                                            <option value='297'>Quảng Trị</option>
+                                                            <option value='298'>Sóc Trăng</option>
+                                                            <option value='299'>Sơn La</option>
+                                                            <option value='303'>Thanh Hóa</option>
+                                                            <option value='301'>Thái Bình</option>
+                                                            <option value='302'>Thái Nguyên</option>
+                                                            <option value='268'>Thừa Thiên Huế</option>
+                                                            <option value='304'>Tiền Giang</option>
+                                                            <option value='305'>Trà Vinh</option>
+                                                            <option value='306'>Tuyên Quang</option>
+                                                            <option value='300'>Tây Ninh</option>
+                                                            <option value='307'>Vĩnh Long</option>
+                                                            <option value='308'>Vĩnh Phúc</option>
+                                                            <option value='309'>Yên Bái</option>
+                                                            <option value='316'>Điện Biên</option>
+                                                            <option value='312'>Đà Nẵng</option>
+                                                            <option value='310'>Đắk Lắk</option>
+                                                            <option value='313'>Đắk Nông</option>
+                                                            <option value='271'>Đồng Nai</option>
+                                                            <option value='311'>Đồng Tháp</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="field field-show-floating-label field-required field-half ">
+                                                    <div class="field-input-wrapper field-input-wrapper-select">
+                                                        <label class="field-label" for="districtId">Quận/ Huyện </label>
+                                                        <select class="field-input validate[required]" required id="districtId"
+                                                            name="customerDistrictId">
+                                                            <option value="">Chọn Quận/ Huyện</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="field field-show-floating-label field-required field-half ">
+                                                    <div class="field-input-wrapper field-input-wrapper-select">
+                                                        <label class="field-label" for="wardId">Phường/ Xã </label>
+                                                        <select class="field-input validate[required]" required id="wardId"
+                                                            name="customerWardId">
+                                                            <option value="">Phường/ Xã</option>
+                                                        </select>
+                                                        <input type="hidden" name="selectIdWard">
+                                                    </div>
+
+                                                </div>
+                                                <!--                                        <h3 class="notice" style="color:#f77705;font-style:italic;margin: 1.5em auto 0.3em 5px;">Vui lòng nhập đầy đủ thông tin địa chỉ để nhận hàng nhanh hơn!</h3>-->
+                                            </div>
+
+                                            <!-- <div class="section-content section-customer-information fieldset"
+                                                id="div_country_not_vietnam" style="display: none;">
+                                                <div class="field field-two-thirds">
+                                                    <div class="field-input-wrapper">
+                                                        <label class="field-label" for="billing_address_city">Thành
+                                                            phố</label>
+                                                        <input placeholder="Thành phố" required class="field-input" size="30"
+                                                            type="text" id="billing_address_city"
+                                                            name="billing_address[city]" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="field field-third">
+                                                    <div class="field-input-wrapper">
+                                                        <label class="field-label" for="billing_address_zip">Mã bưu
+                                                            chính</label>
+                                                        <input placeholder="Mã bưu chính"  class="field-input" size="30"
+                                                            type="text" id="billing_address_zip"
+                                                            name="billing_address[zip]" value="">
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <div class="field">
+                                            <div class="field-input-wrapper">
+                                                <div class="descriptionCustomer">
+                                                    <textarea name="description" class="input" placeholder="Ghi chú"
+                                                        rows="5"
+                                                        style="width: 100%;padding: 5px;box-shadow: 0 0 0 1px #d9d9d9;border-radius: 4px;transition: all .2s ease-out;"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div id="change_pick_location_or_shipping">
+                                            <div id="section-payment-method" class="section">
+                                                <div class="section-header">
+                                                    <h2 class="section-title">Phương thức thanh toán</h2>
+                                                </div>
+                                                <div class="section-content">
+                                                    <div class="content-box">
+                                                        <div class="radio-wrapper content-box-row hiddenCod">
+                                                            <label class="radio-label">
+                                                                <div class="radio-input">
+                                                                    <input class="input-radio validate[required] cod"
+                                                                        checked name="paymentMethod" type="radio"
+                                                                        value="1">
+                                                                </div>
+                                                                <span class="radio-label-primary">Thanh toán khi nhận
+                                                                    hàng (COD)</span>
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="baokimPmMethodId" name="baokimBankPaymentMethodId" />
+                                <input type="hidden" id="bankId" name="bankId" value="">
+                                <input type="hidden" id="bankAccountNumber" name="bankAccountNumber" value="">
+                                <input type="hidden" id="generatedPaymentCode" name="generatedPaymentCode" value="">
+                                <input type="hidden" id="bankAccountHolder" name="bankAccountHolder" value="">
+                                <input type="hidden" id="bankAccountName" name="bankAccountName" value="">
+
+                                <div class="step-footer hidden-xs">
+                                    <a class="step-footer-previous-link" href="{% url 'cart_cl' %}">
+                                        <svg class="previous-link-icon icon-chevron icon"
+                                            xmlns="http://www.w3.org/2000/svg" width="6.7" height="11.3"
+                                            viewBox="0 0 6.7 11.3">
+                                            <path d="M6.7 1.1l-1-1.1-4.6 4.6-1.1 1.1 1.1 1 4.6 4.6 1-1-4.6-4.6z"></path>
+                                        </svg>
+                                        Giỏ hàng </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="sidebar">
+                        <div class="sidebar-content">
+                            <div class="order-summary">
+                                <h2 class="visually-hidden">Thông tin đơn hàng</h2>
+                                <div class="order-summary-sections">
+                                    <div class="order-summary-section order-summary-section-product-list product-pc">
+                                        <table class="product-table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col"><span class="visually-hidden">Hình ảnh</span></th>
+                                                    <th scope="col"><span class="visually-hidden">Mô tả</span></th>
+                                                    <th scope="col"><span class="visually-hidden">Số lượng</span></th>
+                                                    <th scope="col"><span class="visually-hidden">Giá</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for i in Cart_user.data %}
+                                                <tr class="product">
+                                                    <td class="product-image">
+                                                        <div class="product-thumbnail">
+                                                            <div class="product-thumbnail-wrapper">
+                                                                <img class="product-thumbnail-image"
+                                                                    alt="{{i.product.Name}} - {{i.size}}"
+                                                                    src="{{i.product.product_photo_detail.all.first.Photo.url}}">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="product-description">
+                                                        <span class="product-description-name order-summary-emphasis">
+                                                            {{i.product.Name}} - {{i.size}}</span>
+                                                        <a href="javascript:void(0);"  class="deleteItem cart_remove">
+                                                            <form method="post" action="{% url 'delete_pd_checkout_cl' %}">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" name="pk" value="{{i.pk}}"  />
+                                                                <input type="hidden" name="page" value="checkout"  />
+                                                                <button>
+                                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                </button>
+                                                            </form>
+                                                        </a>
+                                                        <div
+                                                            class="qtt_checkout qty quantity-partent qty-click clearfix">
+                                                            <span class="add-down add-action" data-pk="{{i.pk}}" data-type="down">
+                                                                <form method="post" action="{% url 'checkout_cl' %}">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden" name="type_quantity" value="down"  />
+                                                                    <input type="hidden" name="pk" value="{{i.pk}}"  />
+                                                                    <input type="hidden" name="page" value="checkout"  />
+                                                                    <button type="submit">-</button>
+                                                                </form>
+                                                            </span>
+                                                            <input type="text" size="4" min="1" max=""
+                                                                data-id="40777466" value="{{i.quantity}}"
+                                                                class="tc line-item-qty item-quantity" readonly />
+                                                            <span class="add-up add-action" data-pk="{{i.pk}}" data-type="up">
+                                                                <form method="post" action="{% url 'checkout_cl' %}">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden" name="type_quantity" value="up"  />
+                                                                    <input type="hidden" name="pk" value="{{i.pk}}"  />
+                                                                    <input type="hidden" name="page" value="checkout"  />
+                                                                    <button type="submit">+</button>
+                                                                </form>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="product-price">
+                                                        <span class="order-summary-emphasis">
+                                                            {{i.total_money}} ₫</span>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="order-summary-section order-summary-section-discount"
+                                        data-order-summary-section="discount">
+                                        <div class="fieldset">
+                                            <div style="color:#f77705;margin-left:9px;font-weight:bold;display:none;">
+                                                Nhập mã
+                                                giảm giá tại đây (nếu có)
+                                            </div>
+                                            <div class="field">
+                                                <div class="field-input-btn-wrapper">
+                                                    <div class="field-input-wrapper">
+                                                        <label class="field-label" for="discount.code">Mã giảm
+                                                            giá</label>
+                                                        <input placeholder="Mã giảm giá" class="field-input" size="30"
+                                                            type="text" id="coupon" name="couponCode"
+                                                            data-storeId="117900" value="">
+                                                    </div>
+                                                    <button type="button" class="field-input-btn btn btn-default"
+                                                        id="getCoupon">
+                                                        <span class="btn-content">Sử dụng</span>
+                                                        <i class="btn-spinner icon icon-button-spinner"></i>
+                                                    </button>
+                                                </div>
+                                                <div id="txtCode"></div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="order-summary-section order-summary-section-total-lines">
+                                        <table class="total-line-table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col"><span class="visually-hidden">Mô tả</span></th>
+                                                    <th scope="col"><span class="visually-hidden">GiáGiá</span></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                                <tr class="total-line total-line-shipping shipFeeCheckHost">
+                                                    <td class="total-line-name">Phí vận chuyển</td>
+                                                    <td class="total-line-price">
+                                                        <span class="order-summary-emphasis" value="0" id="shipFee">
+                                                            —
+                                                        </span>
+                                                        <span id="showCarrier"></span>
+                                                        <style>
+                                                            #showCarrier {
+                                                                display: block;
+                                                                text-align: right;
+                                                                width: 100%;
+                                                                font-size: 11px;
+                                                            }
+
+                                                            .changeOrtherShipFee:hover {
+                                                                color: darkred;
+                                                                text-decoration: underline;
+                                                            }
+                                                        </style>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
+                                            <tfoot class="total-line-table-footer">
+                                                <tr class="total-line" id="orderDiscount" style="display:none;">
+                                                    <td class="total-line-name payment-due-label">
+                                                        <span class="payment-due-label-total">Giảm giá</span>
+                                                    </td>
+                                                    <td class="total-line-name payment-due">
+                                                        <span class="payment-due-currency">VND</span>
+                                                        <span id="totalDiscount" value="0" data-value="0"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr class="total-line">
+                                                    <td class="total-line-name payment-due-label">
+                                                        <span class="payment-due-label-total">Tổng cộng</span>
+                                                    </td>
+                                                    <td class="total-line-name payment-due">
+                                                        <span class="payment-due-currency">VND</span>
+                                                        <span class="payment-due-price" data-beforeDiscount="13300000"
+                                                            id="showTotalMoney" value="{{Cart_user.total_money}}">
+                                                            {{Cart_user.total_money}}₫
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <h3 class="notice-checkout"
+                                    style="font-weight: 400; padding: 10px; border: 1px solid #f77705; line-height: 18px; margin: 0;">
+                                    Chúng tôi sẽ XÁC NHẬN đơn hàng bằng TIN NHẮN SMS hoặc GỌI ĐIỆN. Bạn vui lòng kiểm
+                                    tra TIN NHẮN hoặc NGHE MÁY ngay khi đặt hàng thành công và CHỜ NHẬN HÀNG
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-footer">
+                            <button id="order_user" type="submit" class="step-footer-continue-btn btn checkout-accept">
+                                <span class="btn-content">Hoàn tất đơn hàng</span>
+                                <i class="btn-spinner icon icon-button-spinner"></i>
+                            </button>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#order_user').on('click', function(event){
+                                        event.preventDefault();                                    
+                            
+                                        // Lấy dữ liệu từ form có class "main-content"
+                                        var formMainContent = $('.main-content')[0]; // Truy cập form với class "main-content"
+                                        var formData = new FormData(formMainContent); // Tạo FormData từ form "main-content"
+                                        // Lấy text từ <select> đã chọn
+
+                                        // Thay thế giá trị trong FormData
+                                        formData.set('customerCityId', $('#cityId').find('option:selected').text()); // Cập nhật giá trị cho 'customerCityId'
+                                        formData.set('customerDistrictId', $('#districtId').find('option:selected').text());
+                                        formData.set('customerWardId', $('#wardId').find('option:selected').text());
+                                        
+                                         // Kiểm tra xem tất cả các trường input, select, textarea trong form có giá trị hay không
+                                         var user_check_login = "{{ request.user.is_authenticated}}";
+                                         console.log(user_check_login)
+                                         if (user_check_login !== 'True') {
+                                             alert('Vui lòng đăng nhập trước khi đặt hàng.');
+                                             window.location.href = '{% url 'login_cl' %}';
+                                             return;
+                                         };
+                                         var allFieldsFilled = true;
+                                        $('.main-content :input').each(function() {
+                                            if ($(this).prop('required') && !$(this).val().trim()) {
+                                                allFieldsFilled = false;
+                                                <!-- alert('Vui lòng điền vào trường: ' + $(this).attr('name')); -->
+                                                alert('Điền đầy đủ thông tin giao hàng trước khi đặt hàng !');
+                                                $(this).focus(); // Đặt con trỏ vào trường thiếu
+                                                return false; // Thoát vòng lặp kiểm tra
+                                            }
+                                        });
+
+                                        if (!allFieldsFilled) {
+                                            return; // Dừng lại nếu có trường thiếu
+                                        }
+
+                                        // Kiểm tra trạng thái đăng nhập
+                                        
+                                        if (user_check_login == 'True') {
+                                            $.ajax({
+                                                url: '{% url 'order_cl' %}', // Thay bằng URL xử lý form trong backend
+                                                method: 'POST',
+                                                headers: {
+                                                    'X-CSRFToken': '{{ csrf_token }}' // Thêm CSRF token để bảo mật
+                                                },
+                                                processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
+                                                contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
+                                                data: formData,
+                                                success: function(response) {
+                                                    if (response.success) {
+                                                        alert('Đặt hàng thành công!');
+                                                        window.location.href = '{% url 'order_ad' %}';
+                                                    } else {
+                                                        alert('Có lỗi xảy ra, vui lòng thử lại.');
+                                                    }
+                                                },
+                                                error: function(response) {
+                                                    console.error('Đặt hàng thất bại:', response);
+                                                    alert('Đặt hàng thất bại, vui lòng thử lại.');
+                                                }
+                                            });
+                                        } else {
+                                            alert('Vui lòng đăng nhập trước khi đặt hàng.');
+                                            window.location.href = '{% url 'login_cl' %}';
+                                        }
+                                    });
+                                });
+                            </script>                            
+                        </div>
+                    </div>
+                    <div id="tableShipFee"></div>
+                    <style>
+                        #tableShipFee {
+                            display: none;
+                            clear: both
+                        }
+                    </style>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div style="display: none">
+            <div id="progressbar" style="text-align: center;">
+                <img src="https://web.nvnstatic.net/img/loading.gif?v=3" />
+                <p style="font-weight:bold;">Đang xử lý...</p>
+            </div>
+        </div>
+        <style>
+            .fb_iframe_widget iframe {
+                z-index: 1 !important;
+            }
+        </style>
+        <style>
+            #searchCustomer {
+                display: none;
+                position: absolute;
+                top: 45px;
+                left: 1px;
+                background: #fff;
+                box-shadow: 0 0 5px #bbb;
+                z-index: 999;
+                right: 0;
+            }
+
+            #searchCustomer a {
+                display: block;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                padding: 10px;
+                cursor: pointer;
+                color: #7e7e7e;
+            }
+
+            #searchCustomer a:hover {
+                background: #1aa3da;
+                color: #fff;
+                text-decoration: none;
+            }
+        </style>
+    </div>
+
+    <input type="hidden" class="fanpageId" value=""><!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "644245422594302");
+        chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Your SDK code -->
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v16.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>https://www.facebook.com/cuongpopauthentic/m.me/644245422594302<!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "644245422594302");
+        chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Your SDK code -->
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v16.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script><input type="hidden" id="bussinessId" value="117900"><input type="hidden"
+        value="ddM6Q3I6W3NuKuho3iQGZVoWbjbiTnGL4YnfUL3pq59lMUbmbkp9uK0bZgSYM5R58z4Ra0cI0SF0UL1HHVralCgmNozHxkuoItwJOJA5CVshGLFwsW6REba0X7JmtsZAwqzzI1vWj6u0SAnhC0R1hrig"
+        id="uctk" name="uctk" /><input type="hidden" id="clienIp" value="1.53.36.156">
+    <script id='fb_initiateCheckout'>
+        setTimeout(function () {
+            if (typeof fbq === 'function' && fbq !== 'undefined') {
+                fbq('track', 'InitiateCheckout', {
+                    value: 13300000,
+                    currency: 'VND',
+                });
+            }
+        }, 1000);
+    </script>
+    <script>
+        setTimeout(function () {
+            if (typeof fbq === 'function' && fbq !== 'undefined') {
+                fbq('track', 'AddPaymentInfo');
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>

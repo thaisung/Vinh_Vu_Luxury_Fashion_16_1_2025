@@ -1,0 +1,707 @@
+{% extends './base.html' %}
+{% block content %}
+<main class="relative flex-1 flex-col items-center justify gap-2   bg-stone-200 grow">
+    {% if request.user.is_staff %}
+    <a href="{% url 'lead_page_staff' %}?s={{obj_lead.Name}}" class="flex flex-col justify-center items-center  hover:underline  text-[18px] font-bold text-stone-800 bg-white p-[10px] w-full">
+        Thông tin khách hàng
+        <span class="text-sky-500">{{obj_lead.Name}}</span>
+    </a>
+    <form method="POST" action="{% url 'lead_page_staff_detail' pk=obj_lead.id %}" 
+        class="flex justify-center items-center  p-[10px]">
+        {% csrf_token %}
+        <input type="hidden" name="id_lead_update" value={{obj_lead.id}} id="id_lead_update" />
+        <div
+            class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+            <div class="grid grid-cols-2 gap-2 w-full">
+                <div class="flex gap-3 items-center justify-center col-span-2">
+                    <a href="tel:{{obj_lead.Phone_number}}" class="cursor-pointer">
+                        <img alt="Call" src="/upload/icon/call.png" class="w-[35px]"/>
+                    </a>
+                    <a href="https://zalo.me/{{obj_lead.Phone_number}}">
+                        <img alt="Zalo" src="/upload/icon/zalo.ico" class="w-[35px]"/>
+                    </a>
+                    <a href="viber://chat/?number={{obj_lead.Phone_number}}">
+                        <img alt="Viber" src="/upload/icon/viber.png" class="w-[35px]" >
+                    </a>
+                    <a data-phone-number="{{obj_lead.Phone_number}}" class="copy_phone_number cursor-pointer relative flex items-center">
+                        <img alt="Copy" src="/upload/icon/copy.png" class="w-[35px]"/>
+                        <div id="custom-alert" style="display:none;"  class="absolute right-[40px] font-medium text-[15px] rounded-md bg-sky-300 text-stone-800 p-2 whitespace-nowrap">
+                            <!-- Nội dung thông báo -->
+                        </div>
+                    </a>
+                </div>
+                <label class="block text-sm w-full">
+                    <span class="font-medium text-stone-600">Tên khách hàng</span>
+                    <input name="Name" value="{{obj_lead.Name}}" required
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                </label>
+                <label class="block text-sm w-full">
+                    <span class="font-medium text-stone-600">Số điện thoại</span>
+                    <div class="relative flex items-center">
+                        <input name="Phone_number" value="{{obj_lead.Phone_number}}" id="Phone_number_update" required 
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                    </div>
+                </label>
+                <label class="block text-sm w-full">
+                    <span class="font-medium text-stone-600">Khu vực</span>
+                    <select name="Area" value="{{obj_lead.Area}}" id="Area_update" required
+                    class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                        {% for i in Select_setting.Area %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label class="block text-sm w-full">
+                    <span class="font-medium text-stone-600">Sản phẩm</span>
+                    <select name="Product" value="{{obj_lead.Product}}" id="Product_update" required
+                    class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                        {% for i in Select_setting.Product %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label class="block text-sm w-full">
+                    <span class="font-medium text-stone-600">Nhu cầu</span>
+                    <select name="Demand" value="{{obj_lead.Demand}}" id="Demand_update"  required
+                    class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                        {% for i in Select_setting.Demand %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label class="block text-sm w-full">
+                    <span class="font-medium text-stone-600">Tình trạng</span>
+                    <input name="Status" value="{{obj_lead.Status}}" id="Status_update" required readonly
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                </label>
+                <label class="block text-sm w-full col-span-2">
+                    <span class="font-medium text-stone-600">Trạng thái khách hàng</span>
+                    <select name="Status_lead" value="{{obj_lead.Status_lead}}"
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                        <option value="Chưa tư vấn" {% if obj_lead.Status_lead == 'Chưa tư vấn' %}selected{% endif %} class="bg-stone-100">Chưa tư vấn</option>
+                        <option value="Đã tư vấn" {% if obj_lead.Status_lead == 'Đã tư vấn' %}selected{% endif %} class="bg-stone-100">Đã tư vấn</option>
+                        <option value="Gửi thông tin" {% if obj_lead.Status_lead == 'Gửi thông tin' %}selected{% endif %} class="bg-stone-100">Gửi thông tin</option>
+                        <option value="Đã xem dự án" {% if obj_lead.Status_lead == 'Đã xem dự án' %}selected{% endif %} class="bg-stone-100">Đã xem dự án</option>
+                        <option value="KH không tiềm năng" {% if obj_lead.Status_lead == 'KH không tiềm năng' %}selected{% endif %} class="bg-stone-100">KH không tiềm năng</option>
+                        <option value="KH Đã booking" {% if obj_lead.Status_lead == 'KH Đã booking' %}selected{% endif %} class="bg-stone-100">KH Đã booking</option>
+                        <option value="KH đã xem nhà mẫu" {% if obj_lead.Status_lead == 'KH đã xem nhà mẫu' %}selected{% endif %} class="bg-stone-100">KH đã xem nhà mẫu</option>
+                        <option value="KH tiềm năng" {% if obj_lead.Status_lead == 'KH tiềm năng' %}selected{% endif %} class="bg-stone-100">KH tiềm năng</option>
+                        <option value="KH Đã mua" {% if obj_lead.Status_lead == 'KH Đã mua' %}selected{% endif %} class="bg-stone-100">KH Đã mua</option>
+                    </select>
+                </label>
+                <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                    <span class="font-medium text-stone-600">Thêm báo cáo</span>
+                    <textarea name="report"  class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "></textarea>
+                </label>
+                <label class="flex flex-col text-sm w-full  col-span-2">
+                    <span class="font-medium text-stone-600">Chiến dịch</span>
+                    <input id="Belong_Campaign_label_update" value="{{obj_lead.Belong_Campaign.Name}}"
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
+                        readonly>
+                </label>
+                <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                    <span class="font-medium text-stone-600">Ghi chú</span>
+                    <textarea name="Note" readonly value="{{obj_lead.Note}}" id="Note_update" required class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">{{obj_lead.Note}}</textarea>
+                </label>
+                {% comment %} <label class="flex flex-col text-sm w-full h-[250px]">
+                    <span class="font-medium text-stone-600">Chiến dịch</span>
+                    <input type="hidden" value={{obj_lead.Belong_Campaign.id}} name="Belong_Campaign" id="Belong_Campaign_update"
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
+                        >
+                    <input id="Belong_Campaign_label_update" value="{{obj_lead.Belong_Campaign.Name}}"
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
+                        readonly>
+                    <div class="flex flex-col grow rounded-md overflow-hidden p-2 bg-stone-300 mt-2 gap-2 h-full">
+                        <div id="menu_list_campaign_update" class="flex flex-col gap-1 h-full overflow-y-auto">
+                            {% for i in list_campaign %}
+                            <span data-campaign-name="{{i.Name}}" data-campaign-id="{{i.id}}" class="import_campaign_update cursor-pointer hover:text-green-700">
+                                {{i.Name}}
+                            </span>
+                            {% endfor %}
+                        </div>
+                        <div class="flex  relative items-center w-full">
+                            <input placeholder="Tìm kiếm Chiến dịch" name="s_campaign_update"
+                                class="block pr-[30px] w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md " />
+                            <svg id="submit_search_campaign_update"  class="w-[30px] absolute right-0 cursor-pointer" viewBox="0 0 32 32" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+                                <title>icon 111 search</title>
+                                <desc>Created with Sketch.</desc>
+                                <defs></defs>
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                                    sketch:type="MSPage">
+                                    <g id="icon-111-search" sketch:type="MSArtboardGroup" fill="#000000">
+                                        <path
+                                            d="M19.4271164,21.4271164 C18.0372495,22.4174803 16.3366522,23 14.5,23 C9.80557939,23 6,19.1944206 6,14.5 C6,9.80557939 9.80557939,6 14.5,6 C19.1944206,6 23,9.80557939 23,14.5 C23,16.3366522 22.4174803,18.0372495 21.4271164,19.4271164 L27.0119176,25.0119176 C27.5621186,25.5621186 27.5575313,26.4424687 27.0117185,26.9882815 L26.9882815,27.0117185 C26.4438648,27.5561352 25.5576204,27.5576204 25.0119176,27.0119176 L19.4271164,21.4271164 L19.4271164,21.4271164 Z M14.5,21 C18.0898511,21 21,18.0898511 21,14.5 C21,10.9101489 18.0898511,8 14.5,8 C10.9101489,8 8,10.9101489 8,14.5 C8,18.0898511 10.9101489,21 14.5,21 L14.5,21 Z"
+                                            id="search" sketch:type="MSShapeGroup"></path>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </label> {% endcomment %}
+            </div>
+            <div style="display: none;" id="loader_form_update" class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
+                <span  class="loader"></span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button type="submit"
+                    class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+                    Cập nhật
+                </button>
+                <a
+                    class=" close_form_update cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                    Hủy
+                </a>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                $('.form_update').on('submit', function(event) {
+                    $('#loader_form_update').show();
+                });
+            });
+        </script>
+    </form>
+    {% else %}
+    <h1 class="text-[18px] font-bold text-yellow-500">Tài khoản của bạn đang chờ phê duyệt !</h1>
+    {% endif %}
+</main>
+<script>
+    $(document).ready(function () {
+        $('.copy_phone_number').on('click', function () {
+            // Lấy số điện thoại từ thuộc tính data-phone-number
+            const phoneNumber = $(this).data('phone-number');
+            
+            // Tạo input tạm để sao chép vào clipboard
+            const tempInput = $('<input>');
+            $('body').append(tempInput);
+            tempInput.val(phoneNumber).select();
+            document.execCommand('copy');
+            tempInput.remove();
+
+            // Hiển thị thông báo
+            const alertBox = $('#custom-alert');
+            alertBox.text(phoneNumber);
+            alertBox.fadeIn(); // Bật thông báo
+            
+            // Tự động tắt sau 1 giây
+            setTimeout(function () {
+                alertBox.fadeOut();
+            }, 1000);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        function updateTableWidth() {
+          var containerWidth = $('#table-container').parent().width(); // Lấy chiều rộng của phần tử cha
+          var tableWidth = $('#table-container').outerWidth(); // Lấy chiều rộng của bảng
+      
+          // Kiểm tra nếu bảng rộng hơn chiều rộng container, thì mới trừ 250px
+          if (tableWidth > containerWidth) {
+            $('#table-container').width(containerWidth - 250); // Trừ đi 250px
+          } else {
+            $('#table-container').width(''); // Đặt lại chiều rộng mặc định
+          }
+        }
+      
+        // Gọi hàm khi trang được tải và khi cửa sổ thay đổi kích thước
+        updateTableWidth();
+        $(window).resize(function() {
+          updateTableWidth();
+        });
+      });      
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open_form_Report").click(function () {
+            $(".xxx").hide();
+            $(".form_update_report").show();
+            $("#id_lead_update_report").val($(this).data('id'));
+            $("#report_update").val($(this).data('report'));
+            $(".text_lead_report").text($(this).data('name'));
+        });
+        $(".close_form_update_report").click(function () {
+            $(".form_update_report").hide();
+        });
+
+        $(".open_form_History").click(function () {
+            $(".xxx").hide();
+            $(".form_update_history").show();
+            $("#id_lead_update_history").val($(this).data('id'));
+            $("#history_update").val($(this).data('history'));
+            $(".text_lead_history").text($(this).data('name'));
+        });
+        $(".close_form_update_history").click(function () {
+            $(".form_update_history").hide();
+        });
+    });
+</script>
+<script>
+    $(document).on('click', '.import_campaign', function () {
+        $("#Belong_Campaign_label").val($(this).data('campaign-name'));
+        $("#Belong_Campaign").val($(this).data('campaign-id'));
+    });
+</script>
+<script>
+    $(document).on('click', '.import_user', function () {
+        $("#Belong_User_label").val($(this).data('user-name'));
+        $("#Belong_User").val($(this).data('user-id'));
+    });
+</script>
+<script>
+    $(document).on('click', '.import_campaign_update', function () {
+        $("#Belong_Campaign_label_update").val($(this).data('campaign-name'));
+        $("#Belong_Campaign_update").val($(this).data('campaign-id'));
+    });
+</script>
+<script>
+    $(document).on('click', '.import_user_update', function () {
+        $("#Belong_User_label_update").val($(this).data('user-name'));
+        $("#Belong_User_update").val($(this).data('user-id'));
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open_form_create").click(function () {
+            $(".xxx").hide();
+            $(".form_create").show();
+            $.ajax({
+                url: '{% url "search_campaign_page_admin" %}',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's':'',  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_campaign').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        for (let i = 0; i < response.list_campaign.length; i++) {
+                            const campaign = response.list_campaign[i];
+                            $('#menu_list_campaign').append(`
+                                <span data-campaign-name="${campaign.Name}" data-campaign-id="${campaign.id}" class="import_campaign cursor-pointer hover:text-green-700">
+                                    ${campaign.Name}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy chiến dịch nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+            $.ajax({
+                url: '{% url "search_user_page_admin" %}',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's':'',  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_user').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        for (let i = 0; i < response.list_user.length; i++) {
+                            const user = response.list_user[i];
+                            $('#menu_list_user').append(`
+                                <span data-user-name="${user.username}" data-user-id="${user.id}" class="import_user cursor-pointer hover:text-green-700">
+                                    ${user.username}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy nhân viên nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+        $(".close_form_create").click(function () {
+            $(".form_create").hide();
+        });
+
+        $('#open_form_delete_check_list_lead').click(function(){
+            $(".xxx").hide();
+            $('#form_delete_check_list_lead').show();
+        });
+        $('.close_form_delete_check_list_lead').click(function(){
+            $('#form_delete_check_list_lead').hide();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open_form_update").click(function () {
+            $(".xxx").hide();
+            $(".form_update").show();
+
+            $("#id_lead_update").val($(this).data('id'));
+            $("#Name_update").val($(this).data('name'));
+            $("#Phone_number_update").val($(this).data('phone-number'));
+            $("#Area_update").val($(this).data('area'));
+            $("#Product_update").val($(this).data('product'));
+            $("#Demand_update").val($(this).data('demand'));
+            $("#Status_update").val($(this).data('status'));
+            $("#Note_update").val($(this).data('note'));
+            $("#Belong_Campaign_label_update").val($(this).data('belong-campaign-name'));
+            $("#Belong_Campaign_update").val($(this).data('belong-campaign-id'));
+            $("#Belong_User_label_update").val($(this).data('belong-user-username'));
+            $("#Belong_User_update").val($(this).data('belong-user-id'));
+
+            $.ajax({
+                url: '{% url "search_campaign_page_admin" %}',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's':'',  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_campaign_update').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        for (let i = 0; i < response.list_campaign.length; i++) {
+                            const campaign = response.list_campaign[i];
+                            $('#menu_list_campaign_update').append(`
+                                <span data-campaign-name="${campaign.Name}" data-campaign-id="${campaign.id}" class="import_campaign_update cursor-pointer hover:text-green-700">
+                                    ${campaign.Name}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy chiến dịch nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+
+            $.ajax({
+                url: '{% url "search_user_page_admin" %}',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's':'',  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_user_update').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        for (let i = 0; i < response.list_user.length; i++) {
+                            const user = response.list_user[i];
+                            $('#menu_list_user_update').append(`
+                                <span data-user-name="${user.username}" data-user-id="${user.id}" class="import_user_update cursor-pointer hover:text-green-700">
+                                    ${user.username}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy nhân viên nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+
+        $(".close_form_update").click(function () {
+            $(".form_update").hide();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open_form_delete").click(function () {
+            $(".xxx").hide();
+            $(".form_delete").show();
+            $("#id_delete").val($(this).data('id'));
+            $("#text_delete").text($(this).data('name'));
+        });
+
+        $(".close_form_delete").click(function () {
+            $(".form_delete").hide();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Khi nhấn nút SVG (nút tìm kiếm)
+        $('#submit_search_campaign').on('click', function (event) {
+            event.preventDefault();  // Ngừng hành động mặc định của nút
+            // Sử dụng serialize() để lấy dữ liệu từ form
+            var searchQuery_campaign = $('input[name="s_campaign"]').val();
+            $.ajax({
+                url: '{% url "search_campaign_page_admin" %}',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's': searchQuery_campaign,  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_campaign').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        for (let i = 0; i < response.list_campaign.length; i++) {
+                            const campaign = response.list_campaign[i];
+                            $('#menu_list_campaign').append(`
+                                <span data-campaign-name="${campaign.Name}" data-campaign-id="${campaign.id}" class="import_campaign cursor-pointer hover:text-green-700">
+                                    ${campaign.Name}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy chiến dịch nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+
+        $('#submit_search_user').on('click', function (event) {
+            event.preventDefault();  // Ngừng hành động mặc định của nút
+            // Sử dụng serialize() để lấy dữ liệu từ form
+            var searchQuery_user = $('input[name="s_user"]').val();
+            $.ajax({
+                url: '{% url "search_user_page_admin" %}',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's':searchQuery_user,  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_user').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        for (let i = 0; i < response.list_user.length; i++) {
+                            const user = response.list_user[i];
+                            $('#menu_list_user').append(`
+                                <span data-user-name="${user.username}" data-user-id="${user.id}" class="import_user cursor-pointer hover:text-green-700">
+                                    ${user.username}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy nhân viên nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Khi nhấn nút SVG (nút tìm kiếm)
+        $('#submit_search_campaign_update').on('click', function (event) {
+            event.preventDefault();  // Ngừng hành động mặc định của nút
+            // Sử dụng serialize() để lấy dữ liệu từ form
+            var searchQuery_campaign_update = $('input[name="s_campaign_update"]').val();
+            $.ajax({
+                url: '{% url "search_campaign_page_admin" %}',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's': searchQuery_campaign_update,  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_campaign_update').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        for (let i = 0; i < response.list_campaign.length; i++) {
+                            const campaign = response.list_campaign[i];
+                            $('#menu_list_campaign_update').append(`
+                                <span data-campaign-name="${campaign.Name}" data-campaign-id="${campaign.id}" class="import_campaign_update cursor-pointer hover:text-green-700">
+                                    ${campaign.Name}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy chiến dịch nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+
+        $('#submit_search_user_update').on('click', function (event) {
+            event.preventDefault();  // Ngừng hành động mặc định của nút
+            // Sử dụng serialize() để lấy dữ liệu từ form
+            var searchQuery_user_update = $('input[name="s_user_update"]').val();
+            $.ajax({
+                url: '{% url "search_user_page_admin" %}',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's':searchQuery_user_update,  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_user_update').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        for (let i = 0; i < response.list_user.length; i++) {
+                            const user = response.list_user[i];
+                            $('#menu_list_user_update').append(`
+                                <span data-user-name="${user.username}" data-user-id="${user.id}" class="import_user_update cursor-pointer hover:text-green-700">
+                                    ${user.username}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy nhân viên nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    // JavaScript/jQuery
+    $(document).ready(function() {
+        // Khi checkbox 'check_all_user' thay đổi trạng thái
+        $('#check_all_lead').on('change', function() {
+            var isChecked = $(this).is(':checked');
+            
+            // Cập nhật trạng thái của tất cả các checkbox 'check_lead'
+            $('.check_lead').prop('checked', isChecked);
+
+            // Rà soát tất cả các checkbox 'check_lead' được chọn và lưu giá trị vào input hidden
+            updateCheckedValues();
+        });
+
+        // Khi bất kỳ checkbox 'check_lead' thay đổi trạng thái
+        $('.check_lead').on('change', function() {
+            // Kiểm tra trạng thái của checkbox 'check_all_lead'
+            var allChecked = $('.check_lead').length === $('.check_lead:checked').length;
+            $('#check_all_lead').prop('checked', allChecked);
+
+            // Rà soát tất cả các checkbox 'check_lead' được chọn và lưu giá trị vào input hidden
+            updateCheckedValues();
+        });
+
+        function updateCheckedValues() {
+            var checkedValues = [];
+            $('.check_lead:checked').each(function() {
+                checkedValues.push($(this).val());
+            });
+            $('#check_list').val(JSON.stringify(checkedValues)); // Gán mảng giá trị vào input hidden
+            if (checkedValues.length > 0) {
+                $('#open_form_delete_check_list_lead').show();
+            } else {
+                $('#open_form_delete_check_list_lead').hide();
+            }
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#form_delete_check_list_lead').on('submit', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '{% url 'delete_check_list_lead_admin' %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    check_list: $('#check_list').val(),
+                    text_check_list: $('#text_check_list').val()
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.redirect_url;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (response) {
+                    console.log('Xóa thất bại', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    // selecting required element
+    const element = document.querySelector(".pagination ul");
+    let totalPages = {{list_lead.paginator.num_pages}};
+    let page = {{list_lead.number}};
+    let s_l = "{{ s|default:'' }}";  // Nếu s không có giá trị, dùng giá trị mặc định là ''
+    let f_l = "{{ f|default:'' }}";  // Nếu f không có giá trị, dùng giá trị mặc định là ''
+    let st_l = "{{ st|default:'' }}";  // Nếu st không có giá trị, dùng giá trị mặc định là ''
+
+    //calling function with passing parameters and adding inside element which is ul tag
+    element.innerHTML = createPagination(totalPages, page);
+    function createPagination(totalPages, page) {
+        let liTag = '';
+        let active;
+        let beforePage = page - 1;
+        let afterPage = page + 1;
+
+        // Hiển thị nút "Trang trước" nếu không phải là trang đầu tiên
+        if (page > 1) {
+            liTag += `<a href="?p=${page - 1}&s=${s_l}&f=${f_l}&st=${st_l}" class="btn prev"><span><i class="fas fa-angle-left"></i>Trang trước</span></a>`;
+        }
+
+        // Nếu tổng số trang nhỏ hơn 8, hiển thị tất cả các trang mà không cần dấu ba chấm
+        if (totalPages < 8) {
+            for (let i = 1; i <= totalPages; i++) {
+                active = (page == i) ? "active" : "";
+                liTag += `<a href="?p=${i}&s=${s_l}&f=${f_l}&st=${st_l}" class="numb ${active}"><span>${i}</span></a>`;
+            }
+        } else {
+            // Nếu tổng số trang >= 8, hiển thị có điều kiện các trang với dấu ba chấm
+            if (page > 2) {
+                liTag += `<a href="?p=1&s=${s_l}&f=${f_l}&st=${st_l}" class="first numb"><span>1</span></a>`;
+                if (page > 3) {
+                    liTag += `<a class="dots"><span>...</span></a>`;
+                }
+            }
+
+            // Điều chỉnh trước và sau trang hiện tại
+            if (page == totalPages) {
+                beforePage = beforePage - 2;
+            } else if (page == totalPages - 1) {
+                beforePage = beforePage - 1;
+            }
+            if (page == 1) {
+                afterPage = afterPage + 2;
+            } else if (page == 2) {
+                afterPage = afterPage + 1;
+            }
+
+            // Hiển thị các trang trong khoảng trước và sau trang hiện tại
+            for (let plength = beforePage; plength <= afterPage; plength++) {
+                if (plength > totalPages) continue;
+                if (plength == 0) plength = 1;
+                active = (page == plength) ? "active" : "";
+                liTag += `<a href="?p=${plength}&s=${s_l}&f=${f_l}&st=${st_l}" class="numb ${active}"><span>${plength}</span></a>`;
+            }
+
+            // Hiển thị trang cuối cùng với dấu ba chấm nếu cần
+            if (page < totalPages - 1) {
+                if (page < totalPages - 2) {
+                    liTag += `<a class="dots"><span>...</span></a>`;
+                }
+                liTag += `<a href="?p=${totalPages}&s=${s_l}&f=${f_l}&st=${st_l}" class="last numb"><span>${totalPages}</span></a>`;
+            }
+        }
+
+        // Hiển thị nút "Trang sau" nếu không phải là trang cuối cùng
+        if (page < totalPages) {
+            liTag += `<a href="?p=${page + 1}&s=${s_l}&f=${f_l}&st=${st_l}" class="btn next"><span>Trang sau <i class="fas fa-angle-right"></i></span></a>`;
+        }
+
+        element.innerHTML = liTag;
+        return liTag;
+    }
+</script>
+{% endblock %}
