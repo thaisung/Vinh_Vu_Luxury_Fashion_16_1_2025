@@ -1,0 +1,36 @@
+1 - tạo dự án
+cd đường_dẫn_tới_dự_án
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/username/tên_repository.git
+git push -u origin main
+
+(
+    Thêm tệp .gitignore:
+Trước khi chạy git add ., tạo tệp .gitignore để bỏ qua các tệp/thư mục không cần thiết như:
+
+css
+Copy
+Edit
+# Tệp/thư mục tạm thời
+*.log
+*.pyc
+__pycache__/
+.env
+node_modules/
+venv/
+Lưu ý: Sử dụng git add .gitignore để thêm tệp này.
+)
+
+2 - cập nhật dự án 
+git add .
+git commit -m "Mô tả thay đổi"
+git push
+
+========================================================================================
+1- Tải sự đường_dẫn_tới_dự_án
+git clone URL_REPOSITORY
+2 - cập nhật dự án mới nhất
+git pull
