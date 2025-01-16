@@ -50,6 +50,7 @@ python manage.py startapp sleekweb
 python manage.py createsuperuser
 python manage.py makemigrations
 python manage.py migrate
+python manage.py collectstatic
 
 python -m pip install django-tailwind
 python manage.py tailwind start
@@ -131,12 +132,12 @@ C:\Users\Admin\Desktop\Sound_web\sleeksoft
 Phần 1: Cài đặt các gói cần thiết
 Trước khi đi sâu vào cài đặt các gói cần thiết, chúng ta cần cập nhật và nâng cấp máy chủ cũng như các gói hiện có lên phiên bản mới nhất.
 
-sudo apt update -y
-sudo apt upgrade -y
+sudo apt update -y|
+sudo apt upgrade -y|
 
 Cài đặt tất cả các gói cần thiết trong một lệnh.
 
-sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl file
+sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl file|
 
 Danh sách các gói được cài đặt là:
 Pip (trình cài đặt gói Python)
@@ -148,23 +149,23 @@ XOĂN
 Phần 2: Tạo người dùng và cơ sở dữ liệu Postgres
 Chạy lệnh sau để vào môi trường Postgres. Theo mặc định khi Postgres được cài đặt, chúng tôi sẽ có một người dùng tên là 'postgres' có quyền quản trị trong PostgreSQL. Chúng tôi sử dụng người dùng này để tạo Cơ sở dữ liệu và tài khoản Người dùng trong postgres cho dự án của chúng tôi.
 
-sudo -u postgres psql
+sudo -u postgres psql|
 
 Tạo cơ sở dữ liệu cho dự án của chúng tôi
 
-CREATE DATABASE sleeksoft;
+CREATE DATABASE sleeksoft;|
 
 Lưu ý:  Mọi câu lệnh Postgres PHẢI kết thúc bằng dấu chấm phẩy
 
 Tạo người dùng cơ sở dữ liệu cho dự án của chúng tôi. Đảm bảo chọn mật khẩu an toàn.
 
-CREATE USER sleekuser WITH PASSWORD 's133ks0ft';
+CREATE USER sleekuser WITH PASSWORD 's133ks0ft';|
 
 Lưu ý: Người dùng cơ sở dữ liệu ở đây là 'sleekuser' và mật khẩu là 's133ks0ft'
 
 Đặt mã hóa mặc định thành UTF-8, được Django khuyên dùng
 
-ALTER ROLE sleekuser SET client_encoding TO 'utf8';
+ALTER ROLE sleekuser SET client_encoding TO 'utf8';|
 
 Đặt sơ đồ cách ly giao dịch mặc định thành 'đọc đã cam kết'. Điều này chặn việc đọc từ các giao dịch không được cam kết.
 

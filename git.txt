@@ -1,8 +1,8 @@
-1 - tạo dự án
+1 - tạo dự án kshjksdhfh
 cd đường_dẫn_tới_dự_án
 git init
 git add .
-git commit -m "Initial commit"
+git commit -m "2"
 git branch -M main
 git remote add origin https://github.com/username/tên_repository.git
 git push -u origin main
