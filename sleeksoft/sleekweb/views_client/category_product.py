@@ -71,6 +71,7 @@ def category_product_cl(request,Slug):
             f_size = request.GET.get('f_size')
             f_trademark = request.GET.get('f_trademark')
             f_arrange = request.GET.get('f_arrange')
+            p = request.GET.get('p')
             # Lấy tất cả danh mục lớn
             context['List_Trademark'] = Trademark.objects.all()
             context['List_Size_product'] = Size_product.objects.all()
@@ -146,6 +147,19 @@ def category_product_cl(request,Slug):
                     )['total'] or 0
                     product.is_out_of_stock = total_quantity == 0  # True nếu hết hàng
             context['Category_product_filter'] = context['List_Category_product_filter'][0]
+            
+            list_product_home = context['Category_product_filter']['list_product_home']
+            
+            # Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
+            paginator = Paginator(list_product_home, settings.PAGE)
+            # Lấy số trang hiện tại từ URL, nếu không mặc định là trang 1
+            p = request.GET.get('p')
+            page_obj = paginator.get_page(p)
+            list_product_home = page_obj
+            print('list_product_home:',context['list_product_home'])
+            # Tạo danh sách các số trang
+            page_list = list(range(1, paginator.num_pages + 1))
+            context['page_list'] = page_list
         else:
             print('re:',request.path)
             context = {}
@@ -234,6 +248,42 @@ def category_product_cl(request,Slug):
             )
             context['List_Category_product'].append(sale_category)
             context['Category_product_filter'] = context['List_Category_product_filter'][0]
+            context['list_product_home']  = context['Category_product_filter'].list_product_home
+            
+            # Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
+            paginator = Paginator(context['list_product_home'], settings.PAGE)
+            # Lấy số trang hiện tại từ URL, nếu không mặc định là trang 1
+            p = request.GET.get('p')
+            page_obj = paginator.get_page(p)
+            context['list_product_home'] = page_obj
+            print('list_product_home th:',context['list_product_home'])
+            # Tạo danh sách các số trang
+            page_list = list(range(1, paginator.num_pages + 1))
+            context['page_list'] = page_list
+            print('page_list:',page_list)
+            if p :
+                context['p']=int(p)
+            else:
+                context['p']=1
+                
+            # Tính phạm vi các trang hiển thị, trang hiện tại ở giữa
+            total_pages = paginator.num_pages
+            current_page = page_obj.number
+
+            # Xác định phạm vi 5 trang
+            start_page = max(current_page - 2, 1)  # Ít nhất là 1
+            end_page = min(current_page + 2, total_pages)  # Không vượt quá tổng số trang
+
+            # Điều chỉnh nếu số lượng trang hiển thị không đủ 5
+            if end_page - start_page < 4:
+                if start_page == 1:  # Nếu bắt đầu từ trang 1, mở rộng phạm vi kết thúc
+                    end_page = min(start_page + 4, total_pages)
+                elif end_page == total_pages:  # Nếu kết thúc ở trang cuối, lùi phạm vi bắt đầu
+                    start_page = max(end_page - 4, 1)
+
+            custom_page_range = range(start_page, end_page + 1)
+            context['custom_page_range'] = custom_page_range
+            print('custom_page_range:',custom_page_range)
         return render(request, 'sleekweb/client/category_product.html', context, status=200)
     else:
         return redirect('category_product_cl')

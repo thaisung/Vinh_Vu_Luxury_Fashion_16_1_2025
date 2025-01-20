@@ -61,6 +61,25 @@ from django.views.decorators.csrf import csrf_exempt
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
 import base64
+from types import SimpleNamespace
+
+def format_number(number):
+    """
+    Định dạng một số nguyên hoặc số thực thành chuỗi có dấu chấm ngăn cách mỗi 3 chữ số.
+
+    :param number: Số cần định dạng (int hoặc float)
+    :return: Chuỗi định dạng với dấu chấm ngăn cách
+    """
+    try:
+        number = int(number)
+        # Đảm bảo số là số nguyên hoặc số thực
+        if isinstance(number, (int, float)):
+            # Sử dụng f-string để định dạng và thay dấu phẩy thành dấu chấm
+            return f"{number:,.0f}".replace(",", ".")
+        else:
+            raise ValueError("Giá trị đầu vào phải là số nguyên hoặc số thực.")
+    except Exception as e:
+        return f"Lỗi: {e}"
 
 def detail_product_cl(request,Slug):
     if request.method == 'GET':
@@ -104,7 +123,7 @@ def detail_product_cl(request,Slug):
         
         context['obj_Product'] = Product.objects.get(Slug=Slug)
         # Lấy tất cả danh mục lớn
-        context['List_Category_product'] = Category_product.objects.all()
+        context['List_Category_product'] = list(Category_product.objects.all())
         
         for category in context['List_Category_product']:
             # Lấy 3 sản phẩm đầu tiên cho danh mục lớn
@@ -129,7 +148,11 @@ def detail_product_cl(request,Slug):
                 )['total'] or 0
                 product.is_out_of_stock = total_quantity == 0  # True nếu hết hàng
                 
-        context['List_Product_Love'] = Product.objects.filter(Belong_Category_product_child=context['obj_Product'].Belong_Category_product_child)
+                # product.Price = format_number(product.Price)
+                # product.Price_Discount = format_number(product.Price_Discount)
+                
+        context['List_Product_Love'] = Product.objects.all()
+        print('List_Product_Love:',context['List_Product_Love'])
         for product in context['List_Product_Love']:
                 photos = product.product_photo_detail.all()
                 product.photo_1 = photos.first()  # Ảnh đầu tiên
@@ -140,6 +163,8 @@ def detail_product_cl(request,Slug):
                     total=models.Sum('Quantity')
                 )['total'] or 0
                 product.is_out_of_stock = total_quantity == 0  # True nếu hết hàng
+                product.Price = format_number(product.Price)
+                product.Price_Discount = format_number(product.Price_Discount)
                 
         context['List_Product_Well'] = Product.objects.all()
         print('List_Product_Well:',context['List_Product_Well'])
@@ -153,6 +178,17 @@ def detail_product_cl(request,Slug):
                     total=models.Sum('Quantity')
                 )['total'] or 0
                 product.is_out_of_stock = total_quantity == 0  # True nếu hết hàng
+                product.Price = format_number(product.Price)
+                product.Price_Discount = format_number(product.Price_Discount)
+                
+        sale_category = SimpleNamespace(
+                id="9999999999999999",  # Đặt một giá trị giả định cho id
+                Name="SUPER SALE",
+                Slug="super-sale",
+                list_product_home=Product.objects.filter(Discount__gt=0).order_by('Creation_time'),
+                # list_product = Product.objects.filter(Discount__gt=0).order_by('Creation_time')[:3]
+            )
+        context['List_Category_product'].append(sale_category)
                 
         
         return render(request, 'sleekweb/client/detail_product.html', context, status=200)
@@ -160,23 +196,7 @@ def detail_product_cl(request,Slug):
         return redirect('detail_product_cl',Slug=Slug)
 
 
-def format_number(number):
-    """
-    Định dạng một số nguyên hoặc số thực thành chuỗi có dấu chấm ngăn cách mỗi 3 chữ số.
 
-    :param number: Số cần định dạng (int hoặc float)
-    :return: Chuỗi định dạng với dấu chấm ngăn cách
-    """
-    try:
-        number = int(number)
-        # Đảm bảo số là số nguyên hoặc số thực
-        if isinstance(number, (int, float)):
-            # Sử dụng f-string để định dạng và thay dấu phẩy thành dấu chấm
-            return f"{number:,.0f}".replace(",", ".")
-        else:
-            raise ValueError("Giá trị đầu vào phải là số nguyên hoặc số thực.")
-    except Exception as e:
-        return f"Lỗi: {e}"
     
 def get_detail_product_cl(request,pk):
     if request.method == 'GET':
@@ -185,6 +205,15 @@ def get_detail_product_cl(request,pk):
         product_thumb = ''
         itemdelete = ''
         clickItem = ''
+        if obj_product.Description:
+            Description = obj_product.Description
+        else:
+            Description = ''
+        if obj_product.Parameter:
+            Parameter = obj_product.Parameter
+        else:
+            Parameter = ''
+        
         if obj_product.Discount > 0:
             Price = f"""<p class="pro-price highlight tp_product_price format-number">
                     {format_number(obj_product.Price_Discount)}₫
@@ -200,7 +229,7 @@ def get_detail_product_cl(request,pk):
             if i.Quantity > 0:
                 Size = Size + f"""
                                 <div data-value="" class=" n-sd swatch-element">
-                                    <label data-value="1944616" class="" data-original-title="" title="" qtt="1" data-selid="40777530" price="3500000">
+                                    <label  class="" data-size="{i.Size}">
                                         <span>{i.Size}</span>
                                         <img class="crossed-out" src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
                                     </label>
@@ -209,7 +238,7 @@ def get_detail_product_cl(request,pk):
             else:
                 Size = Size + f"""
                                 <div data-value="" class=" n-sd swatch-element">
-                                    <label data-value="1944615" class="deactive" data-original-title="" title="Sản phẩm tạm thời hết hàng">
+                                    <label class="deactive"  title="Sản phẩm tạm thời hết hàng">
                                         <span>{i.Size}</span>
                                         <img class="crossed-out" src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
                                     </label>
@@ -309,8 +338,8 @@ def get_detail_product_cl(request,pk):
                     </div>
 
                     <div class="wrap-addcart clearfix">
-                        <button type="button" id="add-to-cart" class="btnAddToCart" data-psid="40776086" data-selId="40776086"
-                            title="Vui lòng chọn màu sắc hoặc kích cỡ!" data-ck="0">SỞ HỮU NGAY</button>
+                        <button type="button" id="add-to-cart-detail" class="btnAddToCart" data-psid="40776086" data-selId="40776086"
+                             data-ck="0" data-id="{obj_product.id}">SỞ HỮU NGAY</button>
                     </div>
                 </div>
             </form>
@@ -323,7 +352,7 @@ def get_detail_product_cl(request,pk):
                 </div>
                 <div class="description-content">
                     <div class="main_details">
-                        Đang cập nhật nội dung. </div>
+                        {Parameter} </div>
                 </div>
             </div>
             <div class="product-description">
@@ -334,7 +363,7 @@ def get_detail_product_cl(request,pk):
                 </div>
                 <div class="description-content">
                     <div class="description-productdetail">
-                        Đang cập nhật nội dung. </div>
+                        {Description} </div>
                 </div>
             </div>
             <center class="centerDetial">

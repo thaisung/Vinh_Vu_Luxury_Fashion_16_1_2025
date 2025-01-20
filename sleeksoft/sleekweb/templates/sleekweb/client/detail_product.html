@@ -44,8 +44,8 @@
                             <div class="wrap-p-img ">
                                 {% for i in obj_Product.product_photo_detail.all %}
                                 <a class="p-img-item " href="{{i.Photo.url}}" data-image="{{i.Photo.url}}"
-                                    data-fancybox-group="button" data-fancybox="gallery">
-                                    <img src="{{i.Photo.url}}" alt="{{obj_Product.Name}}">
+                                    data-fancybox-group="button" data-fancybox="gallery" data-caption="Single image">
+                                    <img src="http://127.0.0.1:8000/{{i.Photo.url}}" alt="{{obj_Product.Name}}">
                                 </a>
                                 {% endfor %}
                             </div>
@@ -103,64 +103,66 @@
                                                     Hướng dẫn chọn size</a>
                                             </span>
                                         </div>
-                                        <input  name="id_product_cart" id="id_product_cart" value="{{obj_Product.id}}" style="width:20px;"/>
-                                        <input  name="size_product_cart" id="size_product_cart" value="" style="width:20px;"/>
+                                        <input name="id_product_cart" id="id_product_cart" value="{{obj_Product.id}}"
+                                            style="width:20px;" />
+                                        <input name="size_product_cart" id="size_product_cart" value=""
+                                            style="width:20px;" />
                                         <div class="select-swap attr-size req" data-column="i1">
                                             {% for i in obj_Product.product_size_detail.all %}
-                                                {% if i.Quantity == 0 %}
-                                                <div data-value="" class=" n-sd swatch-element">
-                                                    <label data-value="1944615"
-                                                        data-src="{{obj_Product.product_photo_detail.all.first}}"
-                                                        data-name="{{i.Size}}" class="deactive"
-                                                        data-original-title="Sản phẩm tạm thời hết hàng" title="">
-                                                        <span>{{i.Size}}</span>
-                                                        <img class="crossed-out lazyload" data-sizes="auto"
-                                                            src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
-                                                            data-src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
-                                                    </label>
-                                                </div>
-                                                {% else %}
-                                                <div data-value="" class=" n-sd swatch-element">
-                                                    <label data-value="1944589"
-                                                        data-src="{{obj_Product.product_photo_detail.all.first}}"
-                                                        data-name="{{i.Size}}" class="" data-original-title="" title="">
-                                                        <span>{{i.Size}}</span>
-                                                        <img class="crossed-out lazyload" data-sizes="auto"
-                                                            src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
-                                                            data-src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
-                                                    </label>
-                                                </div>
-                                                {% endif %}
+                                            {% if i.Quantity == 0 %}
+                                            <div data-value="" class=" n-sd swatch-element">
+                                                <label data-value="1944615"
+                                                    data-src="{{obj_Product.product_photo_detail.all.first}}"
+                                                    data-name="{{i.Size}}" class="deactive"
+                                                    data-original-title="Sản phẩm tạm thời hết hàng" title="">
+                                                    <span>{{i.Size}}</span>
+                                                    <img class="crossed-out lazyload" data-sizes="auto"
+                                                        src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
+                                                        data-src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
+                                                </label>
+                                            </div>
+                                            {% else %}
+                                            <div data-value="" class=" n-sd swatch-element">
+                                                <label data-value="1944589"
+                                                    data-src="{{obj_Product.product_photo_detail.all.first}}"
+                                                    data-name="{{i.Size}}" class="" data-original-title="" title="">
+                                                    <span>{{i.Size}}</span>
+                                                    <img class="crossed-out lazyload" data-sizes="auto"
+                                                        src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
+                                                        data-src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
+                                                </label>
+                                            </div>
+                                            {% endif %}
                                             {% endfor %}
                                             <script>
-                                                $(document).ready(function() {
+                                                $(document).ready(function () {
                                                     // Khi click vào label
-                                                    $('.select-swap .swatch-element label').click(function() {
+                                                    $('.select-swap .swatch-element label').click(function () {
                                                         // Kiểm tra nếu label chưa có class 'active' và không có class 'deactive'
                                                         if (!$(this).hasClass('active') && !$(this).hasClass('deactive')) {
                                                             // Thêm class 'active' vào label đã click
                                                             $(this).addClass('active');
-                                                            
+
                                                             // Lấy giá trị 'data-name' từ label và truyền vào input
                                                             var sizeName = $(this).data('name');
                                                             console.log("Size selected: " + sizeName);  // Kiểm tra giá trị size
-                                            
+
                                                             // Truyền giá trị vào input
                                                             $('#size_product_cart').val(sizeName);  // Truyền giá trị vào input
-                                                            
+
                                                             // Kiểm tra giá trị đã được cập nhật vào input chưa
                                                             console.log("Input value updated: " + $('#size_product_cart').val());
-                                            
+
                                                             // Loại bỏ class 'active' khỏi các label khác trong cùng một nhóm
                                                             $(this).closest('.select-swap').find('.swatch-element label').not(this).removeClass('active');
-                                                        
+
                                                             // Kiểm tra giá trị của input trực tiếp
                                                             var inputValue = $('#size_product_cart').val();
                                                             console.log("Input value after update: " + inputValue);  // Kiểm tra giá trị trong input
                                                         }
                                                     });
                                                 });
-                                            </script>                                      
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
@@ -187,9 +189,9 @@
                                                 style="">
                                                 Thêm vào giỏ hàng
                                             </button>
-                                            <button type="button" id="addQuickCart"
-                                                class="btnAddToCart tp_button" data-totalmoney="0" data-psid="40777448"
-                                                data-selid="40777449" data-ck="1" data-size="1" onclick="window.location.href='/checkout/';" style="">
+                                            <button type="button" id="addQuickCart" class="btnAddToCart tp_button"
+                                                data-totalmoney="0" data-psid="40777448" data-selid="40777449"
+                                                data-ck="1" data-size="1" style="">
                                                 Mua ngay
                                             </button>
                                         </div>
@@ -219,48 +221,80 @@
                                 </div>
                             </form>
                             <script>
-                                $(document).ready(function() {
+                                $(document).ready(function () {
                                     // Lắng nghe sự kiện click vào phần tử có class 'btn-submit'
-                                    $('#add-to-cart').click(function() {
+                                    $('#add-to-cart').click(function () {
                                         // Lấy dữ liệu cần thiết từ phần tử
                                         var id_product_cart = $('#id_product_cart').val();  // Lấy giá trị từ thuộc tính data-id
                                         var size_product_cart = $('#size_product_cart').val();  // Lấy giá trị từ thuộc tính data-name
                                         var quantity = $('#quantity').val();
                                         // Gửi yêu cầu AJAX với phương thức POST
-                                        if (size_product_cart){
+                                        if (size_product_cart) {
                                             $.ajax({
                                                 url: '/add-product-cart/',  // Đường dẫn API hoặc view mà bạn muốn gửi request tới
                                                 type: 'POST',
                                                 data: {
                                                     id_product_cart: id_product_cart,
-                                                    size_product_cart:size_product_cart,
+                                                    size_product_cart: size_product_cart,
                                                     quantity: quantity,
                                                     csrfmiddlewaretoken: '{{ csrf_token }}'  // Thêm csrf token nếu đang sử dụng Django
                                                 },
-                                                success: function(response) {
+                                                success: function (response) {
                                                     $('#site-cart').html('');
-                                                        // Chèn HTML vào trong phần tử #text_html_report
+                                                    // Chèn HTML vào trong phần tử #text_html_report
                                                     $('#site-cart').append(response);
                                                     $('#site-cart').show();
                                                     $('.count').text($('.textCartSide b').text());
                                                     $('#site-nav--mobile').addClass('active');
                                                     $('#site-overlay').addClass('active');
-                                                    
+
                                                 },
-                                                error: function(xhr, status, error) {
+                                                error: function (xhr, status, error) {
                                                     // Xử lý khi có lỗi xảy ra
                                                     console.log('Error:', error);
                                                     alert('An error occurred!');
                                                 }
                                             });
-                                        }else{
+                                        } else {
                                             alert('Chọn size trước khi thêm vào giỏ hàng!');
                                         }
-                                        
                                     });
                                 });
                             </script>
-
+                            <script>
+                                $(document).ready(function () {
+                                    // Lắng nghe sự kiện click vào phần tử có class 'btn-submit'
+                                    $('#addQuickCart').click(function () {
+                                        // Lấy dữ liệu cần thiết từ phần tử
+                                        var id_product_cart = $('#id_product_cart').val();  // Lấy giá trị từ thuộc tính data-id
+                                        var size_product_cart = $('#size_product_cart').val();  // Lấy giá trị từ thuộc tính data-name
+                                        var quantity = $('#quantity').val();
+                                        // Gửi yêu cầu AJAX với phương thức POST
+                                        if (size_product_cart) {
+                                            $.ajax({
+                                                url: '/add-product-cart/',  // Đường dẫn API hoặc view mà bạn muốn gửi request tới
+                                                type: 'POST',
+                                                data: {
+                                                    id_product_cart: id_product_cart,
+                                                    size_product_cart: size_product_cart,
+                                                    quantity: quantity,
+                                                    csrfmiddlewaretoken: '{{ csrf_token }}'  // Thêm csrf token nếu đang sử dụng Django
+                                                },
+                                                success: function (response) {
+                                                    window.location.href = "/checkout/";
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    // Xử lý khi có lỗi xảy ra
+                                                    console.log('Error:', error);
+                                                    alert('An error occurred!');
+                                                }
+                                            });
+                                        } else {
+                                            alert('Chọn size trước khi thêm vào giỏ hàng!');
+                                        }
+                                    });
+                                });
+                            </script>
 
                             <ul class="policyProduct">
                             </ul>
@@ -357,142 +391,220 @@
                     </div>
                     <div class="col-xs-12 clearfix">
                         <ul class="tabUlRelate">
-                            <li data-tab="tabContent2" ><a href="javascript:void(0)">Có thể bạn thích</a>
+                            <li id="tab_List_Product_Love"  class="active"><a href="javascript:void(0)">Có thể bạn thích</a>
                             </li>
-                            <li data-tab="tabContent3" class="active"><a href="javascript:void(0)">Sản phẩm bán chạy</a></li>
+                            <li id="tab_List_Product_Well" class=""><a href="javascript:void(0)">Sản phẩm bán chạy</a></li>
                         </ul>
-                        <div class="contentRelateProduct styleArrowOwl">
-                            <div data-tab="tabContent2" class="tabDetailProduct owlRelate2" style="display: none;">
-                                <div class="owl-carousel owl-theme owl-loaded">
-                                    <div class="owl-stage-outer">
-                                        <div class="owl-stage"
-                                            style="transform: translate3d(0px, 0px, 0px); transition: all; width: 2056.25px;">
-                                            {% for i in List_Product_Love %}
-                                            <div class="owl-item active" style="width: 293.75px; margin-right: 0px;">
-                                                <div class="itemslick pro-loop" data-id="{{i.id}}">
-                                                    <div class="product-block recommend-block" data-anmation="1">
-                                                        <div class="product-img">
+                        <div id="List_Product_Love" class="slider-container" style="display: flex; align-items: center;">
+                            <!-- Nút điều hướng bên trái -->
+                            <div class="swiper-button-prev"></div>
+                            <!-- Slider chính -->
+                            <div  class="swiper mySwiper" style="width: 100%; margin: 0 10px;">
+                                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 100%;">
+                                    {% for i in List_Product_Love %}
+                                    <div class="swiper-slide ">
+                                        <div class="owl-item" style="width: 293.75px; margin-right: 0px;">
+                                            <div class="itemslick pro-loop" data-id="40777248">
+                                                <div class="product-block recommend-block" data-anmation="1">
+                                                    <div class="product-img">
+                                                        <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
+                                                            class="p-img-box added">
+                                                            <picture>
+                                                                <img class="img-loop lazyautosizes lazyloaded"
+                                                                    data-sizes="auto"
+                                                                    src="{{i.photo_1.Photo.url}}"
+                                                                    data-src="{{i.photo_1.Photo.url}}"
+                                                                    alt="{{i.Name}}"
+                                                                    sizes="142px">
+                                                            </picture>
+                                                            <picture><img
+                                                                    class="img-loop img-hover lazyautosizes ls-is-cached lazyloaded"
+                                                                    data-sizes="auto"
+                                                                    src="{{i.photo_2.Photo.url}}"
+                                                                    data-id="40777248"
+                                                                    data-src="{{i.photo_2.Photo.url}}"
+                                                                    alt="{{i.Name}}"
+                                                                    sizes="162px"></picture>
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-detail clearfix">
+                                                        <div class="product-size-cus" psid="40777248">
+                                                            {% for f in i.product_size_detail.all %}
                                                             <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
-                                                                class="p-img-box added">
-                                                                <picture>
-                                                                    <img class="img-loop lazyautosizes ls-is-cached lazyloaded"
-                                                                        data-sizes="auto"
-                                                                        src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
-                                                                        data-src="{{i.photo_1.Photo.url}}"
-                                                                        alt="{{i.Name}}"
-                                                                        sizes="244px">
-                                                                </picture>
-                                                                <picture><img
-                                                                        class="img-loop img-hover lazyautosizes ls-is-cached lazyloaded"
-                                                                        data-sizes="auto"
-                                                                        src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
-                                                                        data-id="40777446"
-                                                                        data-src="{{i.photo_2.Photo.url}}"
-                                                                        alt="{{i.Name}}"
-                                                                        sizes="264px"></picture>
-                                                            </a>
-                                                        </div>
-                                                        <div class="product-detail clearfix">
-                                                            <div class="product-size-cus" psid="40777446">
-                                                                {% for j in i.product_size_detail.all %}
+                                                                class="text-main" value="40777249" title="46">
+                                                                {{f.Size}}</a>
+                                                            {% endfor %}
+                                                            </div>
+                                                        <div class="box-pro-detail">
+                                                            <h3 class="pro-name tp_product_name">
                                                                 <a
-                                                                    href="{% url 'detail_product_cl' Slug=i.Slug %}"
-                                                                    class="text-main" value="40777447" title="{{j.Size}}">
-                                                                    {{j.Size}}</a>
-                                                                {% endfor %}
-                                                                </div>
-                                                            <div class="box-pro-detail">
-                                                                <h3 class="pro-name tp_product_name">
-                                                                    <a
-                                                                        href="{% url 'detail_product_cl' Slug=i.Slug %}">SƠ
-                                                                       {{i.Name}}</a>
-                                                                </h3>
-                                                                <div class="box-pro-prices">
+                                                                    href="{% url 'detail_product_cl' Slug=i.Slug %}">{{i.Name}}</a>
+                                                            </h3>
+                                                            <div class="box-pro-prices">
 
-                                                                    <p class="pro-price highlight tp_product_price">
-                                                                        {% if i.Discount > 0 %}
-                                                                        <span class="format-number">{{i.Price_Discount}}₫</span>
-                                                                        {% else %}
-                                                                        <span class="format-number">{{i.Price}}₫</span>
-                                                                        {% endif %}
-                                                                    </p>
-                                                                </div>
+                                                                <p class="pro-price highlight tp_product_price">
+                                                                    {% if k.Discount > 0 %}
+                                                                    <span class="">{{i.Price_Discount}}₫</span>
+                                                                    {% else %}
+                                                                    <span class="">{{i.Price}}₫</span>
+                                                                    {% endif %}
+                                                                </p>
                                                             </div>
                                                         </div>
-
                                                     </div>
+
                                                 </div>
                                             </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="owl-controls">
-                                        <div class="owl-nav">
-                                            <div class="owl-prev" style="">prev</div>
-                                            <div class="owl-next" style="">next</div>
-                                        </div>
-                                        <div class="owl-dots" style="">
-                                            <div class="owl-dot active"><span></span></div>
-                                            <div class="owl-dot"><span></span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div data-tab="tabContent3" class="tabDetailProduct owlRelate3" style="display: block;">
-                                <div class="owl-carousel owl-theme">
-                                    {% for i in List_Product_Well %}
-                                    <div class="itemslick pro-loop" data-id="40777465">
-                                        <div class="product-block recommend-block" data-anmation="1">
-                                            <div class="product-img">
-                                                <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
-                                                    class="p-img-box added">
-                                                    <picture>
-                                                        <img class="img-loop lazyload" data-sizes="auto"
-                                                            src="https://web.nvnstatic.net/img/lazyLoading.gif?v=3"
-                                                            data-src="{{i.photo_1.Photo.url}}"
-                                                            alt="{{i.Name}}">
-                                                    </picture>
-                                                    <picture><img class="img-loop img-hover lazyload" data-sizes="auto"
-                                                            src="/img/lazyLoading.gif" data-id="40777465"
-                                                            data-src="{{i.photo_2.Photo.url}}"
-                                                            alt="{{i.Name}}">
-                                                    </picture>
-                                                </a>
-                                            </div>
-                                            <div class="product-detail clearfix">
-                                                <div class="product-size-cus" psid="40777465">
-                                                    {% for j in i.product_size_detail.all %}
-                                                    <a
-                                                        href="{% url 'detail_product_cl' Slug=i.Slug %}"
-                                                        class="text-main" value="40777447" title="{{j.Size}}">
-                                                        {{j.Size}}</a>
-                                                    {% endfor %}
-                                                    </div>
-                                                <div class="box-pro-detail">
-                                                    <h3 class="pro-name tp_product_name">
-                                                        <a href="{% url 'detail_product_cl' Slug=i.Slug %}">{{i.Name}}</a>
-                                                    </h3>
-                                                    <div class="box-pro-prices">
-
-                                                        <p class="pro-price highlight tp_product_price">
-                                                            {% if i.Discount > 0 %}
-                                                            <span class="format-number">{{i.Price_Discount}}₫</span>
-                                                            {% else %}
-                                                            <span class="format-number">{{i.Price}}₫</span>
-                                                            {% endif %}
-
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                     {% endfor %}
                                 </div>
                             </div>
+                            <!-- Nút điều hướng bên phải -->
+                            <div class="swiper-button-next"></div>
                         </div>
                     </div>
+                    <div id="List_Product_Well" class="slider-container" style="display: none; align-items: center;">
+                        <!-- Nút điều hướng bên trái -->
+                        <div class="swiper-button-prev1"></div>
+                        <!-- Slider chính -->
+                        <div id="List_Product_Well"  class="swiper mySwiper1" style="width: 100%; margin: 0 10px;">
+                            <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 100%;">
+                                {% for i in List_Product_Well %}
+                                <div class="swiper-slide ">
+                                    <div class="owl-item" style="width: 293.75px; margin-right: 0px;">
+                                        <div class="itemslick pro-loop" data-id="40777248">
+                                            <div class="product-block recommend-block" data-anmation="1">
+                                                <div class="product-img">
+                                                    <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
+                                                        class="p-img-box added">
+                                                        <picture>
+                                                            <img class="img-loop lazyautosizes lazyloaded"
+                                                                data-sizes="auto"
+                                                                src="{{i.photo_1.Photo.url}}"
+                                                                data-src="{{i.photo_1.Photo.url}}"
+                                                                alt="{{i.Name}}"
+                                                                sizes="142px">
+                                                        </picture>
+                                                        <picture><img
+                                                                class="img-loop img-hover lazyautosizes ls-is-cached lazyloaded"
+                                                                data-sizes="auto"
+                                                                src="{{i.photo_2.Photo.url}}"
+                                                                data-id="40777248"
+                                                                data-src="{{i.photo_2.Photo.url}}"
+                                                                alt="{{i.Name}}"
+                                                                sizes="162px"></picture>
+                                                    </a>
+                                                </div>
+                                                <div class="product-detail clearfix">
+                                                    <div class="product-size-cus" psid="40777248">
+                                                        {% for f in i.product_size_detail.all %}
+                                                        <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
+                                                            class="text-main" value="40777249" title="46">
+                                                            {{f.Size}}</a>
+                                                        {% endfor %}
+                                                        </div>
+                                                    <div class="box-pro-detail">
+                                                        <h3 class="pro-name tp_product_name">
+                                                            <a
+                                                                href="{% url 'detail_product_cl' Slug=i.Slug %}">{{i.Name}}</a>
+                                                        </h3>
+                                                        <div class="box-pro-prices">
+
+                                                            <p class="pro-price highlight tp_product_price">
+                                                                {% if k.Discount > 0 %}
+                                                                <span class="">{{i.Price_Discount}}₫</span>
+                                                                {% else %}
+                                                                <span class="">{{i.Price}}₫</span>
+                                                                {% endif %}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Nút điều hướng bên phải -->
+                        <div class="swiper-button-next1"></div>
+                    </div>
+                </div>
+                    <script>
+                        $(document).ready(function () {
+                            $("#tab_List_Product_Love").on("click", function () {
+                                $(this).addClass("active");
+                                $('#tab_List_Product_Well').removeClass('active');
+                                // Ẩn tất cả nội dung tab
+                                $("#List_Product_Well").hide();
+                                $("#List_Product_Love").show();
+                            });
+                        });
+                        $(document).ready(function () {
+                            $("#tab_List_Product_Well").on("click", function () {
+                                $(this).addClass("active");
+                                $('#tab_List_Product_Love').removeClass('active');
+                                // Ẩn tất cả nội dung tab
+                                $("#List_Product_Well").show();
+                                $("#List_Product_Love").hide();
+                            });
+                        });
+                    </script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var swiper = new Swiper(".mySwiper", {
+                                slidesPerView: 1,
+                                spaceBetween: 10,
+                                loop: true,
+                                centeredSlides: true,
+                                centerInsufficientSlides: true, // Căn giữa khi số slide ít hơn slidesPerView
+                                breakpoints: {
+                                    1024: {
+                                        slidesPerView: 4,
+                                        centeredSlides: false,
+                                    },
+                                    768: {
+                                        slidesPerView: 2,
+                                        centeredSlides: false,
+                                    },
+                                    0: {
+                                        slidesPerView: 1,
+                                        centeredSlides: true,
+                                    },
+                                },
+                            });                            
+                        });
+                    </script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var swiper = new Swiper(".mySwiper1", {
+                                slidesPerView: 1,
+                                spaceBetween: 10,
+                                loop: true,
+                                centeredSlides: true,
+                                centerInsufficientSlides: true, // Căn giữa khi số slide ít hơn slidesPerView
+                                breakpoints: {
+                                    1024: {
+                                        slidesPerView: 4,
+                                        centeredSlides: false,
+                                    },
+                                    768: {
+                                        slidesPerView: 2,
+                                        centeredSlides: false,
+                                    },
+                                    0: {
+                                        slidesPerView: 1,
+                                        centeredSlides: true,
+                                    },
+                                },
+                            });                            
+                        });
+                    </script>
+
+
                 </div>
             </div>
         </div>
@@ -506,7 +618,7 @@
                     <h4 class="modal-title">Hướng dẫn chọn size</h4>
                 </div>
                 <div class="modal-body">
-                    <p>0</p>
+                    <p>{{obj_Product.Choose_size|default:""}}</p>
                 </div>
             </div>
         </div>
@@ -662,4 +774,15 @@
         </div>
     </div>
 </main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        Fancybox.bind('[data-fancybox="gallery"]', {
+            infinite: true, // Cho phép quay vòng ảnh
+            buttons: ["zoom", "close"], // Nút điều khiển
+            caption: function (fancybox, carousel, slide) {
+                return slide.caption || "";
+            }
+        });
+    });
+</script>
 {% endblock %}

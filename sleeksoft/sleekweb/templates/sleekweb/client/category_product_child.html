@@ -42,7 +42,7 @@
                                 <div class="filter-custom hidden-sm hidden-xs removeMobile" style="z-index: 99999;">
                                     <span>Bộ lọc</span>
 
-                                    <div class="groupFilterNew" style="z-index: 99999;">
+                                    <div class="groupFilterNew" style="z-index: 999;">
                                         <div class="titleFilter clearfix">
 
                                             <div class="layered_subtitle dropdown-filter">
@@ -201,7 +201,7 @@
                                     <div class="goodsli-discount goodsli-promo">sale</div>
                                     {% endif %}
                                     <div class="product-img image-resize">
-                                        <a href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-p40776044.html"
+                                        <a href="{% url 'detail_product_cl' Slug=k.Slug %}"
                                             target="" class="p-img-box added">
                                             <picture>
                                                 <source media="(max-width: 767px)"
@@ -229,14 +229,14 @@
                                             <div class="product-size-cus" psid="40776044">
                                                 {% for s in k.product_size_detail.all %}
                                                 <a
-                                                    href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-41-p40776045.html"
+                                                    href="{% url 'detail_product_cl' Slug=k.Slug %}"
                                                     class="text-main" value="40776045" title="41">
                                                     {{s.Size}}</a>
                                                 {% endfor %}
                                                 </div>
                                             <div class="box-pro-detail">
                                                 <h3 class="pro-name">
-                                                    <a href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-p40776044.html"
+                                                    <a href="{% url 'detail_product_cl' Slug=k.Slug %}"
                                                         target="" class="tp_product_name">{{k.Name}}</a>
                                                 </h3>
                                                 <div class="box-pro-prices">
@@ -282,7 +282,7 @@
                         <div class="row pagination-theme clearfix text-center">
                             <div id="pagination" class="clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="paginator"><span class="labelPages">49 - 72 / 507</span><span
+                                    {% comment %} <div class="paginator"><span class="labelPages">49 - 72 / 507</span><span
                                         class="titlePages">&nbsp;&nbsp;Trang: </span><a rel="nofollow, noindex"
                                         class="paging-first" title="Trang đầu"
                                         href="/ao-pc571904.html?page=1"></a><a rel="nofollow, noindex"
@@ -293,6 +293,25 @@
                                         class="paging-next ico" href="/ao-pc571904.html?page=4"></a><a
                                         rel="nofollow, noindex" class="paging-last" title="Trang cuối"
                                         href="/ao-pc571904.html?page=22"></a>
+                                    </div> {% endcomment %}
+                                    <div class="paginator">
+                                        {% if List_Product_filter.has_previous %}
+                                            <a href="?page=1" class="paging-first">Trang đầu</a>
+                                            <a href="?page={{ List_Product_filter.previous_page_number }}" class="paging-previous ico">Trang trước</a>
+                                        {% endif %}
+                                    
+                                        {% for page in page_list %}
+                                            {% if page == List_Product_filter.number %}
+                                                <span class="currentPage">{{ page }}</span>
+                                            {% else %}
+                                                <a href="?page={{ page }}">{{ page }}</a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    
+                                        {% if List_Product_filter.has_next %}
+                                            <a href="?page={{ List_Product_filter.next_page_number }}" class="paging-next ico">Trang sau</a>
+                                            <a href="?page={{ List_Product_filter.paginator.num_pages }}" class="paging-last">Trang cuối</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

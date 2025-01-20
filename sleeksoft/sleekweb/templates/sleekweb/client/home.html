@@ -851,12 +851,12 @@
         <section class="category-block-ajax clearfix section section-collection section-p-category category-571904">
             <div class="container-fluid">
                 <div class="sectionTitleTab clearfix">
-                    <h2><a class="tp_title" href="https://cuongpopauth.com/ao-pc571904.html">{{i.Name}}</a></h2>
+                    <h2><a class="tp_title" href="{% url 'category_product_cl' Slug=i.Slug %}">{{i.Name}}</a></h2>
                     <div class="outerTabTitle" style="width: 632px;">
                         <ul class="tabTitle">
                             {% for j in i.category_product_detail.all %}
                             <li class="titleTabItem" data-id="{{j.id}}" data-bodyhtml="body_{{i.Slug}}" data-cateid="588140" data-parentid="571904"
-                                data-link="/ao-phong-pc588140.html">
+                                data-link="{% url 'category_product_child_cl' Slug=j.Slug %}">
                                 <a class="tp_title" data-toggle="tab" href="#">{{j.Name}}</a>
                             </li>
                             {% endfor %}
@@ -871,7 +871,7 @@
                                 <div class="goodsli-discount goodsli-promo">sale</div>
                                 {% endif %}
                                 <div class="product-img image-resize">
-                                    <a href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-p40776044.html"
+                                    <a href="{% url 'detail_product_cl' Slug=k.Slug %}"
                                         target="" class="p-img-box added">
                                         <picture>
                                             <source media="(max-width: 767px)"
@@ -899,14 +899,14 @@
                                         <div class="product-size-cus" psid="40776044">
                                             {% for s in k.product_size_detail.all %}
                                             <a
-                                                href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-41-p40776045.html"
+                                                href="{% url 'detail_product_cl' Slug=k.Slug %}"
                                                 class="text-main" value="40776045" title="41">
                                                 {{s.Size}}</a>
                                             {% endfor %}
                                             </div>
                                         <div class="box-pro-detail">
                                             <h3 class="pro-name">
-                                                <a href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-p40776044.html"
+                                                <a href="{% url 'detail_product_cl' Slug=k.Slug %}"
                                                     target="" class="tp_product_name">{{k.Name}}</a>
                                             </h3>
                                             <div class="box-pro-prices">

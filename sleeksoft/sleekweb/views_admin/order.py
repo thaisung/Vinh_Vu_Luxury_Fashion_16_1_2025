@@ -160,6 +160,7 @@ def order_ad(request):
                 s = request.GET.get('s')
                 f = request.GET.get('f')
                 st = request.GET.get('st')
+                p = request.GET.get('p')
                 context = {}
                 context['list_order'] = Order.objects.all()
                 if s:
@@ -179,58 +180,11 @@ def order_ad(request):
                 p = request.GET.get('p')
                 page_obj = paginator.get_page(p)
                 context['list_order'] = page_obj
+                print('list_order:',context['list_order'])
                 # Tạo danh sách các số trang
                 page_list = list(range(1, paginator.num_pages + 1))
                 context['page_list'] = page_list
                 return render(request, 'sleekweb/admin/order.html', context, status=200)
-            elif request.user.is_manage:
-                context = {}
-                s = request.GET.get('s')
-                f = request.GET.get('f')
-                st = request.GET.get('st')
-                context = {}
-                list_Select_setting = Select_setting.objects.all()
-                if list_Select_setting:
-                    obj = list_Select_setting[0]
-                    context['Select_setting'] = {
-                        "Area": [item.strip() for item in obj.Area.split('\n') if item.strip()],
-                        "Product": [item.strip() for item in obj.Product.split('\n') if item.strip()],
-                        "Demand": [item.strip() for item in obj.Demand.split('\n') if item.strip()],
-                        "Source": [item.strip() for item in obj.Source.split('\n') if item.strip()],
-                    }
-                    print('contextSelect_setting:',context['Select_setting'])
-                else:
-                    context['Select_setting'] = ''
-                context['list_campaign'] = Campaign.objects.filter(Belong_User=request.user)
-                list_campaign_delete = Campaign.objects.filter(Belong_User=request.user,Belong_User_Delete=request.user)
-                context['list_order'] = Order.objects.filter(Belong_Campaign__in=context['list_campaign']).annotate(
-                    is_deletable=Case(
-                        When(Belong_Campaign__in=list_campaign_delete, then=True),
-                        default=False,
-                        output_field=BooleanField()
-                    )
-                ).order_by('-id')
-                if s:
-                    context['list_order'] = context['list_order'].filter(Q(Name__icontains=s)).order_by('-id')
-                    context['s'] = s
-                if f:
-                    Belong_Campaign = Campaign.objects.get(pk=f)
-                    context['list_order'] = context['list_order'].filter(Belong_Campaign=Belong_Campaign).order_by('-id')
-                    context['f'] = int(f)
-                if st:
-                    context['list_order'] = context['list_order'].filter(Status_order=st).order_by('-id')
-                    context['st'] = st               
-                # Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
-                paginator = Paginator(context['list_order'], settings.PAGE)
-
-                # Lấy số trang hiện tại từ URL, nếu không mặc định là trang 1
-                p = request.GET.get('p')
-                page_obj = paginator.get_page(p)
-                context['list_order'] = page_obj
-                # Tạo danh sách các số trang
-                page_list = list(range(1, paginator.num_pages + 1))
-                context['page_list'] = page_list
-                return render(request, 'sleekweb/admin/order_page.html', context, status=200)
             else:
                 return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
         else:
@@ -548,4 +502,11 @@ def setting_all(request):
     else:
         return JsonResponse({'success': False, 'message': 'Không tồn tại phương thức này'},json_dumps_params={'ensure_ascii': False})
     
-    
+def update_status_order(request):
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        id = request.POST.get('id')
+        obj_order = Order.objects.get(pk=id)
+        obj_order.Status = status
+        obj_order.save()
+        return redirect('order_ad')

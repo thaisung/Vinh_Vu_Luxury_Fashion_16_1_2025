@@ -759,36 +759,7 @@ $(".open_form_update_campaign_user").click(function () {
         });
     });
 </script>
-<script>
-    $(document).ready(function() {
-        $('#form_reset_user_lead').on('submit', function(event) {
-            event.preventDefault();
-        
-            var formData = new FormData(this);  // Tạo FormData từ form hiện tại
 
-            $.ajax({
-                url: '{% url 'reset_user_lead_admin' %}',
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
-                contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        window.location.href = response.redirect_url;
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function(response) {
-                    console.log('Làm mới tài khoản thất bại', response);
-                }
-            });
-        });
-    });
-</script>
 <script>
     $(document).ready(function() {
         $('#form_approve').on('submit', function(event) {

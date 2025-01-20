@@ -156,7 +156,7 @@ EMAIL_PORT = ''
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 
-PAGE = 10
+PAGE = 1
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -77,18 +77,17 @@ def category_product_child_ad(request,Slug):
                 if s:
                     context['List_Category_product_child'] = context['List_Category_product_child'].filter(Q(Name__icontains=s)).order_by('-id')
                     context['s'] = s
-                return render(request, 'sleekweb/admin/category_product_child.html', context, status=200)
                 # Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
-                # paginator = Paginator(context['list_user'], settings.PAGE)
+                paginator = Paginator(context['List_Category_product_child'], settings.PAGE)
 
-                # # Lấy số trang hiện tại từ URL, nếu không mặc định là trang 1
-                # p = request.GET.get('p')
-                # page_obj = paginator.get_page(p)
-                # context['list_user'] = page_obj
-                # # Tạo danh sách các số trang
-                # page_list = list(range(1, paginator.num_pages + 1))
-                # context['page_list'] = page_list
-                
+                # Lấy số trang hiện tại từ URL, nếu không mặc định là trang 1
+                p = request.GET.get('p')
+                page_obj = paginator.get_page(p)
+                context['List_Category_product_child'] = page_obj
+                # Tạo danh sách các số trang
+                page_list = list(range(1, paginator.num_pages + 1))
+                context['page_list'] = page_list
+                return render(request, 'sleekweb/admin/category_product_child.html', context, status=200)
             else:
                 return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
         else:

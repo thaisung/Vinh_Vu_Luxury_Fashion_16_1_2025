@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi-VN" data-nhanh.vn-template="T0298">
+<html lang="vi-VN" data-nhanh.vn-template="T0298" class="fancybox-enabled">
 
 <head>
     <link rel="preconnect" href="https://web.nvnstatic.net/" crossorigin>
@@ -56,6 +56,84 @@
     <script defer type="text/javascript" src="/static/js/scripts.js"></script>
     <script defer type="text/javascript" src="/static/js/myjs.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        slidesPerView: 3, // Số sản phẩm hiển thị trên 1 hàng
+        spaceBetween: 10, // Khoảng cách giữa các sản phẩm
+        navigation: { // Nút mũi tên điều hướng
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        mousewheel: true, // Kéo trượt bằng chuột
+        loop: true, // Lặp lại vòng
+    });
+    </script>
+<script>
+    $(document).ready(function () {
+        // Sử dụng event delegation để xử lý các <label> được thêm động
+        $(document).on('click', '.select-swap.attr-size.req label', function () {
+            // Kiểm tra nếu thẻ <label> không có class nào (class trống)
+            if ($(this).attr('class') === "") {
+                // Xóa class 'active' khỏi tất cả <label> trong cùng container
+                $('.select-swap.attr-size.req label').removeClass('active');
+    
+                // Thêm class 'active' vào thẻ được click
+                $(this).addClass('active');
+            } else {
+                console.log('Chỉ được chọn các label có class trống.');
+            }
+        });
+    });
+    $(document).ready(function () {
+        $(document).on('click', '#add-to-cart-detail', function () {
+            var productId = $(this).data('id'); // Lấy ID sản phẩm từ data-id của nút
+            var productSize = $('.select-swap.attr-size.req label.active').data('size'); // Lấy size từ label có class 'active'
+            
+            if (!productSize) {
+                alert('Vui lòng chọn kích cỡ!');
+                return; // Nếu không có size, thông báo và dừng lại
+            }
+            
+            $.ajax({
+                url: '/add-product-cart/',  // Đường dẫn API hoặc view mà bạn muốn gửi request tới
+                type: 'POST',
+                data: {
+                    id_product_cart: productId,
+                    size_product_cart:productSize,
+                    quantity: 1,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'  // Thêm csrf token nếu đang sử dụng Django
+                },
+                success: function(response) {
+                    $('#site-cart').html('');
+                        // Chèn HTML vào trong phần tử #text_html_report
+                    $('#site-cart').append(response);
+                    $('#site-cart').show();
+                    $('.count').text($('.textCartSide b').text());
+                    $('#site-nav--mobile').addClass('active');
+                    $('#site-overlay').addClass('active');
+                    
+                },
+                error: function(xhr, status, error) {
+                    // Xử lý khi có lỗi xảy ra
+                    console.log('Error:', error);
+                    alert('An error occurred!');
+                }
+            });
+        });
+    });
+    
+    
+    
+    
+</script>
     <style type="text/css">
         .tp_background {
             background: #f0f0f0 !important
@@ -312,6 +390,8 @@
 </head>
 
 <body class="tp_background tp_text_color">
+    
+    
     <input type="hidden" value="117900" id="storeId">
 
     <div id="root"><!--<body id="Nhanh-template" class="index">-->
@@ -351,15 +431,19 @@
 
 
                                 <li>
-                                    <a href="{% url 'login_cl' %}">
+                                    {% if request.user.is_authenticated %}
+                                    <a href="{% url 'user_cl' %}">
                                         <span class="iconTop icon-4-top"></span><span class="title-info-top user_tk">
-                                            {% if request.user.is_authenticated %}
                                             {{request.user.email}}
-                                            {% else %}
-                                            Tài khoản
-                                            {% endif %}
                                         </span>
                                     </a>
+                                    {% else %}
+                                    <a href="{% url 'login_cl' %}">
+                                        <span class="iconTop icon-4-top"></span><span class="title-info-top user_tk">
+                                            Tài khoản
+                                        </span>
+                                    </a>
+                                    {% endif %}
                                 </li>
                             </ul>
                         </div>
@@ -959,106 +1043,23 @@
 
         <nav id="menu-mobile" class="hidden">
             <ul>
-
+                {% for i in List_Category_product %}
                 <li class=" has-children ">
-                    <a class="chir_menu" href="https://cuongpopauth.com/ao-pc571904.html">Áo</a>
+                    <a class="chir_menu" href="{% url 'category_product_cl' Slug=i.Slug %}">{{i.Name}}</a>
                     <ul class="child count-nav-6">
+                        {% for j in i.category_product_detail.all %}
                         <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/ao-phong-pc588140.html">Áo phông</a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/ao-polo-pc588141.html">Áo polo </a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/ao-so-mi-pc588139.html">Áo sơ mi </a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/ao-khoac-pc588143.html">Áo khoác </a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/ao-ni-ao-len-pc588142.html">Áo nỉ - Áo
-                                Len</a></li>
+                            href="{% url 'category_product_child_cl' Slug=j.Slug %}">{{j.Name}}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
-                <li class=" has-children ">
-                    <a class="chir_menu" href="https://cuongpopauth.com/quan-pc571903.html">Quần</a>
-                    <ul class="child count-nav-6">
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/quan-jean-kaki-pc588145.html">Quần Jean ,
-                                Kaki </a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/quan-short-pc588144.html">Quần Short </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class=" ">
-                    <a class="chir_menu" href="https://cuongpopauth.com/giay-pc571906.html">Giày</a>
-                </li>
-                <li class=" ">
-                    <a class="chir_menu" href="https://cuongpopauth.com/dep-pc571907.html">Dép</a>
-                </li>
-                <li class=" ">
-                    <a class="chir_menu" href="https://cuongpopauth.com/bo-quan-ao-pc572717.html">BỘ QUẦN ÁO</a>
-                </li>
-                <li class=" ">
-                    <a class="chir_menu" href="https://cuongpopauth.com/do-nu-pc571913.html">Đồ Nữ</a>
-                </li>
-                <li class=" has-children ">
-                    <a class="chir_menu" href="https://cuongpopauth.com/phu-kien-pc588147.html">Phụ Kiện</a>
-                    <ul class="child count-nav-6">
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/kinh-pc571908.html">Kính</a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/mu-pc571909.html">Mũ</a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/tui-clutch-vi-pc571910.html">Túi , Clutch
-                                ,Ví</a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/that-lung-pc571912.html">Thắt Lưng</a>
-                        </li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/do-lot-pc571914.html">Đồ Lót</a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/case-pc588314.html">Case </a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/khau-trang-pc588315.html">Khẩu trang </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class=" has-children ">
-                    <a class="chir_menu" href="https://cuongpopauth.com/nuoc-hoa-pc571911.html">Nước Hoa</a>
-                    <ul class="child count-nav-6">
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/nuoc-hoa-nam-pc588148.html">Nước hoa Nam
-                            </a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/nuoc-hoa-nu-pc588149.html">Nước Hoa nữ
-                            </a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/nuoc-hoa-unisex-pc588150.html">Nước Hoa
-                                Unisex </a></li>
-                        <li class=" has-children"><a class="chir_menu"
-                                href="https://cuongpopauth.com/lan-khu-mui-pc588151.html">Lăn Khử Mùi
-                            </a></li>
-                    </ul>
-                </li>
-                <li class=" ">
-                    <a class="chir_menu" href="https://cuongpopauth.com/spa-bao-ve-pc590319.html">SPA - BẢO VỆ</a>
-                </li>
-                <!-- <li class=" ">
-                    <a class="chir_menu" href="https://cuongpopauth.com/tag/super-sale-t2.html">SUPER SALE</a>
-                </li> -->
-
-                <!--        <li class="boldSale"><a href="https://cuongpopauth.com/collections/only-online-06">SALE</a></li>-->
-
+                {% endfor %}
                 <li class="infoMoreMobile">
                     <a class="btnHL" href="tel:090.245.8989">
                         <span class="iconTop icon-1-top"></span>
                         <span class="title-info-top"><b>090.245.8989</b></span>
                     </a>
                 </li>
-                <!--        <li class="infoMoreMobile">-->
-                <!--            <a href="https://cuongpopauth.com/blogs/he-thong-cua-hang">-->
-                <!--                <span class="iconTop icon-2-top"></span>-->
-                <!--                <span class="title-info-top">Hệ thống <b>96</b> cửa hàng</span>-->
-                <!--            </a>-->
-                <!--        </li>-->
             </ul>
         </nav>
     </div>

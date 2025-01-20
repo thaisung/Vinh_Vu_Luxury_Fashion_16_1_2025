@@ -151,7 +151,19 @@
                                 {{i.ward|default:""}}
                             </td>
                             <td class="px-4 py-3 text-sm whitespace-nowrap">
-                                {{i.Status|default:""}}
+                                <form method="post" action="{% url 'update_status_order' %}" class="">
+                                    {% csrf_token %}
+                                    <input name="id" type="hidden" value="{{i.id}}" name="id" />
+                                    <select  onchange="this.form.submit()" name="status"
+                                    class="
+                                    {% if i.Status == 'Đã xác nhận' %}bg-green-500{% elif i.Status == 'Đang gửi hàng' %}bg-yellow-500{% elif i.Status == 'Đã gửi hàng' %}bg-sky-500{% else %}bg-stone-100{% endif %}
+                                     text-sm text-stone-800 w-full   focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                                        <option value="Chờ xác nhận" {% if i.Status == 'Chờ xác nhận' %}selected{% endif %} class="bg-stone-100">Chờ xác nhận</option>
+                                        <option value="Đã xác nhận" {% if i.Status == 'Đã xác nhận' %}selected{% endif %} class="bg-stone-100">Đã xác nhận</option>
+                                        <option value="Đang gửi hàng" {% if i.Status == 'Đang gửi hàng' %}selected{% endif %} class="bg-stone-100">Đang gửi hàng</option>
+                                        <option value="Đã gửi hàng" {% if i.Status == 'Đã gửi hàng' %}selected{% endif %} class="bg-stone-100">Đã gửi hàng</option>
+                                    </select>
+                                </form>
                             </td>
                             <td class="px-4 py-3 text-sm whitespace-nowrap">
                                 {{i.Creation_time|date:"d-m-Y h:m:s"}}
@@ -161,10 +173,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="pagination {% if list_lead.paginator.num_pages <= 1 %}hidden{% endif %} border-t-[1px] border-stone-200 flex items-center justify-center" >
+            <div class="pagination {% if list_order.paginator.num_pages <= 1 %}hidden{% endif %} border-t-[1px] border-stone-200 flex items-center justify-center" >
                 <ul class="flex items-center justify-center">page</ul>
             </div>
-            <button id="open_form_delete_check_list_lead" style="display:none;" class="p-2 rounded-md bg-red-600 font-medium text-stone-100 mt-2">Xóa danh sách đơn hàng đã chọn</button>
+            <button id="open_form_delete_check_list_order" style="display:none;" class="p-2 rounded-md bg-red-600 font-medium text-stone-100 mt-2">Xóa danh sách đơn hàng đã chọn</button>
         </div>
         <form method="POST" action="{% url 'order_ad' %}" style="display:none;"
             class="form_create xxx fixed z-9999   pb-[10px] md:pt-[0px] md:pb-[0px] overflow-x-auto inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
@@ -492,7 +504,7 @@
                 });
             </script>
         </form>
-        <form id="form_delete_check_list_lead" style="display:none;" class=" xxx px-[10px] fixed z-9999 inset-0  flex justify-center items-center bg-black bg-opacity-50">
+        <form id="form_delete_check_list_order" style="display:none;" class=" xxx px-[10px] fixed z-9999 inset-0  flex justify-center items-center bg-black bg-opacity-50">
             <div id="" class="relative  flex gap-3 flex-col justify-center items-center p-4 bg-white rounded-lg shadow-md text-red-500 font-medium ">
                 <input type="hidden" id="check_list" />
                 <span>* Danh sách đơn hàng đã chọn sẽ bị xóa *</span>
@@ -505,7 +517,7 @@
                         Xóa đơn hàng đã chọn
                     </button>
                     <a
-                        class="close_form_delete_check_list_lead cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        class="close_form_delete_check_list_order cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
                         Hủy
                     </a>
                 </div>
@@ -736,12 +748,12 @@
             $(".form_create").hide();
         });
 
-        $('#open_form_delete_check_list_lead').click(function(){
+        $('#open_form_delete_check_list_order').click(function(){
             $(".xxx").hide();
-            $('#form_delete_check_list_lead').show();
+            $('#form_delete_check_list_order').show();
         });
-        $('.close_form_delete_check_list_lead').click(function(){
-            $('#form_delete_check_list_lead').hide();
+        $('.close_form_delete_check_list_order').click(function(){
+            $('#form_delete_check_list_order').hide();
         });
     });
 </script>
@@ -984,16 +996,16 @@
             });
             $('#check_list').val(JSON.stringify(checkedValues)); // Gán mảng giá trị vào input hidden
             if (checkedValues.length > 0) {
-                $('#open_form_delete_check_list_lead').show();
+                $('#open_form_delete_check_list_order').show();
             } else {
-                $('#open_form_delete_check_list_lead').hide();
+                $('#open_form_delete_check_list_order').hide();
             }
         }
     });
 </script>
 <script>
     $(document).ready(function () {
-        $('#form_delete_check_list_lead').on('submit', function (event) {
+        $('#form_delete_check_list_order').on('submit', function (event) {
             event.preventDefault();
             $.ajax({
                 url: '{% url 'delete_check_list_order_ad' %}',
@@ -1023,8 +1035,8 @@
 <script>
     // selecting required element
     const element = document.querySelector(".pagination ul");
-    let totalPages = {{list_lead.paginator.num_pages}};
-    let page = {{list_lead.number}};
+    let totalPages = {{list_order.paginator.num_pages}};
+    let page = {{list_order.number}};
     let s_l = "{{ s|default:'' }}";  // Nếu s không có giá trị, dùng giá trị mặc định là ''
     let f_l = "{{ f|default:'' }}";  // Nếu f không có giá trị, dùng giá trị mặc định là ''
     let st_l = "{{ st|default:'' }}";  // Nếu st không có giá trị, dùng giá trị mặc định là ''

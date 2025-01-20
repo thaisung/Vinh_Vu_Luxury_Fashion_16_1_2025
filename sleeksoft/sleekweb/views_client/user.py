@@ -62,7 +62,7 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
 import base64
 
-def login_cl(request):
+def user_cl(request):
     if request.method == 'GET':
         context = {}
         context['List_Category_product'] = Category_product.objects.all()
@@ -89,7 +89,7 @@ def login_cl(request):
                     total=models.Sum('Quantity')
                 )['total'] or 0
                 product.is_out_of_stock = total_quantity == 0  # True nếu hết hàng
-        return render(request, 'sleekweb/client/login.html', context, status=200)
+        return render(request, 'sleekweb/client/user.html', context, status=200)
     elif request.method == 'POST':
         username  = request.POST.get('username')
         password  = request.POST.get('password')
@@ -111,7 +111,3 @@ def login_cl(request):
             return JsonResponse({'success': False, 'message': 'Điền đầy đủ thông tin trước khi đằng nhập'})
     else:
         return redirect('login_cl')
-    
-def logout_cl(request):
-    logout(request)
-    return redirect('home_cl')

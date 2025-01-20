@@ -50,6 +50,7 @@ from .views_client.home import *
 from .views_client.detail_product import *
 from .views_client.cart import *
 from .views_client.login import *
+from .views_client.user import *
 from .views_client.register import *
 from .views_client.category_product import *
 from .views_client.category_product_child import *
@@ -83,6 +84,8 @@ urlpatterns = [
     path('add-product-cart/', add_product_cart_cl,name='add_product_cart_cl'),
     path('remove-product-cart/', remove_product_cart_cl,name='remove_product_cart_cl'),
     path('login/', login_cl,name='login_cl'),
+    path('logout/', logout_cl,name='logout_cl'),
+    path('user/', user_cl,name='user_cl'),
     path('register/', register_cl,name='register_cl'),
     path('getpassword/', getpassword_cl,name='getpassword_cl'),
     path('checkout/', checkout_cl,name='checkout_cl'),
@@ -119,6 +122,7 @@ urlpatterns = [
     
     path('ad/order/', order_ad,name='order_ad'),
     path('ad/update-order/', update_order_ad,name='update_order_ad'),
+    path('ad/update-status-order/', update_status_order,name='update_status_order'),
     path('admin/order-delete-check-list/', delete_check_list_order_ad,name='delete_check_list_order_ad'),
     path('ad/delete-order/', delete_order_cl,name='delete_order_cl'),
     

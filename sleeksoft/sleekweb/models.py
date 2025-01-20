@@ -101,6 +101,8 @@ class Product(models.Model):
     Slug = models.SlugField('Slug', max_length=255, unique=True, blank=True, null=True)
     Price = models.CharField('Giá', max_length=255,blank=True, null=True)
     Description = models.TextField('Mô tả sản phẩm',blank=True, null=True)
+    Parameter = models.TextField('Thông số sản phẩm',blank=True, null=True)
+    Choose_size = models.TextField('Hướng dẫn chọn size',blank=True, null=True)
     Discount = models.IntegerField('giảm giá',blank=True, null=True)
     Price_Discount = models.CharField('Giá sau giảm', max_length=255,blank=True, null=True)
     Belong_Category_product_child = models.ForeignKey(Category_product_child, on_delete=models.CASCADE, related_name='category_product_child_detail',blank=True, null=True)

@@ -1,0 +1,153 @@
+{% extends './base.html' %}
+{% block content %}
+{% load socialaccount %}
+<main class="main-site main-childs">
+    <div class="user-wrapper">
+        <div class="user-nav anonymous-awe">
+            <a href="" class="" rel="nofollow" style="width:100%;">Thông tin tài khoản</a>
+        </div>
+        <div accept-charset="UTF-8" id="formAcount" class="validate" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="usernameformError parentFormformAcount formError"
+                    style="opacity: 0.87; position: absolute; top: 179.375px; left: 891px; margin-top: -35px;">
+                    <div class="formErrorArrow">
+                        <div class="line10"><!-- --></div>
+                        <div class="line9"><!-- --></div>
+                        <div class="line8"><!-- --></div>
+                        <div class="line7"><!-- --></div>
+                        <div class="line6"><!-- --></div>
+                        <div class="line5"><!-- --></div>
+                        <div class="line4"><!-- --></div>
+                        <div class="line3"><!-- --></div>
+                        <div class="line2"><!-- --></div>
+                        <div class="line1"><!-- --></div>
+                    </div>
+                </div><input type="text" name="username" id="username" value="{{request.user.email}}" class="validate[required]"
+                    placeholder="Nhập email">
+            </div>
+            <div class="form-group">
+                <input  name="password" id="password" value="{{request.user.Full_name}}" class="validate[required]" placeholder="Mật khẩu">
+            </div>
+
+            <button id="btnsignin" class="btn btn-organ w__100" onclick="window.location.href='{% url 'logout_cl' %}';">Đăng xuất</button>
+            <button id="btnsignin" class="btn btn-organ w__100" onclick="window.location.href='{% url 'order_cl' %}';">Thông tin đơn hàng</button>
+            
+        </div>
+    </div>
+</main>
+
+<style>
+    .loginFb {
+        width: 275px;
+        background: #3b5998;
+        display: inline-block;
+    }
+
+    .loginFb span,
+    .loginGg span {
+        float: left;
+        width: 50px;
+        height: 100%;
+        font-size: 31px;
+        color: #fff;
+        border-right: 1px solid #15416f;
+    }
+
+    .loginGg span {
+        border-right: 1px solid #646668;
+    }
+
+    .loginFb a,
+    .loginGg a {
+        color: #fff;
+        padding: 0 5px;
+    }
+
+    .loginGg {
+        width: 250px;
+        background: #000;
+        color: #fff;
+        display: inline-block;
+        margin-left: 20px;
+    }
+
+    .user-wrapper {
+        max-width: 600px;
+        margin: auto;
+        border: 1px solid #ccc;
+    }
+
+    .user-nav {
+        border-bottom: 2px solid #cccccc63;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(146, 146, 146, 0.14);
+    }
+
+    .user-nav a {
+        width: 50%;
+        float: left;
+        display: inline-block;
+        text-transform: uppercase;
+        font-size: 18px;
+        text-align: center;
+        padding: 5px 10px;
+        border-bottom: 2px solid transparent;
+    }
+
+    .user-nav a.active,
+    .user-nav a:hover {
+        border-bottom: 2px solid #10a2f7;
+    }
+
+    .user-wrapper #formAcount {
+        padding: 20px;
+    }
+
+    #formAcount input {
+        width: 100%;
+        clear: both;
+        padding: 8px 12px;
+        border: none;
+        border-bottom: 1px solid #ccc;
+    }
+
+    #formAcount button {
+        text-transform: uppercase;
+        font-size: 18px;
+        background: #000;
+        color: #fff;
+        border-color: #000;
+
+    }
+
+    #formAcount button,
+    #formAcount button:hover,
+    #formAcount button:focus {
+        outline: 0;
+    }
+
+    .user-foot {
+        font-size: 17px;
+    }
+
+    .user-foot a {
+        margin: 10px 0;
+        display: block;
+    }
+
+    .user-foot a.clearfix {
+        color: #007bff;
+    }
+
+    .user-foot a.clearfix:hover {
+        color: #fd6e1d;
+    }
+
+    .user-foot .btn {
+        font-size: 16px;
+        background: #3c5a9a;
+        border-color: #3c5a9a;
+    }
+</style>
+{% endblock %}

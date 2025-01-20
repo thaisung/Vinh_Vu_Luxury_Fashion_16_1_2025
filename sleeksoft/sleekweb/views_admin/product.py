@@ -134,6 +134,8 @@ def product_ad(request,Slug):
                 fields['Slug'] = slugify(fields['Name'])
                 fields['Price'] = request.POST.get('Price')
                 fields['Description'] = request.POST.get('Description')
+                fields['Parameter'] = request.POST.get('Parameter')
+                fields['Choose_size'] = request.POST.get('Choose_size')
                 fields['Discount'] = request.POST.get('Discount')
                 if fields['Discount'] and fields['Price']:
                     fields['Price_Discount'] = math.ceil((100-int(fields['Discount']))/100*int(fields['Price']))
@@ -179,6 +181,14 @@ def update_product_ad(request,Slug,Slugg):
                         <span class="font-medium text-stone-600">Mô tả</span>
                         <textarea name="Description" required  class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">{escape(obj_product.Description)}</textarea>
                     </label>
+                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                        <span class="font-medium text-stone-600">Mô tả</span>
+                        <textarea name="Parameter" required  class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">{escape(obj_product.Parameter)}</textarea>
+                    </label>
+                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                        <span class="font-medium text-stone-600">Mô tả</span>
+                        <textarea name="Choose_size" required  class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">{escape(obj_product.Choose_size)}</textarea>
+                    </label>
                     <label class="block text-sm w-full">
                         <span class="font-medium text-stone-600">Giảm giá (%)</span>
                         <input name="Discount" value="{escape(obj_product.Discount)}" type="number" min="0" max="100"
@@ -214,6 +224,8 @@ def update_product_ad(request,Slug,Slugg):
                 obj_product.Slug = slugify(Name)
                 obj_product.Price = request.POST.get('Price')
                 obj_product.Description = request.POST.get('Description')
+                obj_product.Parameter = request.POST.get('Parameter')
+                obj_product.Choose_size = request.POST.get('Choose_size')
                 obj_product.Discount = request.POST.get('Discount')
                 if request.POST.get('Discount') and request.POST.get('Price'):
                     obj_product.Price_Discount = math.ceil((100-int(request.POST.get('Discount')))/100*int(request.POST.get('Price')))
