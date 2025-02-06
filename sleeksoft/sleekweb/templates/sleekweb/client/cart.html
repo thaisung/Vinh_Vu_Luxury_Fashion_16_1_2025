@@ -69,29 +69,21 @@
                                                                             <input type="hidden" name="type_quantity" value="down"  />
                                                                             <input type="hidden" name="pk" value="{{i.pk}}"  />
                                                                             <input type="hidden" name="page" value="cart"  />
-                                                                            <button type="submit">-</button>
+                                                                            <button type="submit" style="border:none; width: 20px;">-</button>
                                                                         </form>
                                                                     </span>
-                                                                    <input type="text" size="4" min="1" id="" max=""
-                                                                        value="3" data-id="40777466"
-                                                                        class="tc line-item-qty item-quantity"
-                                                                        readonly="">
+                                                                    <input type="text" size="4" min="1" max="0"
+                                                                        data-id="40777466" value="{{i.quantity}}"
+                                                                        class="tc line-item-qty item-quantity" readonly="">
                                                                     <span class="add-up add-action">
                                                                         <form method="post" action="{% url 'checkout_cl' %}">
                                                                             {% csrf_token %}
                                                                             <input type="hidden" name="type_quantity" value="up"  />
                                                                             <input type="hidden" name="pk" value="{{i.pk}}"  />
                                                                             <input type="hidden" name="page" value="cart"  />
-                                                                            <button type="submit">+</button>
+                                                                            <button type="submit" style="border:none; width: 20px;">+</button>
                                                                         </form>
                                                                     </span>
-                                                                    <form method="post" action="{% url 'checkout_cl' %}">
-                                                                        {% csrf_token %}
-                                                                        <input type="hidden" name="type_quantity" value="up"  />
-                                                                        <input type="hidden" name="pk" value="{{i.pk}}"  />
-                                                                        <input type="hidden" name="page" value="cart"  />
-                                                                        <button type="submit">+</button>
-                                                                    </form>
                                                                 </div>
                                                                 <span class="line-item-total">
                                                                     {{i.total_money}}₫ </span>
@@ -221,464 +213,73 @@
                                 <div class="heading-title headingBorderLeft text-left">
                                     <h2>Sản phẩm có thể bạn thích</h2>
                                 </div>
-                                <div class="content-product-list styleArrowOwl">
-                                    <div class="owlCollectionCart">
-                                        <div class="owl-carousel owl-theme owl-loaded">
-                                            <div class="owl-stage-outer">
-                                                <div class="owl-stage"
-                                                    style="transform: translate3d(0px, 0px, 0px); transition: all; width: 2073.75px;">
-                                                    <div class="owl-item active"
-                                                        style="width: 286.25px; margin-right: 10px;">
-                                                        <div class="itemOwl pro-loop" data-id="40777465">
-                                                            <div class="product-block recommend-block"
-                                                                data-anmation="1">
-                                                                <div class="product-img">
-                                                                    <a href="/ao-khoac-adidas-den-co-mu-hl9211-p40777465.html"
-                                                                        class="p-img-box added">
-                                                                        <picture>
-                                                                            <img class="img-loop lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_FlEdhpSE5b.jpeg"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_FlEdhpSE5b.jpeg"
-                                                                                alt="ÁO KHOÁC ADIDAS ĐEN CÓ MŨ HL9211"
-                                                                                sizes="266px">
-                                                                        </picture>
-                                                                        <picture><img
-                                                                                class="img-loop img-hover lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_K2neaH9XYI.jpeg"
-                                                                                data-id="40777465"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_K2neaH9XYI.jpeg"
-                                                                                alt="https://pos.nvncdn.com/609d6b-117900/ps/20250103_K2neaH9XYI.jpeg"
-                                                                                sizes="286px"></picture>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="product-detail clearfix">
-                                                                    <div class="variantColor">
-                                                                        <ul>
-                                                                            <li data-filter="kem"
-                                                                                data-color="?color=kem">
-                                                                                <a href="/ao-khoac-adidas-den-co-mu-hl9211-p40777465.html"
-                                                                                    data-img="https://pos.nvncdn.com/609d6b-117900/ps/20250103_FlEdhpSE5b.jpeg"
-                                                                                    data-img-hover="https://pos.nvncdn.com/609d6b-117900/ps/20250103_FlEdhpSE5b.jpeg">
-                                                                                    <img class="lazyautosizes ls-is-cached lazyloaded"
-                                                                                        data-sizes="auto"
-                                                                                        src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_FlEdhpSE5b.jpeg"
-                                                                                        data-src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_FlEdhpSE5b.jpeg"
-                                                                                        alt="ÁO KHOÁC ADIDAS ĐEN CÓ MŨ HL9211 - S"
-                                                                                        sizes="24px">
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-
-                                                                    <div class="box-pro-detail">
-                                                                        <h3 class="pro-name">
-                                                                            <a
-                                                                                href="/ao-khoac-adidas-den-co-mu-hl9211-p40777465.html">ÁO
-                                                                                KHOÁC ADIDAS ĐEN CÓ MŨ HL9211</a>
-                                                                        </h3>
-
-                                                                        <div class="box-pro-prices">
-
-                                                                            <p class="pro-price highlight">
-                                                                                3,800,000₫
-
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
+                                <div id="List_Product_Love" class="slider-container" style="display: flex; align-items: center;">
+                                    <!-- Nút điều hướng bên trái -->
+                                    <div class="swiper-button-prev" style="color: gray;"></div>
+                                    <!-- Slider chính -->
+                                    <div  class="swiper mySwiper" style="width: 100%; margin: 0 10px;">
+                                        <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 100%;">
+                                            {% for i in List_Product_Love %}
+                                            <div class="swiper-slide ">
+                                                <div class="owl-item" style="width: 293.75px; margin-right: 0px;">
+                                                    <div class="itemslick pro-loop" data-id="40777248">
+                                                        <div class="product-block recommend-block" data-anmation="1">
+                                                            <div class="product-img">
+                                                                <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
+                                                                    class="p-img-box added">
+                                                                    <picture>
+                                                                        <img class="img-loop lazyautosizes lazyloaded"
+                                                                            data-sizes="auto"
+                                                                            src="{{i.photo_1.Photo.url}}"
+                                                                            data-src="{{i.photo_1.Photo.url}}"
+                                                                            alt="{{i.Name}}"
+                                                                            sizes="142px">
+                                                                    </picture>
+                                                                    <picture><img
+                                                                            class="img-loop img-hover lazyautosizes ls-is-cached lazyloaded"
+                                                                            data-sizes="auto"
+                                                                            src="{{i.photo_2.Photo.url}}"
+                                                                            data-id="40777248"
+                                                                            data-src="{{i.photo_2.Photo.url}}"
+                                                                            alt="{{i.Name}}"
+                                                                            sizes="162px"></picture>
+                                                                </a>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="owl-item active"
-                                                        style="width: 286.25px; margin-right: 10px;">
-                                                        <div class="itemOwl pro-loop" data-id="40777463">
-                                                            <div class="product-block recommend-block"
-                                                                data-anmation="1">
-                                                                <div class="product-img">
-                                                                    <a href="/ao-khoac-adidas-xam-co-mu-il2563-p40777463.html"
-                                                                        class="p-img-box added">
-                                                                        <picture>
-                                                                            <img class="img-loop lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_03VzeniymW.jpeg"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_03VzeniymW.jpeg"
-                                                                                alt="ÁO KHOÁC ADIDAS XÁM CÓ MŨ IL2563"
-                                                                                sizes="266px">
-                                                                        </picture>
-                                                                        <picture><img
-                                                                                class="img-loop img-hover lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_pfK0cKqLV4.jpeg"
-                                                                                data-id="40777463"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_pfK0cKqLV4.jpeg"
-                                                                                alt="https://pos.nvncdn.com/609d6b-117900/ps/20250103_pfK0cKqLV4.jpeg"
-                                                                                sizes="286px"></picture>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="product-detail clearfix">
-                                                                    <div class="variantColor">
-                                                                        <ul>
-                                                                            <li data-filter="kem"
-                                                                                data-color="?color=kem">
-                                                                                <a href="/ao-khoac-adidas-xam-co-mu-il2563-p40777463.html"
-                                                                                    data-img="https://pos.nvncdn.com/609d6b-117900/ps/20250103_03VzeniymW.jpeg"
-                                                                                    data-img-hover="https://pos.nvncdn.com/609d6b-117900/ps/20250103_03VzeniymW.jpeg">
-                                                                                    <img class="lazyautosizes ls-is-cached lazyloaded"
-                                                                                        data-sizes="auto"
-                                                                                        src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_03VzeniymW.jpeg"
-                                                                                        data-src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_03VzeniymW.jpeg"
-                                                                                        alt="ÁO KHOÁC ADIDAS XÁM CÓ MŨ IL2563 - S"
-                                                                                        sizes="24px">
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
+                                                            <div class="product-detail clearfix">
+                                                                <div class="product-size-cus" psid="40777248">
+                                                                    {% for f in i.product_size_detail.all %}
+                                                                    <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
+                                                                        class="text-main" value="40777249" title="46">
+                                                                        {{f.Size}}</a>
+                                                                    {% endfor %}
                                                                     </div>
-
-                                                                    <div class="box-pro-detail">
-                                                                        <h3 class="pro-name">
-                                                                            <a
-                                                                                href="/ao-khoac-adidas-xam-co-mu-il2563-p40777463.html">ÁO
-                                                                                KHOÁC ADIDAS XÁM CÓ MŨ IL2563</a>
-                                                                        </h3>
-
-                                                                        <div class="box-pro-prices">
-
-                                                                            <p class="pro-price highlight">
-                                                                                3,900,000₫
-
-                                                                            </p>
-                                                                        </div>
+                                                                <div class="box-pro-detail">
+                                                                    <h3 class="pro-name tp_product_name">
+                                                                        <a
+                                                                            href="{% url 'detail_product_cl' Slug=i.Slug %}">{{i.Name}}</a>
+                                                                    </h3>
+                                                                    <div class="box-pro-prices">
+        
+                                                                        <p class="pro-price highlight tp_product_price">
+                                                                            {% if k.Discount > 0 %}
+                                                                            <span class="">{{i.Price_Discount}}₫</span>
+                                                                            {% else %}
+                                                                            <span class="">{{i.Price}}₫</span>
+                                                                            {% endif %}
+                                                                        </p>
                                                                     </div>
                                                                 </div>
-
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="owl-item active"
-                                                        style="width: 286.25px; margin-right: 10px;">
-                                                        <div class="itemOwl pro-loop" data-id="40777456">
-                                                            <div class="product-block recommend-block"
-                                                                data-anmation="1">
-                                                                <div class="product-img">
-                                                                    <a href="/kinh-gucci-gg0340sa001-size-56-p40777456.html"
-                                                                        class="p-img-box">
-                                                                        <picture>
-                                                                            <img class="img-loop lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20250102_gLRxkZOtpL.jpeg"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20250102_gLRxkZOtpL.jpeg"
-                                                                                alt="KÍNH GUCCI GG0340SA-001 SIZE 56"
-                                                                                sizes="266px">
-                                                                        </picture>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="product-detail clearfix">
-
-                                                                    <div class="box-pro-detail">
-                                                                        <h3 class="pro-name">
-                                                                            <a
-                                                                                href="/kinh-gucci-gg0340sa001-size-56-p40777456.html">KÍNH
-                                                                                GUCCI GG0340SA-001 SIZE 56</a>
-                                                                        </h3>
-
-                                                                        <div class="box-pro-prices">
-
-                                                                            <p class="pro-price highlight">
-                                                                                5,500,000₫
-
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="owl-item active"
-                                                        style="width: 286.25px; margin-right: 10px;">
-                                                        <div class="itemOwl pro-loop" data-id="40777453">
-                                                            <div class="product-block recommend-block"
-                                                                data-anmation="1">
-                                                                <div class="product-img">
-                                                                    <a href="/mu-dolce-trang-nhieu-chu-dg-do-ih111m-gf209-p40777453.html"
-                                                                        class="p-img-box added">
-                                                                        <picture>
-                                                                            <img class="img-loop lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_14CmC4JDm5.jpeg"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_14CmC4JDm5.jpeg"
-                                                                                alt="MŨ DOLCE TRẮNG NHIỀU CHỮ DG ĐỎ IH111M GF209"
-                                                                                sizes="266px">
-                                                                        </picture>
-                                                                        <picture><img
-                                                                                class="img-loop img-hover lazyautosizes lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_Z1ATpBul3v.jpeg"
-                                                                                data-id="40777453"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_Z1ATpBul3v.jpeg"
-                                                                                alt="https://pos.nvncdn.com/609d6b-117900/ps/20241231_Z1ATpBul3v.jpeg"
-                                                                                sizes="286px"></picture>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="product-detail clearfix">
-                                                                    <div class="variantColor">
-                                                                        <ul>
-                                                                            <li data-filter="kem"
-                                                                                data-color="?color=kem">
-                                                                                <a href="/mu-dolce-trang-nhieu-chu-dg-do-ih111m-gf209-p40777453.html"
-                                                                                    data-img="https://pos.nvncdn.com/609d6b-117900/ps/20241231_14CmC4JDm5.jpeg"
-                                                                                    data-img-hover="https://pos.nvncdn.com/609d6b-117900/ps/20241231_14CmC4JDm5.jpeg">
-                                                                                    <img class="lazyautosizes ls-is-cached lazyloaded"
-                                                                                        data-sizes="auto"
-                                                                                        src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_14CmC4JDm5.jpeg"
-                                                                                        data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_14CmC4JDm5.jpeg"
-                                                                                        alt="MŨ DOLCE TRẮNG NHIỀU CHỮ DG ĐỎ IH111M GF209 - 58"
-                                                                                        sizes="24px">
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-
-                                                                    <div class="box-pro-detail">
-                                                                        <h3 class="pro-name">
-                                                                            <a
-                                                                                href="/mu-dolce-trang-nhieu-chu-dg-do-ih111m-gf209-p40777453.html">MŨ
-                                                                                DOLCE TRẮNG NHIỀU CHỮ DG ĐỎ IH111M
-                                                                                GF209</a>
-                                                                        </h3>
-
-                                                                        <div class="box-pro-prices">
-                                                                            <p class="pro-price highlight">Liên hệ</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="owl-item" style="width: 286.25px; margin-right: 10px;">
-                                                        <div class="itemOwl pro-loop" data-id="40777450">
-                                                            <div class="product-block recommend-block"
-                                                                data-anmation="1">
-                                                                <div class="product-img">
-                                                                    <a href="/mu-dolce-denim-tag-gold-gh590a-s9001-p40777450.html"
-                                                                        class="p-img-box added">
-                                                                        <picture>
-                                                                            <img class="img-loop lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_M3qHV6WMxU.jpeg"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_M3qHV6WMxU.jpeg"
-                                                                                alt="MŨ DOLCE DENIM TAG GOLD GH590A S9001"
-                                                                                sizes="266px">
-                                                                        </picture>
-                                                                        <picture><img
-                                                                                class="img-loop img-hover lazyautosizes lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_FsLRiHbCO2.jpeg"
-                                                                                data-id="40777450"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_FsLRiHbCO2.jpeg"
-                                                                                alt="https://pos.nvncdn.com/609d6b-117900/ps/20241231_FsLRiHbCO2.jpeg"
-                                                                                sizes="286px"></picture>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="product-detail clearfix">
-                                                                    <div class="variantColor">
-                                                                        <ul>
-                                                                            <li data-filter="kem"
-                                                                                data-color="?color=kem">
-                                                                                <a href="/mu-dolce-denim-tag-gold-gh590a-s9001-p40777450.html"
-                                                                                    data-img="https://pos.nvncdn.com/609d6b-117900/ps/20241231_M3qHV6WMxU.jpeg"
-                                                                                    data-img-hover="https://pos.nvncdn.com/609d6b-117900/ps/20241231_M3qHV6WMxU.jpeg">
-                                                                                    <img class="lazyautosizes ls-is-cached lazyloaded"
-                                                                                        data-sizes="auto"
-                                                                                        src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_M3qHV6WMxU.jpeg"
-                                                                                        data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_M3qHV6WMxU.jpeg"
-                                                                                        alt="MŨ DOLCE DENIM TAG GOLD GH590A S9001 - 58"
-                                                                                        sizes="24px">
-                                                                                </a>
-                                                                            </li>
-                                                                            <li data-filter="kem"
-                                                                                data-color="?color=kem">
-                                                                                <a href="/mu-dolce-denim-tag-gold-gh590a-s9001-p40777450.html"
-                                                                                    data-img="https://pos.nvncdn.com/609d6b-117900/ps/20241231_M3qHV6WMxU.jpeg"
-                                                                                    data-img-hover="https://pos.nvncdn.com/609d6b-117900/ps/20241231_M3qHV6WMxU.jpeg">
-                                                                                    <img class="lazyautosizes ls-is-cached lazyloaded"
-                                                                                        data-sizes="auto"
-                                                                                        src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_M3qHV6WMxU.jpeg"
-                                                                                        data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_M3qHV6WMxU.jpeg"
-                                                                                        alt="MŨ DOLCE DENIM TAG GOLD GH590A S9001 - 59"
-                                                                                        sizes="24px">
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-
-                                                                    <div class="box-pro-detail">
-                                                                        <h3 class="pro-name">
-                                                                            <a
-                                                                                href="/mu-dolce-denim-tag-gold-gh590a-s9001-p40777450.html">MŨ
-                                                                                DOLCE DENIM TAG GOLD GH590A S9001</a>
-                                                                        </h3>
-
-                                                                        <div class="box-pro-prices">
-
-                                                                            <p class="pro-price highlight">
-                                                                                6,500,000₫
-
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="owl-item" style="width: 286.25px; margin-right: 10px;">
-                                                        <div class="itemOwl pro-loop" data-id="40777448">
-                                                            <div class="product-block recommend-block"
-                                                                data-anmation="1">
-                                                                <div class="product-img">
-                                                                    <a href="/so-mi-dolce-lua-nu-hoang-martini-g5ej1t-hp5zs-p40777448.html"
-                                                                        class="p-img-box added">
-                                                                        <picture>
-                                                                            <img class="img-loop lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_osj61gUr3I.jpeg"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_osj61gUr3I.jpeg"
-                                                                                alt="SƠ MI DOLCE LỤA NỮ HOÀNG MARTINI G5EJ1T HP5ZS"
-                                                                                sizes="266px">
-                                                                        </picture>
-                                                                        <picture><img
-                                                                                class="img-loop img-hover lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_bKQCUHcvYO.jpeg"
-                                                                                data-id="40777448"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_bKQCUHcvYO.jpeg"
-                                                                                alt="https://pos.nvncdn.com/609d6b-117900/ps/20241231_bKQCUHcvYO.jpeg"
-                                                                                sizes="286px"></picture>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="product-detail clearfix">
-                                                                    <div class="variantColor">
-                                                                        <ul>
-                                                                            <li data-filter="kem"
-                                                                                data-color="?color=kem">
-                                                                                <a href="/so-mi-dolce-lua-nu-hoang-martini-g5ej1t-hp5zs-p40777448.html"
-                                                                                    data-img="https://pos.nvncdn.com/609d6b-117900/ps/20241231_osj61gUr3I.jpeg"
-                                                                                    data-img-hover="https://pos.nvncdn.com/609d6b-117900/ps/20241231_osj61gUr3I.jpeg">
-                                                                                    <img class="lazyautosizes ls-is-cached lazyloaded"
-                                                                                        data-sizes="auto"
-                                                                                        src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_osj61gUr3I.jpeg"
-                                                                                        data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_osj61gUr3I.jpeg"
-                                                                                        alt="SƠ MI DOLCE LỤA NỮ HOÀNG MARTINI G5EJ1T HP5ZS - 40"
-                                                                                        sizes="24px">
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-
-                                                                    <div class="box-pro-detail">
-                                                                        <h3 class="pro-name">
-                                                                            <a
-                                                                                href="/so-mi-dolce-lua-nu-hoang-martini-g5ej1t-hp5zs-p40777448.html">SƠ
-                                                                                MI DOLCE LỤA NỮ HOÀNG MARTINI G5EJ1T
-                                                                                HP5ZS</a>
-                                                                        </h3>
-
-                                                                        <div class="box-pro-prices">
-
-                                                                            <p class="pro-price highlight">
-                                                                                9,500,000₫
-
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="owl-item" style="width: 286.25px; margin-right: 10px;">
-                                                        <div class="itemOwl pro-loop" data-id="40777446">
-                                                            <div class="product-block recommend-block"
-                                                                data-anmation="1">
-                                                                <div class="product-img">
-                                                                    <a href="/so-mi-dolce-den-chu-trang-g5ej0z-fu5k9-p40777446.html"
-                                                                        class="p-img-box added">
-                                                                        <picture>
-                                                                            <img class="img-loop lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_3LMwCkHi6Q.jpeg"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_3LMwCkHi6Q.jpeg"
-                                                                                alt="SƠ MI DOLCE ĐEN CHỮ TRẮNG G5EJ0Z FU5K9"
-                                                                                sizes="266px">
-                                                                        </picture>
-                                                                        <picture><img
-                                                                                class="img-loop img-hover lazyautosizes ls-is-cached lazyloaded"
-                                                                                data-sizes="auto"
-                                                                                src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_75ikCLHXV3.jpeg"
-                                                                                data-id="40777446"
-                                                                                data-src="https://pos.nvncdn.com/609d6b-117900/ps/20250103_75ikCLHXV3.jpeg"
-                                                                                alt="https://pos.nvncdn.com/609d6b-117900/ps/20250103_75ikCLHXV3.jpeg"
-                                                                                sizes="286px"></picture>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="product-detail clearfix">
-                                                                    <div class="variantColor">
-                                                                        <ul>
-                                                                            <li data-filter="kem"
-                                                                                data-color="?color=kem">
-                                                                                <a href="/so-mi-dolce-den-chu-trang-g5ej0z-fu5k9-p40777446.html"
-                                                                                    data-img="https://pos.nvncdn.com/609d6b-117900/ps/20241231_3LMwCkHi6Q.jpeg"
-                                                                                    data-img-hover="https://pos.nvncdn.com/609d6b-117900/ps/20241231_3LMwCkHi6Q.jpeg">
-                                                                                    <img class="lazyautosizes ls-is-cached lazyloaded"
-                                                                                        data-sizes="auto"
-                                                                                        src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_3LMwCkHi6Q.jpeg"
-                                                                                        data-src="https://pos.nvncdn.com/609d6b-117900/ps/20241231_3LMwCkHi6Q.jpeg"
-                                                                                        alt="SƠ MI DOLCE ĐEN CHỮ TRẮNG G5EJ0Z FU5K9 - 39"
-                                                                                        sizes="24px">
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-
-                                                                    <div class="box-pro-detail">
-                                                                        <h3 class="pro-name">
-                                                                            <a
-                                                                                href="/so-mi-dolce-den-chu-trang-g5ej0z-fu5k9-p40777446.html">SƠ
-                                                                                MI DOLCE ĐEN CHỮ TRẮNG G5EJ0Z FU5K9</a>
-                                                                        </h3>
-
-                                                                        <div class="box-pro-prices">
-
-                                                                            <p class="pro-price highlight">
-                                                                                8,500,000₫
-
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
+        
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="owl-controls">
-                                                <div class="owl-nav">
-                                                    <div class="owl-prev" style="">prev</div>
-                                                    <div class="owl-next" style="">next</div>
-                                                </div>
-                                                <div class="owl-dots" style="">
-                                                    <div class="owl-dot active"><span></span></div>
-                                                    <div class="owl-dot"><span></span></div>
-                                                </div>
-                                            </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
+                                    <!-- Nút điều hướng bên phải -->
+                                    <div class="swiper-button-next" style="color: gray;"></div>
                                 </div>
                             </div>
                         </div>

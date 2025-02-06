@@ -265,24 +265,55 @@
                                 {% endfor %}
                             </div>
 
+                            {% if num_pages > 1 %}
                             <div class="row pagination-theme clearfix text-center">
                                 <div id="pagination" class="clearfix">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="paginator"><span class="labelPages">49 - 72 / 507</span><span
-                                                class="titlePages">&nbsp;&nbsp;Trang: </span><a rel="nofollow, noindex"
+                                        <div class="paginator">
+                                            <span class="labelPages">49 - 72 / 507</span>
+                                            <span class="titlePages">&nbsp;&nbsp;Trang:</span>
+                                            {% if List_Product_filter.number != 1  %}
+                                            <a rel="nofollow, noindex"
                                                 class="paging-first" title="Trang đầu"
-                                                href="/ao-pc571904.html?page=1"></a><a rel="nofollow, noindex"
-                                                class="paging-previous ico" href="/ao-pc571904.html?page=2"></a><a
-                                                rel="nofollow, noindex" href="/ao-pc571904.html?page=2">2</a><span
-                                                class="currentPage">3</span><a rel="nofollow, noindex"
-                                                href="/ao-pc571904.html?page=4">4</a><a rel="nofollow, noindex"
-                                                class="paging-next ico" href="/ao-pc571904.html?page=4"></a><a
-                                                rel="nofollow, noindex" class="paging-last" title="Trang cuối"
-                                                href="/ao-pc571904.html?page=22"></a>
+                                                href="?p=1&f_size={{f_size}}&f_trademark={{f_trademark}}&f_arrange={{f_arrange}}">
+                                            </a>
+                                            {% if List_Product_filter.has_previous %}
+                                                <a rel="nofollow, noindex" 
+                                                class="paging-previous ico" 
+                                                href="?p={{ List_Product_filter.previous_page_number }}&f_size={{ f_size }}&f_trademark={{ f_trademark }}&f_arrange={{ f_arrange }}">
+                                                </a>
+                                            {% else %}
+                                                <span class="paging-previous ico disabled"></span>
+                                            {% endif %}
+                                            {% endif %}
+                                            {% for page in custom_page_range %}
+                                                {% if page == List_Product_filter.number %}
+                                                    <span class="currentPage">{{ page }}</span>
+                                                {% else %}
+                                                    <a href="?p={{ page }}&f_size={{ f_size }}&f_trademark={{ f_trademark }}&f_arrange={{ f_arrange }}">
+                                                        {{ page }}
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if List_Product_filter.number != List_Product_filter.paginator.num_pages %}
+                                                {% if List_Product_filter.has_next %}
+                                                    <a rel="nofollow, noindex" 
+                                                    class="paging-next ico" 
+                                                    href="?p={{ List_Product_filter.next_page_number }}&f_size={{ f_size }}&f_trademark={{ f_trademark }}&f_arrange={{ f_arrange }}">
+                                                    </a>
+                                                {% else %}
+                                                    <span class="paging-next ico disabled"></span>
+                                                {% endif %}
+                                            <a 
+                                                rel="nofollow, noindex" class="paging-last" title="Trang cuối" 
+                                                href="?p={{List_Product_filter.paginator.num_pages}}&f_size={{f_size}}&f_trademark={{f_trademark}}&f_arrange={{f_arrange}}">
+                                            </a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -298,4 +329,64 @@
 
 
 </main>
+<script>
+    $(document).ready(function () {
+        // Lắng nghe sự kiện click vào thẻ <a>
+        $('.quickView').on('click', function (e) {
+            e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+            
+            // Lấy data-id từ thẻ <a>
+            var id = $(this).data('id');
+    
+            // Thực hiện AJAX request với phương thức GET
+            $.ajax({
+                url: '/get-detail-product/'+id+'/',  // URL của API bạn muốn gọi
+                method: 'GET',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    $('#quickview-cart-desktop').html('');
+                        // Chèn HTML vào trong phần tử #text_html_report
+                    $('#quickview-cart-desktop').append(response);
+                    console.log('Không tìm thấy chiến dịch nào:'+response);
+                    $('#quickview-cart').modal('show');
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Lắng nghe sự kiện click vào thẻ <a>
+        $('.titleTabItem').on('click', function (e) {
+            e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+            
+            // Lấy data-id từ thẻ <a>
+            var id = $(this).data('id');
+            var body_category_child_html = '#'+$(this).data('bodyhtml');
+    
+            // Thực hiện AJAX request với phương thức GET
+            $.ajax({
+                url: '/get-category-product-child/'+id+'/',  // URL của API bạn muốn gọi
+                method: 'GET',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    $(body_category_child_html).html('');
+                        // Chèn HTML vào trong phần tử #text_html_report
+                    $(body_category_child_html).append(response);
+                    console.log('Không tìm thấy chiến dịch nào:'+response);
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

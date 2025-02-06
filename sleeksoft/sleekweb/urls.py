@@ -65,6 +65,7 @@ from .views_admin.product import *
 from .views_admin.trademark import *
 from .views_admin.size_product import *
 from .views_admin.order import *
+from .views_admin.website import *
 
 
 from django.contrib.auth import views as auth_views
@@ -100,6 +101,8 @@ urlpatterns = [
     
     # path('admin/home/', home_page_admin,name='home_page_admin'),
     
+    path('ad/setting-all/', setting_all,name='setting_all'),
+    path('ad/setting-website/', setting_website,name='setting_website'),
     path('ad/category-product/', category_product_ad,name='category_product_ad'),
     path('ad/category-product/<str:Slug>/', category_product_child_ad,name='category_product_child_ad'),
     path('ad/product/<str:Slug>/', product_ad,name='product_ad'),
@@ -129,13 +132,13 @@ urlpatterns = [
     
     
     
-    path('admin/get-setting/', get_setting,name='get_setting'),
+    
     
     path('admin/search-user/', search_user_page_admin,name='search_user_page_admin'),
     # path('admin/search-user-campaign/', search_user_category_product_ad,name='search_user_category_product_ad'),
     path('admin/data-user-campaign/', data_user_campaign,name='data_user_campaign'),
     path('admin/update-data-user-campaign/', update_data_user_campaign,name='update_data_user_campaign'),
-    path('admin/user/', user_page_admin,name='user_page_admin'),
+    path('ad/user/', user_page_admin,name='user_page_admin'),
     path('admin/user-delete-check-list/', delete_check_list_user_admin,name='delete_check_list_user_admin'),
     
     path('admin/update-un-and-fl/', update_un_and_fl,name='update_un_and_fl'),
@@ -156,7 +159,7 @@ urlpatterns = [
     path('ad-logout/', logout_page_client,name='logout_page_client'),
     path('ad-register/', register_page_client,name='register_page_client'),
     
-    path('admin/setting-all/', setting_all,name='setting_all'),
+    
     
     
 ]

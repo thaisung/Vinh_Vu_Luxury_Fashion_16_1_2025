@@ -198,7 +198,8 @@
                         </div>
                     </div>
                     <div class="clearfix filter-here">
-                        <div id="data-container" class="product content-product-list product-list filter clearfix fixBox" itemscope=""
+                        <div id="data-container"
+                            class="product content-product-list product-list filter clearfix fixBox" itemscope=""
                             itemtype="https://schema.org/ItemList">
                             <link itemprop="url" href="https://cuongpopauth.com/ao-pc571904.html">
                             <meta itemprop="numberOfItems" content="483">
@@ -209,8 +210,8 @@
                                     <div class="goodsli-discount goodsli-promo">sale</div>
                                     {% endif %}
                                     <div class="product-img image-resize">
-                                        <a href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-p40776044.html"
-                                            target="" class="p-img-box added">
+                                        <a href="{% url 'detail_product_cl' Slug=k.Slug %}" target=""
+                                            class="p-img-box added">
                                             <picture>
                                                 <source media="(max-width: 767px)" srcset="{{k.photo_1.Photo.url}}">
                                                 <source media="(min-width: 768px)" srcset="{{k.photo_1.Photo.url}}">
@@ -233,15 +234,15 @@
                                         <div class="product-detail clearfix">
                                             <div class="product-size-cus" psid="40776044">
                                                 {% for s in k.product_size_detail.all %}
-                                                <a href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-41-p40776045.html"
-                                                    class="text-main" value="40776045" title="41">
+                                                <a href="{% url 'detail_product_cl' Slug=k.Slug %}" class="text-main"
+                                                    value="40776045" title="41">
                                                     {{s.Size}}</a>
                                                 {% endfor %}
                                             </div>
                                             <div class="box-pro-detail">
                                                 <h3 class="pro-name">
-                                                    <a href="https://cuongpopauth.com/dep-alexander-mcqueen-xanh-reu-663563-w4tm6-3211-p40776044.html"
-                                                        target="" class="tp_product_name">{{k.Name}}</a>
+                                                    <a href="{% url 'detail_product_cl' Slug=k.Slug %}" target=""
+                                                        class="tp_product_name">{{k.Name}}</a>
                                                 </h3>
                                                 <div class="box-pro-prices">
                                                     {% if k.Discount > 0 %}
@@ -283,47 +284,44 @@
                             </div>
                             {% endfor %}
                         </div>
-
+                        {% if num_pages > 1 %}
                         <div class="row pagination-theme clearfix text-center">
                             <div id="pagination" class="clearfix">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="paginator">
                                         <span class="labelPages">49 - 72 / 507</span>
                                         <span class="titlePages">&nbsp;&nbsp;Trang:</span>
-                                        {% if list_product_home.number != 1  %}
-                                        <a rel="nofollow, noindex"
-                                            class="paging-first" title="Trang đầu"
+                                        {% if list_product_home.number != 1 %}
+                                        <a rel="nofollow, noindex" class="paging-first" title="Trang đầu"
                                             href="?p=1&f_size={{f_size}}&f_trademark={{f_trademark}}&f_arrange={{f_arrange}}">
                                         </a>
                                         {% if list_product_home.has_previous %}
-                                            <a rel="nofollow, noindex" 
-                                            class="paging-previous ico" 
+                                        <a rel="nofollow, noindex" class="paging-previous ico"
                                             href="?p={{ list_product_home.previous_page_number }}&f_size={{ f_size }}&f_trademark={{ f_trademark }}&f_arrange={{ f_arrange }}">
-                                            </a>
+                                        </a>
                                         {% else %}
-                                            <span class="paging-previous ico disabled"></span>
+                                        <span class="paging-previous ico disabled"></span>
                                         {% endif %}
                                         {% endif %}
                                         {% for page in custom_page_range %}
-                                            {% if page == list_product_home.number %}
-                                                <span class="currentPage">{{ page }}</span>
-                                            {% else %}
-                                                <a href="?p={{ page }}&f_size={{ f_size }}&f_trademark={{ f_trademark }}&f_arrange={{ f_arrange }}">
-                                                    {{ page }}
-                                                </a>
-                                            {% endif %}
+                                        {% if page == list_product_home.number %}
+                                        <span class="currentPage">{{ page }}</span>
+                                        {% else %}
+                                        <a
+                                            href="?p={{ page }}&f_size={{ f_size }}&f_trademark={{ f_trademark }}&f_arrange={{ f_arrange }}">
+                                            {{ page }}
+                                        </a>
+                                        {% endif %}
                                         {% endfor %}
                                         {% if list_product_home.number != list_product_home.paginator.num_pages %}
-                                            {% if list_product_home.has_next %}
-                                                <a rel="nofollow, noindex" 
-                                                class="paging-next ico" 
-                                                href="?p={{ list_product_home.next_page_number }}&f_size={{ f_size }}&f_trademark={{ f_trademark }}&f_arrange={{ f_arrange }}">
-                                                </a>
-                                            {% else %}
-                                                <span class="paging-next ico disabled"></span>
-                                            {% endif %}
-                                        <a 
-                                            rel="nofollow, noindex" class="paging-last" title="Trang cuối" 
+                                        {% if list_product_home.has_next %}
+                                        <a rel="nofollow, noindex" class="paging-next ico"
+                                            href="?p={{ list_product_home.next_page_number }}&f_size={{ f_size }}&f_trademark={{ f_trademark }}&f_arrange={{ f_arrange }}">
+                                        </a>
+                                        {% else %}
+                                        <span class="paging-next ico disabled"></span>
+                                        {% endif %}
+                                        <a rel="nofollow, noindex" class="paging-last" title="Trang cuối"
                                             href="?p={{list_product_home.paginator.num_pages}}&f_size={{f_size}}&f_trademark={{f_trademark}}&f_arrange={{f_arrange}}">
                                         </a>
                                         {% endif %}
@@ -331,6 +329,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
 
                 </div>
@@ -340,11 +339,149 @@
 
     <div class="sidebarFilter">
         <div class="innerSidebarFilter">
+            <div class="filter-custom removeDesktop">
+                <div class="filterTitle">
+                    Bộ lọc <i class="fa fa-close"></i>
+                </div>
 
+
+                <div class="group-filter" aria-expanded="true">
+                    <div class="layered_subtitle dropdown-filter">
+                        <span>Kích cỡ</span>
+                    </div>
+                    <div class="styleLiMobile filter-size s-filter">
+                        <ul class="check-box-list clearfix">
+                            <li class="filter-item" data-filter="{% url 'category_product_cl' Slug=Category_product_filter.Slug %}?f_size={{i.Size}}&f_trademark={{f_trademark}}&f_arrange={{f_arrange}}">
+                                <input type="checkbox" value="" name="size-filter">
+                                <label for="data-size-p1">
+                                    <span class="button tp_button"></span>
+                                    Bỏ </label>
+                            </li>
+                            {% for i in List_Size_product %}
+                            <li class="filter-item size_select" data-filter="{% url 'category_product_cl' Slug=Category_product_filter.Slug %}?f_size={{i.Size}}&f_trademark={{f_trademark}}&f_arrange={{f_arrange}}">
+                                <input type="checkbox" value="{{i.Size}}" name="size-filter">
+                                <label for="data-size-p1">
+                                    <span class="button tp_button"></span>
+                                    {{i.Size}} </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="group-filter tp_product_category_filter_brand" aria-expanded="true">
+                    <div class="layered_subtitle dropdown-filter">
+                        <span>Thương hiệu</span>
+                    </div>
+                    <div class="filter-brand s-filter m-filter-checkbox">
+                        <ul class="check-box-list clearfix">
+                            <li class="filter-item" data-filter="{% url 'category_product_cl' Slug=Category_product_filter.Slug %}?f_size={{f_size}}&f_trademark={{i.Name}}&f_arrange={{f_arrange}}">
+                                <input type="checkbox" value="">
+                                <label for="">
+                                    <span class="button tp_button"></span>
+                                    Bỏ </label>
+                            </li>
+                            {% for i in List_Trademark %}
+                            <li class="filter-item trademark_select" data-filter="{% url 'category_product_cl' Slug=Category_product_filter.Slug %}?f_size={{f_size}}&f_trademark={{i.Name}}&f_arrange={{f_arrange}}">
+                                <input type="checkbox" value="{{i.Name}}">
+                                <label for="">
+                                    <span class="button tp_button"></span>
+                                    {{i.Name}} </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- <div class="group-filter group-filter-price" aria-expanded="true">
+                    <div class="layered_subtitle dropdown-filter">
+                        <span>Khoảng giá</span>
+                    </div>
+
+                    <div class="filter-price s-filter m-filter-checkbox tp_product_category_filter_price">
+                        <ul class="check-box-list clearfix">
+                            <li class="filter-item" data-filter="/ao-phong-pc588140.html?price=0: 200000">
+                                <input type="checkbox">
+                                <label><span class="button tp_button"></span>Dưới 200,000 </label>
+                            </li>
+                            <li class="filter-item" data-filter="/ao-phong-pc588140.html?price= 200000: 500000">
+                                <input type="checkbox">
+                                <label><span class="button tp_button"></span>Từ 200,000 - 500,000 </label>
+                            </li>
+                            <li class="filter-item" data-filter="/ao-phong-pc588140.html?price= 500000: 1000000">
+                                <input type="checkbox">
+                                <label><span class="button tp_button"></span>Từ 500,000 - 1,000,000 </label>
+                            </li>
+                            <li class="filter-item" data-filter="/ao-phong-pc588140.html?price= 1000000">
+                                <input type="checkbox">
+                                <label><span class="button tp_button"></span>Trên 1,000,000 </label>
+                            </li>
+                        </ul>
+                    </div> -->
+                </div>
+
+                <div class="actionFilterMobile">
+                    <a  href="{% url 'category_product_cl' Slug=Category_product_filter.Slug %}?f_size={{f_size}}&f_trademark={{i.Name}}&f_arrange={{f_arrange}}" class="btn_apply_filter_now">Áp dụng</a>
+                    <a href="javascript:" class="btn_filter_cancel">Hủy</a>
+                </div>
+
+                <div class="append-search hide"></div>
+            </div>
         </div>
     </div>
 
 </main>
+<style>
+    .size-selected {
+    border: 2px solid #007bff; /* Màu xanh dương hoặc bất kỳ màu nào bạn muốn */
+    border-radius: 5px; /* Bo góc nếu cần */
+    padding: 5px; /* Khoảng cách nội dung bên trong */
+}
+</style>
+<script>
+    $(document).ready(function () {
+        // Khi click vào size_select
+        $(".filter-item.size_select").on("click", function () {
+            // Loại bỏ class border từ tất cả các size
+            $(".filter-item.size_select").removeClass("active");
+
+            // Thêm class border vào size được chọn
+            $(this).addClass("active");
+
+            // Lấy giá trị size từ input
+            const selectedSize = $(this).find("input").val();
+
+            // Cập nhật giá trị vào href của thẻ a
+            $(".btn_apply_filter_now").attr("href", function (index, href) {
+                const url = new URL(href, window.location.origin);
+                url.searchParams.set("f_size", selectedSize); // Cập nhật giá trị f_size
+                return url.toString();
+            });
+        });
+
+        // Khi click vào trademark_select
+        $(".filter-item.trademark_select").on("click", function () {
+            // Loại bỏ class border từ tất cả các trademark
+            $(".filter-item.trademark_select").removeClass("trademark-selected");
+
+            // Thêm class border vào trademark được chọn
+            $(this).addClass("trademark-selected");
+
+            // Lấy giá trị trademark từ input
+            const selectedTrademark = $(this).find("input").val();
+
+            // Cập nhật giá trị vào href của thẻ a
+            $(".btn_apply_filter_now").attr("href", function (index, href) {
+                const url = new URL(href, window.location.origin);
+                url.searchParams.set("f_trademark", selectedTrademark); // Cập nhật giá trị f_trademark
+                return url.toString();
+            });
+        });
+    });
+</script>
+
 <script>
     $(document).ready(function () {
         // Lắng nghe sự kiện click vào thẻ <a>

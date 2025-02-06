@@ -54,8 +54,12 @@ class Address_order(models.Model):
         ]
         
 class Website(models.Model):
-    Name = models.CharField('Tên Website', max_length=255,blank=True, null=True)
-    Logo = models.ImageField(upload_to='Website_photo', null=True,blank=True)
+    Name = models.CharField('Tên Website', max_length=255,blank=True, null=True,default='')
+    Email = models.CharField('Email', max_length=255,blank=True, null=True,default='')
+    Phone_number = models.CharField('Phone_number', max_length=255,blank=True, null=True,default='')
+    Src_Fanpage = models.CharField('Đường dẫn Fanpage Facebook', max_length=1000,blank=True, null=True,default='')
+    Logo = models.ImageField(upload_to='Website_photo', null=True,blank=True,default='https://pos.nvncdn.com/609d6b-117900/store/20230522_sZKJQK5B.jpg')
+    Banner = models.ImageField(upload_to='Website_photo', null=True,blank=True,default='https://pos.nvncdn.com/609d6b-117900/bn/20230316_zsIiRsLe.png')
     Creation_time = models.DateTimeField('Thời gian tạo',auto_now_add=True)
     Update_time = models.DateTimeField('Thời gian cập nhật',auto_now=True)
     class Meta:
@@ -188,70 +192,6 @@ class Product_Order(models.Model):
         ]
         
 
-
-
-class Campaign(models.Model):
-    Name = models.CharField('Tên chiến dịch', max_length=255,blank=True, null=True)
-    Creation_time = models.DateTimeField('Thời gian tạo',auto_now_add=True)
-    Link_KH = models.BooleanField('Link KH',blank=True, null=True,default=True)
-    So_DT = models.BooleanField('So_DT',blank=True, null=True,default=False)
-    Update_time = models.DateTimeField('Thời gian cập nhật',auto_now=True)
-    Belong_User = models.ManyToManyField(User,related_name='list_campaign',blank=True)
-    Belong_User_Delete = models.ManyToManyField(User,related_name='list_campaign_delete_data',blank=True)
-    class Meta:
-        indexes = [
-            models.Index(fields=['Name']),
-        ]
-        
-class Lead(models.Model):
-    Name = models.CharField('Họ và tên khách hàng', max_length=255,blank=True, null=True)
-    Phone_number = models.CharField('Số đt khách hàng', max_length=255,blank=True, null=True)
-    Area = models.CharField('Khu vực', max_length=255,blank=True, null=True,default='')
-    Product = models.CharField('Sản phẩm', max_length=255,blank=True, null=True,default='')
-    Demand = models.CharField('Nhu cầu', max_length=255,blank=True, null=True,default='')
-    Status = models.CharField('Tình trạng', max_length=255,blank=True, null=True)
-    Note = models.TextField('Ghi chú',blank=True, null=True,default='')
-    Status_lead = models.CharField('Trạng thái khách hàng', max_length=255,blank=True, null=True ,default='Chưa tư vấn')
-    Source = models.CharField('Nguồn nhập',max_length=255,blank=True, null=True,default='')
-    Creation_time = models.DateTimeField('Thời gian tạo',auto_now_add=True)
-    Update_time = models.DateTimeField('Thời gian cập nhật',auto_now=True)
-    Belong_Campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='list_campaign',blank=True, null=True)
-    Belong_User = models.ForeignKey(User,on_delete=models.SET_NULL, related_name='list_lead',blank=True, null=True)
-    class Meta:
-        indexes = [
-            models.Index(fields=['Name']),
-            models.Index(fields=['Belong_Campaign']),
-            models.Index(fields=['Belong_User']),
-        ]
-        
-class Report(models.Model):
-    report = models.TextField('Báo cáo của NV',blank=True, null=True,default='')
-    Creation_time = models.DateTimeField('Thời gian tạo',auto_now_add=True)
-    Update_time = models.DateTimeField('Thời gian cập nhật',auto_now=True)
-    Belong_Lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name='list_report',blank=True, null=True)
-    class Meta:
-        indexes = [
-            models.Index(fields=['Belong_Lead']),
-        ]
-        
-class History(models.Model):
-    history = models.TextField('Ghi chú lịch sử CSKH của NV',blank=True, null=True,default='')
-    Creation_time = models.DateTimeField('Thời gian tạo',auto_now_add=True)
-    Update_time = models.DateTimeField('Thời gian cập nhật',auto_now=True)
-    Belong_Lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name='list_history',blank=True, null=True)
-    class Meta:
-        indexes = [
-            models.Index(fields=['Belong_Lead']),
-        ]
-
-class Select_setting(models.Model):
-    Area = models.TextField('Danh sách lựa chọn khu vực',blank=True, null=True,default='')
-    Product = models.TextField('Danh sách lựa chọn sản phẩm',blank=True, null=True,default='')
-    Demand = models.TextField('Danh sách lựa chọn nhu cầu',blank=True, null=True,default='')
-    Source = models.TextField('Danh sách lựa chọn nguồn',blank=True, null=True,default='')
-    Creation_time = models.DateTimeField('Thời gian tạo',auto_now_add=True)
-    Update_time = models.DateTimeField('Thời gian cập nhật',auto_now=True)
-    
 class Email_setting(models.Model):
     EMAIL_HOST = models.CharField(max_length=255,blank=True, null=True,default='')
     EMAIL_USE_TLS = models.BooleanField(blank=True, null=True,default=True)

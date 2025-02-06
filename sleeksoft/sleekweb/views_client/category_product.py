@@ -63,11 +63,87 @@ from Crypto.Cipher import PKCS1_v1_5
 import base64
 from types import SimpleNamespace
 
+def format_number(number):
+    print('number:',number)
+    """
+    Định dạng một số nguyên hoặc số thực thành chuỗi có dấu chấm ngăn cách mỗi 3 chữ số.
+
+    :param number: Số cần định dạng (int hoặc float)
+    :return: Chuỗi định dạng với dấu chấm ngăn cách
+    """
+    try:
+        number = int(number)
+        # Đảm bảo số là số nguyên hoặc số thực
+        if isinstance(number, (int, float)):
+            # Sử dụng f-string để định dạng và thay dấu phẩy thành dấu chấm
+            return f"{number:,.0f}".replace(",", ".")
+        else:
+            raise ValueError("Giá trị đầu vào phải là số nguyên hoặc số thực.")
+    except Exception as e:
+        return f"Lỗi: {e}"
+
 def category_product_cl(request,Slug):
     if request.method == 'GET':
         print('re:',type(request.path))
         if request.path == '/category/super-sale/':
             context = {}
+
+            # Lấy giỏ hàng từ cookie
+            cart = request.COOKIES.get('cart', '[]')
+            try:
+                cart_items = json.loads(cart)
+            except json.JSONDecodeError:
+                cart_items = []  # Nếu cookie không hợp lệ, đặt giỏ hàng mặc định là rỗng
+
+            # Tạo phản hồi render trang
+            response = render(request, 'sleekweb/client/home.html', context, status=200)
+
+            # Lưu giỏ hàng (nếu chưa tồn tại cookie)
+            if not cart_items:
+                response.set_cookie('cart', json.dumps([]), max_age=3600 * 24 * 7)  # Cookie tồn tại 7 ngày
+            
+            cart = request.COOKIES.get('cart', '[]')
+            try:
+                cart_items = json.loads(cart)
+            except json.JSONDecodeError:
+                cart_items = []  # Nếu cookie không hợp lệ, đặt giỏ hàng mặc định là rỗng
+            
+            # Tính toán thông tin giỏ hàng
+            Cart_user = {'data': [], 'total_quantity': 0, 'total_money': 0,'count':0}
+            for i in cart_items:
+                try:
+                    product = Product.objects.get(pk=i['id'])  # Lấy sản phẩm từ database
+                except Product.DoesNotExist:
+                    continue  # Bỏ qua nếu sản phẩm không tồn tại
+
+                obj_cart = {
+                    'product': product,
+                    'size': i['size'],
+                    'quantity': int(i['quantity']),
+                    'pk':i['pk']
+                }
+                Cart_user['data'].append(obj_cart)
+
+            # Tính tổng số lượng và tổng tiền
+            for i in Cart_user['data']:
+                Cart_user['total_quantity'] += i['quantity']
+                if i['product'].Discount > 0:
+                    Cart_user['total_money'] += i['quantity'] * int(i['product'].Price_Discount)
+                else:
+                    Cart_user['total_money'] += i['quantity'] * int(i['product'].Price)
+            context['Cart_user'] = Cart_user
+            Cart_user['count'] =  len(Cart_user['data'])
+            for i in Cart_user['data']:
+                i['product'].Price = format_number(i['product'].Price)
+                i['product'].Price_Discount = format_number(i['product'].Price_Discount)
+
+            list_obj_website = Website.objects.all()
+            if list_obj_website:
+                context['obj_website'] = list_obj_website[0]
+            list_obj_email = Email_setting.objects.all()
+            if list_obj_email:
+                context['obj_email'] = list_obj_email[0]
+
             f_size = request.GET.get('f_size')
             f_trademark = request.GET.get('f_trademark')
             f_arrange = request.GET.get('f_arrange')
@@ -148,21 +224,102 @@ def category_product_cl(request,Slug):
                     product.is_out_of_stock = total_quantity == 0  # True nếu hết hàng
             context['Category_product_filter'] = context['List_Category_product_filter'][0]
             
-            list_product_home = context['Category_product_filter']['list_product_home']
+            context['list_product_home'] = context['Category_product_filter'].list_product_home
             
-            # Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
-            paginator = Paginator(list_product_home, settings.PAGE)
+            #Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
+            paginator = Paginator(context['list_product_home'], settings.PAGE)
+            context['num_pages'] = int(paginator.num_pages)
             # Lấy số trang hiện tại từ URL, nếu không mặc định là trang 1
             p = request.GET.get('p')
             page_obj = paginator.get_page(p)
-            list_product_home = page_obj
-            print('list_product_home:',context['list_product_home'])
+            context['list_product_home'] = page_obj
+            print('list_product_home th:',context['list_product_home'])
             # Tạo danh sách các số trang
             page_list = list(range(1, paginator.num_pages + 1))
             context['page_list'] = page_list
+            print('page_list:',page_list)
+            if p :
+                context['p']=int(p)
+            else:
+                context['p']=1
+                
+            # Tính phạm vi các trang hiển thị, trang hiện tại ở giữa
+            total_pages = paginator.num_pages
+            current_page = page_obj.number
+
+            # Xác định phạm vi 5 trang
+            start_page = max(current_page - 2, 1)  # Ít nhất là 1
+            end_page = min(current_page + 2, total_pages)  # Không vượt quá tổng số trang
+
+            # Điều chỉnh nếu số lượng trang hiển thị không đủ 5
+            if end_page - start_page < 4:
+                if start_page == 1:  # Nếu bắt đầu từ trang 1, mở rộng phạm vi kết thúc
+                    end_page = min(start_page + 4, total_pages)
+                elif end_page == total_pages:  # Nếu kết thúc ở trang cuối, lùi phạm vi bắt đầu
+                    start_page = max(end_page - 4, 1)
+
+            custom_page_range = range(start_page, end_page + 1)
+            context['custom_page_range'] = custom_page_range
         else:
             print('re:',request.path)
             context = {}
+
+            # Lấy giỏ hàng từ cookie
+            cart = request.COOKIES.get('cart', '[]')
+            try:
+                cart_items = json.loads(cart)
+            except json.JSONDecodeError:
+                cart_items = []  # Nếu cookie không hợp lệ, đặt giỏ hàng mặc định là rỗng
+
+            # Tạo phản hồi render trang
+            response = render(request, 'sleekweb/client/home.html', context, status=200)
+
+            # Lưu giỏ hàng (nếu chưa tồn tại cookie)
+            if not cart_items:
+                response.set_cookie('cart', json.dumps([]), max_age=3600 * 24 * 7)  # Cookie tồn tại 7 ngày
+            
+            cart = request.COOKIES.get('cart', '[]')
+            try:
+                cart_items = json.loads(cart)
+            except json.JSONDecodeError:
+                cart_items = []  # Nếu cookie không hợp lệ, đặt giỏ hàng mặc định là rỗng
+            
+            # Tính toán thông tin giỏ hàng
+            Cart_user = {'data': [], 'total_quantity': 0, 'total_money': 0,'count':0}
+            for i in cart_items:
+                try:
+                    product = Product.objects.get(pk=i['id'])  # Lấy sản phẩm từ database
+                except Product.DoesNotExist:
+                    continue  # Bỏ qua nếu sản phẩm không tồn tại
+
+                obj_cart = {
+                    'product': product,
+                    'size': i['size'],
+                    'quantity': int(i['quantity']),
+                    'pk':i['pk']
+                }
+                Cart_user['data'].append(obj_cart)
+
+            # Tính tổng số lượng và tổng tiền
+            for i in Cart_user['data']:
+                Cart_user['total_quantity'] += i['quantity']
+                if i['product'].Discount > 0:
+                    Cart_user['total_money'] += i['quantity'] * int(i['product'].Price_Discount)
+                else:
+                    Cart_user['total_money'] += i['quantity'] * int(i['product'].Price)
+            context['Cart_user'] = Cart_user
+            Cart_user['count'] =  len(Cart_user['data'])
+            for i in Cart_user['data']:
+                i['product'].Price = format_number(i['product'].Price)
+                i['product'].Price_Discount = format_number(i['product'].Price_Discount)
+
+            list_obj_website = Website.objects.all()
+            if list_obj_website:
+                context['obj_website'] = list_obj_website[0]
+            list_obj_email = Email_setting.objects.all()
+            if list_obj_email:
+                context['obj_email'] = list_obj_email[0]
+                
             f_size = request.GET.get('f_size')
             f_trademark = request.GET.get('f_trademark')
             f_arrange = request.GET.get('f_arrange')
@@ -252,6 +409,7 @@ def category_product_cl(request,Slug):
             
             # Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
             paginator = Paginator(context['list_product_home'], settings.PAGE)
+            context['num_pages'] = int(paginator.num_pages)
             # Lấy số trang hiện tại từ URL, nếu không mặc định là trang 1
             p = request.GET.get('p')
             page_obj = paginator.get_page(p)

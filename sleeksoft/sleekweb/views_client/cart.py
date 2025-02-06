@@ -61,6 +61,8 @@ from django.views.decorators.csrf import csrf_exempt
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
 import base64
+
+from types import SimpleNamespace
 def format_number(number):
     """
     Định dạng một số nguyên hoặc số thực thành chuỗi có dấu chấm ngăn cách mỗi 3 chữ số.
@@ -81,6 +83,63 @@ def format_number(number):
 def cart_cl(request):
     if request.method == 'GET':
         context = {}
+
+        # Lấy giỏ hàng từ cookie
+        cart = request.COOKIES.get('cart', '[]')
+        try:
+            cart_items = json.loads(cart)
+        except json.JSONDecodeError:
+            cart_items = []  # Nếu cookie không hợp lệ, đặt giỏ hàng mặc định là rỗng
+
+        # Tạo phản hồi render trang
+        response = render(request, 'sleekweb/client/home.html', context, status=200)
+
+        # Lưu giỏ hàng (nếu chưa tồn tại cookie)
+        if not cart_items:
+            response.set_cookie('cart', json.dumps([]), max_age=3600 * 24 * 7)  # Cookie tồn tại 7 ngày
+        
+        cart = request.COOKIES.get('cart', '[]')
+        try:
+            cart_items = json.loads(cart)
+        except json.JSONDecodeError:
+            cart_items = []  # Nếu cookie không hợp lệ, đặt giỏ hàng mặc định là rỗng
+        
+        # Tính toán thông tin giỏ hàng
+        Cart_user = {'data': [], 'total_quantity': 0, 'total_money': 0,'count':0}
+        for i in cart_items:
+            try:
+                product = Product.objects.get(pk=i['id'])  # Lấy sản phẩm từ database
+            except Product.DoesNotExist:
+                continue  # Bỏ qua nếu sản phẩm không tồn tại
+
+            obj_cart = {
+                'product': product,
+                'size': i['size'],
+                'quantity': int(i['quantity']),
+                'pk':i['pk']
+            }
+            Cart_user['data'].append(obj_cart)
+
+        # Tính tổng số lượng và tổng tiền
+        for i in Cart_user['data']:
+            Cart_user['total_quantity'] += i['quantity']
+            if i['product'].Discount > 0:
+                Cart_user['total_money'] += i['quantity'] * int(i['product'].Price_Discount)
+            else:
+                Cart_user['total_money'] += i['quantity'] * int(i['product'].Price)
+        context['Cart_user'] = Cart_user
+        Cart_user['count'] =  len(Cart_user['data'])
+        for i in Cart_user['data']:
+            i['product'].Price = format_number(i['product'].Price)
+            i['product'].Price_Discount = format_number(i['product'].Price_Discount)
+
+        list_obj_website = Website.objects.all()
+        if list_obj_website:
+            context['obj_website'] = list_obj_website[0]
+        list_obj_email = Email_setting.objects.all()
+        if list_obj_email:
+            context['obj_email'] = list_obj_email[0]
+
         cart = request.COOKIES.get('cart', '[]')
         try:
             cart_items = json.loads(cart)
@@ -124,6 +183,7 @@ def cart_cl(request):
             i['product'].Price_Discount = format_number(i['product'].Price_Discount)              
         
         context['List_Category_product'] = Category_product.objects.all()
+        context['List_Category_product'] = list(context['List_Category_product'])
         for category in context['List_Category_product']:
             # Lấy 3 sản phẩm đầu tiên cho danh mục lớn
             category.list_product = Product.objects.filter(
@@ -146,6 +206,43 @@ def cart_cl(request):
                     total=models.Sum('Quantity')
                 )['total'] or 0
                 product.is_out_of_stock = total_quantity == 0  # True nếu hết hàng
+
+        # Tạo danh mục giả lập "Sale"
+        sale_category = SimpleNamespace(
+            id="9999999999999999",  # Đặt một giá trị giả định cho id
+            Name="SUPER SALE",
+            Slug="super-sale",
+            list_product_home=Product.objects.filter(Discount__gt=0).order_by('Creation_time'),
+            # list_product = Product.objects.filter(Discount__gt=0).order_by('Creation_time')[:3]
+        )
+        # Gán photo_1 và photo_2 cho từng sản phẩm
+        for product in sale_category.list_product_home:
+            photos = product.product_photo_detail.all()
+            product.photo_1 = photos.first()  # Ảnh đầu tiên
+            product.photo_2 = photos[1] if photos.count() > 1 else None  # Ảnh thứ 2 (nếu có)
+            
+            # Kiểm tra hết hàng
+            total_quantity = product.product_size_detail.aggregate(
+                total=models.Sum('Quantity')
+            )['total'] or 0
+            product.is_out_of_stock = total_quantity == 0  # True nếu hết hàng
+        
+        context['List_Category_product'].append(sale_category)
+
+        context['List_Product_Love'] = Product.objects.all()
+        print('List_Product_Love:',context['List_Product_Love'])
+        for product in context['List_Product_Love']:
+            photos = product.product_photo_detail.all()
+            product.photo_1 = photos.first()  # Ảnh đầu tiên
+            product.photo_2 = photos[1] if photos.count() > 1 else None  # Ảnh thứ 2 (nếu có)
+            
+            # Kiểm tra hết hàng
+            total_quantity = product.product_size_detail.aggregate(
+                total=models.Sum('Quantity')
+            )['total'] or 0
+            product.is_out_of_stock = total_quantity == 0  # True nếu hết hàng
+            product.Price = format_number(product.Price)
+            product.Price_Discount = format_number(product.Price_Discount)
         return render(request, 'sleekweb/client/cart.html', context, status=200)
 
 def add_product_cart_cl(request):

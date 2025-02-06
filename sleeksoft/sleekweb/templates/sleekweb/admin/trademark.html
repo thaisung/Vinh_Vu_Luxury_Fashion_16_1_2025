@@ -21,9 +21,9 @@
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
-              <span class="whitespace-nowrap hidden md:block">Tạo Thương hiệu sản phẩm mới</span>
+              <span class="whitespace-nowrap ">Tạo Thương hiệu sản phẩm mới</span>
             </button>
-            <form class="flex flex-col md:flex-row justify-center items-center grow md:grow-0  gap-2 ">
+            <!-- <form class="flex flex-col md:flex-row justify-center items-center grow md:grow-0  gap-2 ">
                 <div class="flex  relative items-center w-full md:w-[300px]">
                   <input placeholder="Tìm kiếm Thương hiệu" name="s" value="{{s}}"
                     class="block pr-[30px] w-full bg-stone-100 text-sm text-stone-800 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md " />
@@ -43,7 +43,7 @@
                     </svg>
                   </button>
                 </div>
-              </form>
+              </form> -->
           </div>
         </div>
     </header>
@@ -132,7 +132,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="grow relative">
+                <!-- <div class="grow relative">
                     <table class="whitespace-nowrap rounded-lg w-full">
                         <thead>
                             <tr
@@ -160,7 +160,7 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                </div>               
+                </div>                -->
             </div>
             {% comment %} <div class="pagination {% if list_lead.paginator.num_pages <= 1 %}hidden{% endif %} border-t-[1px] border-stone-200 flex items-center justify-center" >
                 <ul class="flex items-center justify-center">page</ul>
@@ -291,109 +291,6 @@
                 </div>
             </div>
         </div>
-        <form method="POST" action="{% url 'upload_file_lead_page_admin' %}" enctype="multipart/form-data" style="display:none;"
-            class="form_upload_file xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
-            {% csrf_token %}
-            <div
-                class="relative p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
-                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">Nhập file khách hàng mới (.xlsx)</h3>
-                <div class="grid grid-cols-1  w-full">
-                    <label class="block text-sm w-full">
-                        <input name="file_upload" type="file" accept=".xlsx" required
-                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
-                    </label>
-                </div>
-                <div style="display: none;" id="loader_form_upload_file" class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
-                    <span  class="loader"></span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button type="submit"
-                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
-                        Tạo dữ liệu
-                    </button>
-                    <a
-                        class=" close_form_upload_file cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
-                        Hủy
-                    </a>
-                </div>
-            </div>
-            <script>
-                $(document).ready(function() {
-                    $('.form_upload_file').on('submit', function(event) {
-                        $('#loader_form_upload_file').show();
-                    });
-
-                    $('.close_form_upload_file').on('click', function(event) {
-                        $('.form_upload_file').hide();
-                    });
-                    $('.open_form_upload_file').on('click', function(event) {
-                        $(".xxx").hide();
-                        $('.form_upload_file').show();
-                    });
-                });
-            </script>
-            <style>
-                .loader {
-                    width: 80px;
-                    height: 80px;
-                    border: 13px dotted #22c55e;
-                    border-radius: 50%;
-                    display: inline-block;
-                    position: relative;
-                    box-sizing: border-box;
-                    animation: rotation 2s linear infinite;
-                }
-                
-                @keyframes rotation {
-                    0% {
-                    transform: rotate(0deg);
-                    }
-                    100% {
-                    transform: rotate(360deg);
-                    }
-                }  
-            </style>
-        </form>
-        <form method="POST" action="{% url 'Select_setting_lead_admin' %}" enctype="multipart/form-data" style="display:none;"
-            class="form_setting_select xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
-            {% csrf_token %}
-            <div
-                class="relative p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
-                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">Cập nhật lựa chọn</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 h-[500px]">
-                    <label class="flex flex-col text-sm w-full h-full " >
-                        <span class="font-medium text-stone-600">Khu vực</span>
-                        <textarea  name="Area" id="Area_st" required class=" text-start w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray  rounded-md ">
-                        </textarea>
-                    </label>
-                    <label class="flex flex-col text-sm w-full  h-full">
-                        <span class="font-medium text-stone-600">Sản phẩm</span>
-                        <textarea name="Product" id="Product_st" required class="text-start w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray  rounded-md ">
-                        </textarea>
-                    </label>
-                    <label class="flex flex-col text-sm w-full h-full">
-                        <span class="font-medium text-stone-600">Nhu cầu</span>
-                        <textarea name="Demand" id="Demand_st" required class=" text-startw-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray  rounded-md ">
-                        </textarea>
-                    </label>
-                    <label class="flex flex-col text-sm w-full h-full">
-                        <span class="font-medium text-stone-600">Nguồn</span>
-                        <textarea name="Source" id="Source_st" required class=" text-startw-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray  rounded-md ">
-                        </textarea>
-                    </label>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button type="submit"
-                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
-                        Cập nhật
-                    </button>
-                    <a
-                        class=" close_form_setting_select cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
-                        Hủy
-                    </a>
-                </div>
-            </div>
-        </form>
         <div id="view_report" style="display:none;"
             class="view_report xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
             {% csrf_token %}
@@ -416,55 +313,6 @@
                     </a>
                 </div>
             </div>
-            <script>
-                $(document).ready(function() {
-                    $('.close_view_report').on('click', function(event) {
-                        $('.view_report').hide();
-                    });
-                    $('.open_view_report').on('click', function(event) {
-                        $(".xxx").hide();
-                        $.ajax({
-                            url: '{% url "get_list_report_history" %}',  // URL của API bạn muốn gọi
-                            method: 'GET',
-                            data: {
-                                'type_get':'Report',
-                                'id_lead_report_history': $(this).data('id'),  // Gửi dữ liệu tìm kiếm với key là 's'
-                                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    let reportHtml = '';  // Biến để lưu HTML của báo cáo
-                                    // Lặp qua các dữ liệu trả về (giả sử response.data chứa các đối tượng cần hiển thị)
-                                    response.data.forEach(function(item, index) {
-                                        // Chuyển đổi Creation_time thành định dạng mong muốn (ví dụ: ngày-tháng-năm giờ:phút)
-                                        let reportNumber = index + 1;
-                                        let formattedReport = item.report.replace(/\n/g, '<br>');  // Thay \n bằng <br>
-                                        // Tạo HTML cho mỗi báo cáo
-                                        reportHtml += `
-                                            <div class="flex flex-col gap-1 text-sm w-full">
-                                                <span>${reportNumber} ------------------------------------------------ ${item.Creation_time}</span>
-                                                <span>${formattedReport}</span>
-                                            </div>
-                                            <br>
-                                        `;
-                                    });
-                                    $('#text_html_report').html('');
-                                    // Chèn HTML vào trong phần tử #text_html_report
-                                    $('#text_html_report').append(reportHtml);
-
-                                } else {
-                                    console.log('Không tìm thấy chiến dịch nào');
-                                }
-                            },
-                            error: function (response) {
-                                console.log('Tìm kiếm thất bại', response);
-                            }
-                        });
-                        $('#name_lead_report').text($(this).data('name'));
-                        $('.view_report').show();
-                    });
-                });
-            </script>
         </div>
         <div id="view_history" style="display:none;"
             class="view_history xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
@@ -488,55 +336,6 @@
                     </a>
                 </div>
             </div>
-            <script>
-                $(document).ready(function() {
-                    $('.close_view_history').on('click', function(event) {
-                        $('.view_history').hide();
-                    });
-                    $('.open_view_history').on('click', function(event) {
-                        $(".xxx").hide();
-                        $.ajax({
-                            url: '{% url "get_list_report_history" %}',  // URL của API bạn muốn gọi
-                            method: 'GET',
-                            data: {
-                                'type_get':'History',
-                                'id_lead_report_history': $(this).data('id'),  // Gửi dữ liệu tìm kiếm với key là 's'
-                                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    let reportHtml = '';  // Biến để lưu HTML của báo cáo
-                                    // Lặp qua các dữ liệu trả về (giả sử response.data chứa các đối tượng cần hiển thị)
-                                    response.data.forEach(function(item, index) {
-                                        // Chuyển đổi Creation_time thành định dạng mong muốn (ví dụ: ngày-tháng-năm giờ:phút)
-                                        let reportNumber = index + 1;
-                                        let formattedReport = item.history.replace(/\n/g, '<br>');  // Thay \n bằng <br>
-                                        // Tạo HTML cho mỗi báo cáo
-                                        reportHtml += `
-                                            <div class="flex flex-col gap-1 text-sm w-full">
-                                                <span>${reportNumber} ------------------------------------------------ ${item.Creation_time}</span>
-                                                <span>${formattedReport}</span>
-                                            </div>
-                                            <br>
-                                        `;
-                                    });
-                                    $('#text_html_history').html('');
-                                    // Chèn HTML vào trong phần tử #text_html_report
-                                    $('#text_html_history').append(reportHtml);
-
-                                } else {
-                                    console.log('Không tìm thấy chiến dịch nào');
-                                }
-                            },
-                            error: function (response) {
-                                console.log('Tìm kiếm thất bại', response);
-                            }
-                        });
-                        $('#name_lead_history').text($(this).data('name'));
-                        $('.view_history').show();
-                    });
-                });
-            </script>
         </div>
     </main>
 </div>
@@ -590,32 +389,7 @@
             $(".form_update_history").hide();
         });
 
-        $(".open_form_setting_select").click(function () {
-            $(".xxx").hide();
-            $.ajax({
-                url: '{% url "get_setting" %}',  // URL của API bạn muốn gọi
-                method: 'GET',
-                data: {
-                    's':'',  // Gửi dữ liệu tìm kiếm với key là 's'
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
-                },
-                success: function(response) {
-                    if (response.success) {
-                        console.log('fghfgh');
-                        $("#Area_st").val(response.data.Area);
-                        $("#Product_st").val(response.data.Product);
-                        $("#Demand_st").val(response.data.Demand);
-                        $("#Source_st").val(response.data.Source);
-                    } else {
-                        console.log('Không tìm thấy nhân viên nào');
-                    }
-                },
-                error: function (response) {
-                    console.log('Tìm kiếm thất bại', response);
-                }
-            });
-            $(".form_setting_select").show();
-        });
+        
         $(".close_form_setting_select").click(function () {
             $(".form_setting_select").hide();
         });
@@ -717,12 +491,12 @@
         }
     });
 </script>
-<script>
+<!-- <script>
     $(document).ready(function () {
         $('#form_delete_check_list_lead').on('submit', function (event) {
             event.preventDefault();
             $.ajax({
-                url: '{% url 'delete_check_list_lead_admin' %}',
+                url: '',
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': '{{ csrf_token }}'
@@ -745,7 +519,7 @@
             });
         });
     });
-</script>
+</script> -->
 <script>
     // selecting required element
     const element = document.querySelector(".pagination ul");

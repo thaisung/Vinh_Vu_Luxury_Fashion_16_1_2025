@@ -50,7 +50,8 @@ import re
 import json
 
 from django.conf import settings
-from django.db.models import Q
+
+from django.db.models import Count, Q
 
 import datetime
 
@@ -68,40 +69,15 @@ def user_page_admin(request):
                 s = request.GET.get('s')
                 f = request.GET.get('f')
                 context = {}
-                context['list_campaign'] = Campaign.objects.all()
                 context['list_user'] = User.objects.all().order_by('-id')
+                for user in context['list_user']:
+                    user.pending_orders_count = Order.objects.filter(Belong_User=user, Status='Chờ xác nhận').count()
                 if s:
-                    context['list_user'] = context['list_user'].filter(Q(Full_name__icontains=s)).order_by('-id')
+                    context['list_user'] = context['list_user'].filter(Q(Full_name__icontains=s)| Q(email__icontains=s)).order_by('-id')
                     context['s'] = s
                 if f:
                     if f=="1":
                         context['list_user'] = context['list_user'].filter(Q(is_staff=True) | Q(is_manage=True) | Q(is_superuser=True)).order_by('-id')
-                    else:
-                        context['list_user'] = context['list_user'].filter(Q(is_staff=False) & Q(is_manage=False)).order_by('-id')
-                    context['f'] = f                
-                # Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
-                paginator = Paginator(context['list_user'], settings.PAGE)
-
-                # Lấy số trang hiện tại từ URL, nếu không mặc định là trang 1
-                p = request.GET.get('p')
-                page_obj = paginator.get_page(p)
-                context['list_user'] = page_obj
-                # Tạo danh sách các số trang
-                page_list = list(range(1, paginator.num_pages + 1))
-                context['page_list'] = page_list
-                return render(request, 'sleekweb/admin/user_page.html', context, status=200)
-            elif request.user.is_manage:
-                s = request.GET.get('s')
-                f = request.GET.get('f')
-                context = {}
-                context['list_campaign'] = Campaign.objects.filter(Belong_User=request.user)
-                context['list_user'] = User.objects.filter(list_campaign__in=context['list_campaign']).distinct().exclude(is_superuser=True).order_by('-id')
-                if s:
-                    context['list_user'] = context['list_user'].filter(Q(Full_name__icontains=s)).order_by('-id')
-                    context['s'] = s
-                if f:
-                    if f=="1":
-                        context['list_user'] = context['list_user'].filter(Q(is_staff=True) | Q(is_manage=True)).order_by('-id')
                     else:
                         context['list_user'] = context['list_user'].filter(Q(is_staff=False) & Q(is_manage=False)).order_by('-id')
                     context['f'] = f                

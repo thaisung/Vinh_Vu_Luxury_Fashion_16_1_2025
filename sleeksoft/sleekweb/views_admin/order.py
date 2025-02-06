@@ -132,46 +132,22 @@ def send_email_notification(email, subject, message):
     except Exception as e:
         print(f"Đã xảy ra lỗi khi gửi email: {e}")
 
-def get_setting(request):
-    if request.method == 'GET':
-        if request.user.is_authenticated:
-            if request.user.is_superuser:
-                list_Select_setting = Select_setting.objects.all()
-                if list_Select_setting:
-                    obj = list_Select_setting[0]
-                    # Chuyển đổi đối tượng thành dict
-                    obj_dict = model_to_dict(obj)
-                    # Trả về dữ liệu dưới dạng JSON
-                    return JsonResponse({'success': True, 'data': obj_dict},json_dumps_params={'ensure_ascii': False})
-                else:
-                    return JsonResponse({'success': False, 'data': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
-            else:
-                    return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
-        else:
-            return redirect('login_ad')
-    else:
-        return JsonResponse({'success': False, 'message': 'Không tồn tại phương thức này'},json_dumps_params={'ensure_ascii': False})
-    
+
 def order_ad(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             if request.user.is_superuser:
                 context = {}
                 s = request.GET.get('s')
-                f = request.GET.get('f')
                 st = request.GET.get('st')
                 p = request.GET.get('p')
                 context = {}
                 context['list_order'] = Order.objects.all()
                 if s:
-                    context['list_order'] = context['list_order'].filter(Q(Name__icontains=s)|Q(Phone_number__icontains=s)).order_by('-id')
+                    context['list_order'] = context['list_order'].filter(Q(Code__icontains=s)).order_by('-id')
                     context['s'] = s
-                if f:
-                    Belong_Campaign = Campaign.objects.get(pk=f)
-                    context['list_order'] = context['list_order'].filter(Belong_Campaign=Belong_Campaign).order_by('-id')
-                    context['f'] = int(f)
                 if st:
-                    context['list_order'] = context['list_order'].filter(Status_order=st).order_by('-id')
+                    context['list_order'] = context['list_order'].filter(Status=st).order_by('-id')
                     context['st'] = st               
                 # Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
                 paginator = Paginator(context['list_order'], settings.PAGE)
@@ -452,56 +428,7 @@ def delete_check_list_order_ad(request):
     else:
         return redirect('user_page_admin')
 
-def setting_all(request):
-    if request.method == 'GET':
-        if request.user.is_authenticated:
-            if request.user.is_superuser:
-                context={}
-                list_obj_setting_email = Email_setting.objects.all()
-                if list_obj_setting_email:
-                    context['obj_setting_email'] = list_obj_setting_email[0]
-                return render(request, 'sleekweb/admin/setting_all_page.html', context, status=200)
-            else:
-                    return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
-        else:
-            return redirect('login_ad')
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            if request.user.is_superuser:
-                field = {}
-                field['EMAIL_HOST'] = request.POST.get('EMAIL_HOST')
-                field['EMAIL_PORT'] = request.POST.get('EMAIL_PORT')
-                field['EMAIL_HOST_USER'] = request.POST.get('EMAIL_HOST_USER')
-                field['EMAIL_HOST_PASSWORD'] = request.POST.get('EMAIL_HOST_PASSWORD')
-                SMTPSecure = request.POST.get('SMTPSecure')
-                if SMTPSecure == 'TLS':
-                    field['EMAIL_USE_TLS'] = True
-                    field['EMAIL_USE_SSL'] = False
-                if SMTPSecure == 'SSL':
-                    field['EMAIL_USE_TLS'] = False
-                    field['EMAIL_USE_SSL'] = True
-                
-                list_obj_setting_email = Email_setting.objects.all()
-                
-                if list_obj_setting_email:
-                    obj = list_obj_setting_email[0]
-                    obj.EMAIL_HOST = field['EMAIL_HOST']
-                    obj.EMAIL_USE_TLS = field['EMAIL_USE_TLS']
-                    obj.EMAIL_USE_SSL = field['EMAIL_USE_SSL']
-                    obj.EMAIL_PORT = field['EMAIL_PORT']
-                    obj.EMAIL_HOST_USER = field['EMAIL_HOST_USER']
-                    obj.EMAIL_HOST_PASSWORD = field['EMAIL_HOST_PASSWORD']
-                    obj.save()
-                else:
-                    Email_setting.objects.create(**field)
-                return redirect('setting_all')
-            else:
-                    return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
-        else:
-            return redirect('login_ad')
-    else:
-        return JsonResponse({'success': False, 'message': 'Không tồn tại phương thức này'},json_dumps_params={'ensure_ascii': False})
-    
+
 def update_status_order(request):
     if request.method == 'POST':
         status = request.POST.get('status')

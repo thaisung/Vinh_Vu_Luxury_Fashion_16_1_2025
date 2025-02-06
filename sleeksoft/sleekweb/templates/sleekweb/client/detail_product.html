@@ -45,7 +45,7 @@
                                 {% for i in obj_Product.product_photo_detail.all %}
                                 <a class="p-img-item " href="{{i.Photo.url}}" data-image="{{i.Photo.url}}"
                                     data-fancybox-group="button" data-fancybox="gallery" data-caption="Single image">
-                                    <img src="http://127.0.0.1:8000/{{i.Photo.url}}" alt="{{obj_Product.Name}}">
+                                    <img src="https://milanauth.com.vn{{i.Photo.url}}" alt="{{obj_Product.Name}}">
                                 </a>
                                 {% endfor %}
                             </div>
@@ -397,7 +397,7 @@
                         </ul>
                         <div id="List_Product_Love" class="slider-container" style="display: flex; align-items: center;">
                             <!-- Nút điều hướng bên trái -->
-                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-prev" style="color: gray;"></div>
                             <!-- Slider chính -->
                             <div  class="swiper mySwiper" style="width: 100%; margin: 0 10px;">
                                 <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 100%;">
@@ -461,76 +461,76 @@
                                 </div>
                             </div>
                             <!-- Nút điều hướng bên phải -->
-                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-next" style="color: gray;"></div>
                         </div>
-                    </div>
-                    <div id="List_Product_Well" class="slider-container" style="display: none; align-items: center;">
-                        <!-- Nút điều hướng bên trái -->
-                        <div class="swiper-button-prev1"></div>
-                        <!-- Slider chính -->
-                        <div id="List_Product_Well"  class="swiper mySwiper1" style="width: 100%; margin: 0 10px;">
-                            <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 100%;">
-                                {% for i in List_Product_Well %}
-                                <div class="swiper-slide ">
-                                    <div class="owl-item" style="width: 293.75px; margin-right: 0px;">
-                                        <div class="itemslick pro-loop" data-id="40777248">
-                                            <div class="product-block recommend-block" data-anmation="1">
-                                                <div class="product-img">
-                                                    <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
-                                                        class="p-img-box added">
-                                                        <picture>
-                                                            <img class="img-loop lazyautosizes lazyloaded"
-                                                                data-sizes="auto"
-                                                                src="{{i.photo_1.Photo.url}}"
-                                                                data-src="{{i.photo_1.Photo.url}}"
-                                                                alt="{{i.Name}}"
-                                                                sizes="142px">
-                                                        </picture>
-                                                        <picture><img
-                                                                class="img-loop img-hover lazyautosizes ls-is-cached lazyloaded"
-                                                                data-sizes="auto"
-                                                                src="{{i.photo_2.Photo.url}}"
-                                                                data-id="40777248"
-                                                                data-src="{{i.photo_2.Photo.url}}"
-                                                                alt="{{i.Name}}"
-                                                                sizes="162px"></picture>
-                                                    </a>
-                                                </div>
-                                                <div class="product-detail clearfix">
-                                                    <div class="product-size-cus" psid="40777248">
-                                                        {% for f in i.product_size_detail.all %}
+                        <div id="List_Product_Well" class="slider-container" style="display: none; align-items: center;">
+                            <!-- Nút điều hướng bên trái -->
+                            <div class="swiper-button-prev1" style="color: gray;"></div>
+                            <!-- Slider chính -->
+                            <div id="List_Product_Well"  class="swiper mySwiper1" style="width: 100%; margin: 0 10px;">
+                                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 100%;">
+                                    {% for i in List_Product_Well %}
+                                    <div class="swiper-slide ">
+                                        <div class="owl-item" style="width: 293.75px; margin-right: 0px;">
+                                            <div class="itemslick pro-loop" data-id="40777248">
+                                                <div class="product-block recommend-block" data-anmation="1">
+                                                    <div class="product-img">
                                                         <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
-                                                            class="text-main" value="40777249" title="46">
-                                                            {{f.Size}}</a>
-                                                        {% endfor %}
-                                                        </div>
-                                                    <div class="box-pro-detail">
-                                                        <h3 class="pro-name tp_product_name">
-                                                            <a
-                                                                href="{% url 'detail_product_cl' Slug=i.Slug %}">{{i.Name}}</a>
-                                                        </h3>
-                                                        <div class="box-pro-prices">
-
-                                                            <p class="pro-price highlight tp_product_price">
-                                                                {% if k.Discount > 0 %}
-                                                                <span class="">{{i.Price_Discount}}₫</span>
-                                                                {% else %}
-                                                                <span class="">{{i.Price}}₫</span>
-                                                                {% endif %}
-                                                            </p>
+                                                            class="p-img-box added">
+                                                            <picture>
+                                                                <img class="img-loop lazyautosizes lazyloaded"
+                                                                    data-sizes="auto"
+                                                                    src="{{i.photo_1.Photo.url}}"
+                                                                    data-src="{{i.photo_1.Photo.url}}"
+                                                                    alt="{{i.Name}}"
+                                                                    sizes="142px">
+                                                            </picture>
+                                                            <picture><img
+                                                                    class="img-loop img-hover lazyautosizes ls-is-cached lazyloaded"
+                                                                    data-sizes="auto"
+                                                                    src="{{i.photo_2.Photo.url}}"
+                                                                    data-id="40777248"
+                                                                    data-src="{{i.photo_2.Photo.url}}"
+                                                                    alt="{{i.Name}}"
+                                                                    sizes="162px"></picture>
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-detail clearfix">
+                                                        <div class="product-size-cus" psid="40777248">
+                                                            {% for f in i.product_size_detail.all %}
+                                                            <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
+                                                                class="text-main" value="40777249" title="46">
+                                                                {{f.Size}}</a>
+                                                            {% endfor %}
+                                                            </div>
+                                                        <div class="box-pro-detail">
+                                                            <h3 class="pro-name tp_product_name">
+                                                                <a
+                                                                    href="{% url 'detail_product_cl' Slug=i.Slug %}">{{i.Name}}</a>
+                                                            </h3>
+                                                            <div class="box-pro-prices">
+    
+                                                                <p class="pro-price highlight tp_product_price">
+                                                                    {% if k.Discount > 0 %}
+                                                                    <span class="">{{i.Price_Discount}}₫</span>
+                                                                    {% else %}
+                                                                    <span class="">{{i.Price}}₫</span>
+                                                                    {% endif %}
+                                                                </p>
+                                                            </div>
                                                         </div>
                                                     </div>
+    
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
+                                    {% endfor %}
                                 </div>
-                                {% endfor %}
                             </div>
+                            <!-- Nút điều hướng bên phải -->
+                            <div class="swiper-button-next1" style="color: gray;"></div>
                         </div>
-                        <!-- Nút điều hướng bên phải -->
-                        <div class="swiper-button-next1"></div>
                     </div>
                 </div>
                     <script>

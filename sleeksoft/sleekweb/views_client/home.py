@@ -67,6 +67,12 @@ def home_cl(request):
     if request.method == 'GET':
         print('re:',request.path)
         context = {}
+        list_obj_website = Website.objects.all()
+        if list_obj_website:
+            context['obj_website'] = list_obj_website[0]
+        list_obj_email = Email_setting.objects.all()
+        if list_obj_email:
+            context['obj_email'] = list_obj_email[0]
         # Lấy giỏ hàng từ cookie
         cart = request.COOKIES.get('cart', '[]')
         try:

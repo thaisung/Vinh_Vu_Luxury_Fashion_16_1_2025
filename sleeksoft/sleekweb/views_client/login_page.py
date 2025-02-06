@@ -90,10 +90,13 @@ def decrypt_rsa(encrypted_data_b64):
 
 def login_page_client(request):
     if request.method == 'GET':
-        context = {}
-        context['PUBLIC_KEY_PEM'] = settings.PUBLIC_KEY_PEM
-        print('context:',context)
-        return render(request, 'sleekweb/client/login_page.html', context, status=200)
+        if request.user.is_authenticated:
+            return redirect('category_product_ad')
+        else:
+            context = {}
+            context['PUBLIC_KEY_PEM'] = settings.PUBLIC_KEY_PEM
+            print('context:',context)
+            return render(request, 'sleekweb/client/login_page.html', context, status=200)
     elif request.method == 'POST':
         encrypted_username = request.POST.get('un')
         print('encrypted_username:',encrypted_username)
@@ -115,14 +118,14 @@ def login_page_client(request):
                     if user.is_active:
                         login(request, user)
                         if user.is_superuser or user.is_manage:
-                            return JsonResponse({'success': True, 'redirect_url': reverse('statistical_page_admin')})
+                            return JsonResponse({'success': True, 'redirect_url': reverse('category_product_ad')})
                         else:
                             # Chuyển hướng đến `next` nếu có, hoặc trang mặc định
                             next_url = request.GET.get('next')
                             if next_url:
                                 return redirect(next_url)
                             else:
-                                return JsonResponse({'success': True, 'redirect_url': reverse('statistical_page_admin')})
+                                return JsonResponse({'success': True, 'redirect_url': reverse('category_product_ad')})
                     else:
                         return JsonResponse({'success': False, 'message': 'Tài khoản của bạn đã ngừng hoạt động'})
                 else:

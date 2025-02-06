@@ -17,7 +17,7 @@ class RedirectOn404Middleware:
         if response.status_code == 404:
             if request.user.is_authenticated:
                 if request.user.is_superuser:
-                    return redirect(reverse('statistical_page_admin'))
+                    return redirect(reverse('category_product_ad'))
                 else:
                     return redirect(reverse('lead_page_staff'))
             else:
