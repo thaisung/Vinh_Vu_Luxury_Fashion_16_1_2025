@@ -89,6 +89,7 @@ urlpatterns = [
     path('user/', user_cl,name='user_cl'),
     path('register/', register_cl,name='register_cl'),
     path('getpassword/', getpassword_cl,name='getpassword_cl'),
+    path('reset_pasword/', reset_pasword_cl,name='reset_pasword_cl'),
     path('checkout/', checkout_cl,name='checkout_cl'),
     path('order/', order_cl,name='order_cl'),
     

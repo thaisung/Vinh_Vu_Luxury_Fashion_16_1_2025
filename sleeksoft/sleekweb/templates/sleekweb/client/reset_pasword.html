@@ -11,10 +11,18 @@
                 <ul>
                     <li>
                         <label for="newpassword" class="required">
-                            <span>*</span> Nhập địa chỉ email:
+                            <span>*</span> Nhập mã OTP:
                         </label>
                         <input
-                            name="username" type="email" class="tb validate[required],minSize[4]" id="newpassword"
+                            name="otp" type="text" class="tb validate[required],minSize[4]" id="newpassword"
+                            value="" required>
+                    </li>
+                    <li style="margin-top:8px">
+                        <label for="newpassword" class="required">
+                            <span>*</span> Nhập mật khẩu mới:
+                        </label>
+                        <input
+                            name="new_pw" type="text" class="tb validate[required],minSize[4]" id="newpassword"
                             value="" required>
                     </li>
                     <li class="btns">
@@ -32,7 +40,7 @@
             event.preventDefault();
             var formData = new FormData(this);  // Tạo FormData từ form hiện tại
             $.ajax({
-                url: '{% url 'getpassword_cl' %}',
+                url: '{% url 'reset_pasword_cl' %}',
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': '{{ csrf_token }}'
@@ -43,7 +51,7 @@
                 success: function(response) {
                     if (response.success) {
                         alert(response.message);
-                        window.location.href = "{% url 'reset_pasword_cl' %}";
+                        window.location.href = "{% url 'login_cl' %}";
                     } else {
                         alert(response.message);
                     }

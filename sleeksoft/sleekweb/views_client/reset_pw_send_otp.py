@@ -66,7 +66,24 @@ from django.core.mail import send_mail
 from django.forms.models import model_to_dict
 from django.core.mail import send_mail,EmailMessage
 
+def format_number(number):
+    print('number:',number)
+    """
+    Định dạng một số nguyên hoặc số thực thành chuỗi có dấu chấm ngăn cách mỗi 3 chữ số.
 
+    :param number: Số cần định dạng (int hoặc float)
+    :return: Chuỗi định dạng với dấu chấm ngăn cách
+    """
+    try:
+        number = int(number)
+        # Đảm bảo số là số nguyên hoặc số thực
+        if isinstance(number, (int, float)):
+            # Sử dụng f-string để định dạng và thay dấu phẩy thành dấu chấm
+            return f"{number:,.0f}".replace(",", ".")
+        else:
+            raise ValueError("Giá trị đầu vào phải là số nguyên hoặc số thực.")
+    except Exception as e:
+        return f"Lỗi: {e}"
 
     
 def reset_pw_send_otp(request):
