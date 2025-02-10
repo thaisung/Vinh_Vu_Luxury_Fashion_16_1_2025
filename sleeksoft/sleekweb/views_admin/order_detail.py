@@ -188,40 +188,6 @@ def format_cart(cart_items):
         i['product'].Price_Discount = format_number(i['product'].Price_Discount)
     return Cart_user
 
-def order_ad(request):
-    if request.method == 'GET':
-        if request.user.is_authenticated:
-            if request.user.is_superuser:
-                context = {}
-                s = request.GET.get('s')
-                st = request.GET.get('st')
-                p = request.GET.get('p')
-                context = {}
-                context['list_order'] = Order.objects.all()
-                if s:
-                    context['list_order'] = context['list_order'].filter(Q(Code__icontains=s)).order_by('-id')
-                    context['s'] = s
-                if st:
-                    context['list_order'] = context['list_order'].filter(Status=st).order_by('-id')
-                    context['st'] = st               
-                # Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
-                paginator = Paginator(context['list_order'], settings.PAGE)
-
-                # Lấy số trang hiện tại từ URL, nếu không mặc định là trang 1
-                p = request.GET.get('p')
-                page_obj = paginator.get_page(p)
-                context['list_order'] = page_obj
-                print('list_order:',context['list_order'])
-                # Tạo danh sách các số trang
-                page_list = list(range(1, paginator.num_pages + 1))
-                context['page_list'] = page_list
-                return render(request, 'sleekweb/admin/order.html', context, status=200)
-            else:
-                return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
-        else:
-            return redirect('login_ad')
-    else:
-        return redirect('login_ad')
     
 def order_detail_ad(request,code):
     if request.method == 'GET':

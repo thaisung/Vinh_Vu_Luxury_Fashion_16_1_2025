@@ -78,6 +78,7 @@ from email.mime.text import MIMEText
 from django.core.exceptions import ObjectDoesNotExist
 import uuid
 from django.db.models import Case, When, BooleanField
+from django.utils.http import urlencode
 
 
 def send_sms(email,subject,message):
@@ -203,15 +204,18 @@ def order_ad(request):
                     context['s'] = s
                 if st:
                     context['list_order'] = context['list_order'].filter(Status=st).order_by('-id')
-                    context['st'] = st               
+                    context['st'] = st 
+                         
                 # Sử dụng Paginator để chia nhỏ danh sách (10 là số lượng mục trên mỗi trang)
                 paginator = Paginator(context['list_order'], settings.PAGE)
 
                 # Lấy số trang hiện tại từ URL, nếu không mặc định là trang 1
                 p = request.GET.get('p')
+                context['p'] = p
+                print('pádsad:',p)
                 page_obj = paginator.get_page(p)
                 context['list_order'] = page_obj
-                print('list_order:',context['list_order'])
+                # print('list_order:',context['list_order'])
                 # Tạo danh sách các số trang
                 page_list = list(range(1, paginator.num_pages + 1))
                 context['page_list'] = page_list
@@ -251,7 +255,12 @@ def update_status_order(request):
         obj_order = Order.objects.get(pk=id)
         obj_order.Status = status
         obj_order.save()
-        return redirect('order_ad')
+                
+        query_params = request.GET.dict()  # Lấy tất cả tham số trong URL
+        print('query_params:',query_params)
+        url = f"/ad/order/?{urlencode(query_params)}"
+        return redirect(url)
+        # return redirect('order_ad')
     
 def delete_order_ad(request):
     if request.method == 'POST':

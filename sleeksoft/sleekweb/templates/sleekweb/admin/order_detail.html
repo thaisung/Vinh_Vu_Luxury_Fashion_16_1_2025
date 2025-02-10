@@ -100,11 +100,17 @@
                     </label>
                     <textarea readonly class="rounded-lg bg-stone-300">{{obj_order.description}}</textarea>
                 </div>
-                <div class="  flex flex-col gap-1 col-span-2">
+                <div class="  flex flex-col gap-1">
                     <label class="font-medium">
-                        Tài khoản - Thời gian tạo đơn hàng
+                        Tài khoản
                     </label>
-                    <input readonly type="text" class="rounded-lg bg-stone-300" value="{{obj_order.Belong_User}} - {{ obj_order.Creation_time|date:"d-m-Y H:i" }}" />
+                    <input readonly type="text" class="rounded-lg bg-stone-300" value="{{obj_order.Belong_User}}" />
+                </div>
+                <div class="  flex flex-col gap-1">
+                    <label class="font-medium">
+                        Thời gian tạo đơn hàng
+                    </label>
+                    <input readonly type="text" class="rounded-lg bg-stone-300" value="{{ obj_order.Creation_time|date:"d-m-Y H:i" }}" />
                 </div>
             </div>
             <div class="flex flex-col gap-1 bg-stone-200 p-3 rounded-lg">

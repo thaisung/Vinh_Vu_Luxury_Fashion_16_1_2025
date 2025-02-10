@@ -234,6 +234,21 @@ def order_cl(request):
         for i in context['List_Order']:
             i.Data = format_cart(i.Data)
             print('Data:',i.Data)
+            
+        context['List_Product_Love'] = Product.objects.all()
+        print('List_Product_Love:',context['List_Product_Love'])
+        for product in context['List_Product_Love']:
+            photos = product.product_photo_detail.all()
+            product.photo_1 = photos.first()  # Ảnh đầu tiên
+            product.photo_2 = photos[1] if photos.count() > 1 else None  # Ảnh thứ 2 (nếu có)
+            
+            # Kiểm tra hết hàng
+            total_quantity = product.product_size_detail.aggregate(
+                total=models.Sum('Quantity')
+            )['total'] or 0
+            product.is_out_of_stock = total_quantity == 0  # True nếu hết hàng
+            product.Price = format_number(product.Price)
+            product.Price_Discount = format_number(product.Price_Discount)
         return render(request, 'sleekweb/client/order.html', context, status=200)
     elif request.method == 'POST':
         if request.user.is_authenticated:

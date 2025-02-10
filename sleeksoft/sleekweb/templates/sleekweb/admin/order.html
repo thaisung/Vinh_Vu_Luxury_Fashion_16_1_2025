@@ -67,6 +67,7 @@
                                 <input type="checkbox" id="check_all_lead" class="rounded-md w-[20px] h-[20px]  bg-transparent"/>
                             </th> {% endcomment %}
                             <th class="px-4 py-3">Code</th>
+                            <th class="px-4 py-3">Phương thức thanh toán</th>
                             <th class="px-4 py-3">Trạng thái</th>
                             <th class="px-4 py-3">Chức năng</th>
                             <th class="px-4 py-3">Tài khoản</th>
@@ -120,13 +121,20 @@
                                 {{i.Code|default:""}}
                             </td>
                             <td class="px-4 py-3 text-sm whitespace-nowrap">
-                                <form method="post" action="{% url 'update_status_order' %}" class="">
+                                {% if i.paymentMethod == '1' %}
+                                Ship COD 
+                                {% else %}
+                                Cọc và Ship COD 
+                                {% endif %}
+                            </td>
+                            <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                <form method="post" action="{% url 'update_status_order' %}?p={{p}}" class="">
                                     {% csrf_token %}
                                     <input name="id" type="hidden" value="{{i.id}}" name="id" />
                                     <select  onchange="this.form.submit()" name="status"
-                                    class="
+                                    class=" w-fit
                                     {% if i.Status == 'Đã xác nhận' %}bg-green-500{% elif i.Status == 'Đang gửi hàng' %}bg-yellow-500{% elif i.Status == 'Đã gửi hàng' %}bg-sky-500{% else %}bg-stone-100{% endif %}
-                                     text-sm text-stone-800 w-full   focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                                     text-sm text-stone-800   focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
                                         <option value="Chờ xác nhận" {% if i.Status == 'Chờ xác nhận' %}selected{% endif %} class="bg-stone-100">Chờ xác nhận</option>
                                         <option value="Đã xác nhận" {% if i.Status == 'Đã xác nhận' %}selected{% endif %} class="bg-stone-100">Đã xác nhận</option>
                                         <option value="Đang gửi hàng" {% if i.Status == 'Đang gửi hàng' %}selected{% endif %} class="bg-stone-100">Đang gửi hàng</option>
