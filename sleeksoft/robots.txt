@@ -1,0 +1,16 @@
+# Group 1 - Google
+User-Agent: Googlebot
+
+Disallow: /ad/
+
+
+# Group 2 - Bing
+User-Agent: Bingbot
+
+Disallow: /ad/
+
+Sitemap: https://gauzuka.com/sitemap.xml
+Sitemap: https://gauzuka.com/en/sitemap.xml
+Sitemap: https://gauzuka.com/hi/sitemap.xml
+Sitemap: https://gauzuka.com/id/sitemap.xml
+Sitemap: https://gauzuka.com/br/sitemap.xml
