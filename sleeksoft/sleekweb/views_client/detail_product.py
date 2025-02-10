@@ -233,24 +233,25 @@ def get_detail_product_cl(request,pk):
                 </p>"""
         Size = ''
         for i in obj_product.product_size_detail.all():
-            if i.Quantity > 0:
-                Size = Size + f"""
-                                <div data-value="" class=" n-sd swatch-element">
-                                    <label  class="" data-size="{i.Size}">
-                                        <span>{i.Size}</span>
-                                        <img class="crossed-out" src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
-                                    </label>
-                                </div>
-                            """
-            else:
-                Size = Size + f"""
-                                <div data-value="" class=" n-sd swatch-element">
-                                    <label class="deactive"  title="Sản phẩm tạm thời hết hàng">
-                                        <span>{i.Size}</span>
-                                        <img class="crossed-out" src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
-                                    </label>
-                                </div>
-                            """
+            if i.Size:
+                if i.Quantity > 0:
+                    Size = Size + f"""
+                                    <div data-value="" class=" n-sd swatch-element">
+                                        <label  class="" data-size="{i.Size}">
+                                            <span>{i.Size}</span>
+                                            <img class="crossed-out" src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
+                                        </label>
+                                    </div>
+                                """
+                else:
+                    Size = Size + f"""
+                                    <div data-value="" class=" n-sd swatch-element">
+                                        <label class="deactive"  title="Sản phẩm tạm thời hết hàng">
+                                            <span>{i.Size}</span>
+                                            <img class="crossed-out" src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
+                                        </label>
+                                    </div>
+                                """
         # Tạo danh sách các thẻ <option> cho thương hiệu
         for idx,i in enumerate(obj_product.product_photo_detail.all()):
             thumbnail = thumbnail + f"""

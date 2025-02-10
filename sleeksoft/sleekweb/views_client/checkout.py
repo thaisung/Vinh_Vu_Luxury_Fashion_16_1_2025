@@ -132,6 +132,12 @@ def checkout_cl(request):
         for i in Cart_user['data']:
             i['product'].Price = format_number(i['product'].Price)
             i['product'].Price_Discount = format_number(i['product'].Price_Discount)
+            
+        
+        list_infor = Order.objects.filter(Belong_User=request.user)
+        if list_infor:
+            context['infor'] = list_infor[0]
+        
         return render(request, 'sleekweb/client/checkout.html', context, status=200)
     elif request.method == 'POST':
         print('thiijajksdjkg')

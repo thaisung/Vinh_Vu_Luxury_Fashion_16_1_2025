@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+{% load tailwind_tags %}
 <html lang="vi-VN" data-nhanh.vn-template="T0298" class="fancybox-enabled">
 
 <head>
+    {% tailwind_css %}
     <link rel="preconnect" href="https://web.nvnstatic.net/" crossorigin>
     <link rel="preconnect" href="https://pos.nvncdn.com/" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin>
@@ -13,7 +15,7 @@
     <meta name="keywords" content="AUTHENTIC LUXURY FASHION">
     <meta name="description" content="CHUYÊN THỜI TRANG AUTHENTIC CHÍNH HÃNG">
     <meta property="og:title" content="Luxury Fashion">
-    <meta property="og:url" content="https://{{obj_website.Name}}/">
+    <meta property="og:url" content="{{obj_website.Name}}/">
     <meta property="og:image" content="/upload/banner/link_banner.jpg">
     <meta property="og:type" content="product">
     <meta name="DC.language" content="scheme=utf-8 content=vi">
@@ -61,7 +63,12 @@
     href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"
     />
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+
 
 <script>
     const swiper = new Swiper('.swiper-container', {
@@ -460,7 +467,7 @@
                         <div class="no-padding hidden-xs col-sm-12 col-md-2">
                             <div class="header-mid wrap-flex-align">
                                 <div class="wrap-logo">
-                                    <a aria-label="logo" href="/">
+                                    <a aria-label="logo" href="{{obj_website.Name}}">
                                         <img width="225" height="45"
                                             src="{{obj_website.Logo.url}}"
                                             alt="{{obj_website.Name}}" class="img-responsive logoimg" />
@@ -469,7 +476,7 @@
                                 <div class="header-wrap-icon visible-sm">
                                     <span id="site-search-handle" class="icon-search" aria-label="Tìm kiếm"
                                         title="Tìm kiếm">
-                                        <a aria-label="search" href="https://{{obj_website.Name}}/search">
+                                        <a aria-label="search" href="{{obj_website.Name}}/search">
                                             <span class="search-menu" aria-hidden="true">
                                                 <svg version="1.1" class="svg-search" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -516,7 +523,7 @@
                         <div class="no-padding col-xs-12 hidden-sm hidden-xs col-md-8 menu-pc">
                             <div class="menu-desktop hidden-sm hidden-xs">
                                 <div class="wrap-logo wrap-logp-mb">
-                                    <a aria-label="logo" href="https://{{obj_website.Name}}/">
+                                    <a aria-label="logo" href="{{obj_website.Name}}">
                                         <img height="23" width="150"
                                             src="{{obj_website.Logo.url}}"
                                             alt="{{obj_website.Name}}" class="img-responsive logoimg" />
@@ -545,7 +552,7 @@
                                                                     <div class="itemImgMega">
                                                                         <div class="boxImgMega">
                                                                             <a
-                                                                                href="https://{{obj_website.Name}}/so-mi-dolce-lua-nu-hoang-g5ej1t-hp5zs-p40777448.html">
+                                                                                href="{{obj_website.Name}}/so-mi-dolce-lua-nu-hoang-g5ej1t-hp5zs-p40777448.html">
                                                                                 <img class="lazyload" data-sizes="auto"
                                                                                     src="{{k.product_photo_detail.all.first.Photo.url}}"
                                                                                     data-src="{{k.product_photo_detail.all.first.Photo.url}}"
@@ -554,7 +561,7 @@
                                                                         </div>
                                                                         <div class="boxNameMega">
                                                                             <a
-                                                                                href="https://{{obj_website.Name}}/so-mi-dolce-lua-nu-hoang-g5ej1t-hp5zs-p40777448.html">{{k.Name}}</a>
+                                                                                href="{{obj_website.Name}}/so-mi-dolce-lua-nu-hoang-g5ej1t-hp5zs-p40777448.html">{{k.Name}}</a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -566,7 +573,7 @@
                                             </li>
                                             {% endfor %}
                                             <!-- <li class="categoryId_45746 li-menu menu-cate-item "><a class="tp_menu_item"
-                                                    href="https://{{obj_website.Name}}/tag/super-sale-t2.html"
+                                                    href="{{obj_website.Name}}/tag/super-sale-t2.html"
                                                     target="_self">SUPER SALE</a> -->
                                         </ul>
                                     </nav>
@@ -578,7 +585,7 @@
                         <div class="no-padding col-xs-12 hidden-sm hidden-xs col-md-2">
                             <div class="searchFormHeader">
                                 <form class="searchHeader searchDesktop" action="{% url 'search_cl' %}?f_size={{i.Size}}&f_trademark={{f_trademark}}&f_arrange={{f_arrange}}&s={{s}}" method="get">
-                                    <input type="text" name="s" value="{{s}}" class="searchInput" placeholder="Tìm kiếm..."
+                                    <input type="text" name="s" value="{{s}}" class="searchInput text-[15px]" placeholder="Tìm kiếm..."
                                         autocomplete="off" />
                                     <input type="submit" class="btnSearch" />
                                 </form>
@@ -593,7 +600,7 @@
                                 <a aria-label="menu" href="#menu-mobile" class="hamburger-menu"><span
                                         class="bar"></span></a>
                                 <div class="wrap-logo">
-                                    <a aria-label="logo" href="https://{{obj_website.Name}}/">
+                                    <a aria-label="logo" href="{{obj_website.Name}}">
                                         <img width="160" height="32"
                                             src="{{obj_website.Logo.url}}"
                                             alt="{{obj_website.Name}}" class="img-responsive logoimg" />
@@ -604,7 +611,7 @@
                                     </div>
                                     <span id="site-search-handle" class="icon-search" aria-label="Tìm kiếm"
                                         title="Tìm kiếm">
-                                        <a aria-label="search" href="https://{{obj_website.Name}}/search">
+                                        <a aria-label="search" href="{{obj_website.Name}}/search">
                                             <span class="search-menu" aria-hidden="true">
                                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -714,15 +721,44 @@
                         <div id="mc_embed_signup" class="newsletter-form">
                             <form id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate">
                                 <div id="mc_embed_signup_scroll">
-                                    <input type="email" value="" name="EMAIL"
+                                    <input type="email" value="" name="EMAIL" required
                                         class="newsletter-input form-control input-lg email" id="mce-EMAIL"
                                         placeholder="Nhập email của bạn tại đây...">
-                                    <button disabled aria-label="newsletter" type="button" name="subscribe"
+                                    <button  aria-label="newsletter" type="submit" name="subscribe"
                                         id="mc-embedded-subscribe" class="btn-newsletter">
                                         <span>Đăng ký</span>
                                     </button>
                                 </div>
                             </form>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#mc-embedded-subscribe-form').on('submit', function(event) {
+                                        event.preventDefault();
+                                        var formData = new FormData(this);  // Tạo FormData từ form hiện tại
+                                        $.ajax({
+                                            url: '{% url 'register_email_information_cl' %}',
+                                            method: 'POST',
+                                            headers: {
+                                                'X-CSRFToken': '{{ csrf_token }}'
+                                            },
+                                            processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
+                                            contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
+                                            data: formData,
+                                            success: function(response) {
+                                                if (response.success) {
+                                                    alert(response.message);
+                                                    window.location.href = "{% url 'home_cl' %}";
+                                                } else {
+                                                    alert(response.message);
+                                                }
+                                            },
+                                            error: function(response) {
+                                                alert('Đăng kí Email nhận thông tin thất bại');
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
 
@@ -754,11 +790,9 @@
 
                             <ul>
                                 <li><a href="">Hướng dẫn chọn size</a></li>
-                                <li><a href="">Chính sách khách hàng thân thiết</a></li>
                                 <li><a href="">Chính sách đổi/Trả</a></li>
                                 <li><a href="">Chính sách bảo mật</a></li>
                                 <li><a href="">Thanh toán, Giao nhận</a></li>
-                                <li><a href="">Câu hỏi thường gặp</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1101,7 +1135,31 @@
     <div id="fb-root"></div>
 
     <!-- Your Plugin chat code -->
-    <div id="fb-customer-chat" class="fb-customerchat">
+    {% comment %} <div id="fb-customer-chat" class="fb-customerchat">
+        <a href="tel:19004468" class="icon-phone-position icon-phone-style">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none" viewBox="0 0 24 24">
+                <path fill="#000" fill-rule="evenodd" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10ZM10 8H8.444C8.2 8 8 8.2 8 8.444A7.555 7.555 0 0 0 15.556 16c.244 0 .444-.2.444-.444v-1.552c0-.244-.2-.444-.444-.444a5.07 5.07 0 0 1-1.587-.253.455.455 0 0 0-.453.107l-.978.977a6.732 6.732 0 0 1-2.93-2.929l.979-.978a.446.446 0 0 0 .11-.453 5.047 5.047 0 0 1-.253-1.587c0-.244-.2-.444-.444-.444Zm-.227 2.04a5.473 5.473 0 0 1-.2-1.151h-.67c.04.587.155 1.151.337 1.684l.533-.533Zm5.338 4.391a5.666 5.666 0 0 1-1.155-.2l-.534.529a6.855 6.855 0 0 0 1.69.333v-.662Z" clip-rule="evenodd">
+                </path>
+            </svg>
+        </a>
+    </div> {% endcomment %}
+    <div class="fixed bottom-[40px] right-[40px]" style="z-index:999;">
+        <a href="tel:{{obj_website.Phone_number}}" class="icon-phone-position icon-phone-style">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="none" viewBox="0 0 24 24">
+                <path fill="#000" fill-rule="evenodd" d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10ZM10 8H8.444C8.2 8 8 8.2 8 8.444A7.555 7.555 0 0 0 15.556 16c.244 0 .444-.2.444-.444v-1.552c0-.244-.2-.444-.444-.444a5.07 5.07 0 0 1-1.587-.253.455.455 0 0 0-.453.107l-.978.977a6.732 6.732 0 0 1-2.93-2.929l.979-.978a.446.446 0 0 0 .11-.453 5.047 5.047 0 0 1-.253-1.587c0-.244-.2-.444-.444-.444Zm-.227 2.04a5.473 5.473 0 0 1-.2-1.151h-.67c.04.587.155 1.151.337 1.684l.533-.533Zm5.338 4.391a5.666 5.666 0 0 1-1.155-.2l-.534.529a6.855 6.855 0 0 0 1.69.333v-.662Z" clip-rule="evenodd">
+                </path>
+            </svg>
+        </a>
+        <a href="https://m.me/fb.GauZuka/" target="_blank" class="icon-fb-position icon-phone-style" rel="noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="60" height="60" viewBox="0 0 48 48">
+                <radialGradient id="8O3wK6b5ASW2Wn6hRCB5xa_YFbzdUk7Q3F8_gr1" cx="11.087" cy="7.022" r="47.612" gradientTransform="matrix(1 0 0 -1 0 50)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1292ff"></stop><stop offset=".079" stop-color="#2982ff"></stop><stop offset=".23" stop-color="#4e69ff"></stop><stop offset=".351" stop-color="#6559ff"></stop><stop offset=".428" stop-color="#6d53ff"></stop>
+                    <stop offset=".754" stop-color="#df47aa"></stop><stop offset=".946" stop-color="#ff6257"></stop>
+                </radialGradient><path fill="url(#8O3wK6b5ASW2Wn6hRCB5xa_YFbzdUk7Q3F8_gr1)" d="M44,23.5C44,34.27,35.05,43,24,43c-1.651,0-3.25-0.194-4.784-0.564	c-0.465-0.112-0.951-0.069-1.379,0.145L13.46,44.77C12.33,45.335,11,44.513,11,43.249v-4.025c0-0.575-0.257-1.111-0.681-1.499	C6.425,34.165,4,29.11,4,23.5C4,12.73,12.95,4,24,4S44,12.73,44,23.5z"></path><path d="M34.992,17.292c-0.428,0-0.843,0.142-1.2,0.411l-5.694,4.215	c-0.133,0.1-0.28,0.15-0.435,0.15c-0.15,0-0.291-0.047-0.41-0.136l-3.972-2.99c-0.808-0.601-1.76-0.918-2.757-0.918	c-1.576,0-3.025,0.791-3.876,2.116l-1.211,1.891l-4.12,6.695c-0.392,0.614-0.422,1.372-0.071,2.014	c0.358,0.654,1.034,1.06,1.764,1.06c0.428,0,0.843-0.142,1.2-0.411l5.694-4.215c0.133-0.1,0.28-0.15,0.435-0.15	c0.15,0,0.291,0.047,0.41,0.136l3.972,2.99c0.809,0.602,1.76,0.918,2.757,0.918c1.576,0,3.025-0.791,3.876-2.116l1.211-1.891	l4.12-6.695c0.392-0.614,0.422-1.372,0.071-2.014C36.398,17.698,35.722,17.292,34.992,17.292L34.992,17.292z" opacity=".05">
+                </path>
+                <path d="M34.992,17.792c-0.319,0-0.63,0.107-0.899,0.31l-5.697,4.218	c-0.216,0.163-0.468,0.248-0.732,0.248c-0.259,0-0.504-0.082-0.71-0.236l-3.973-2.991c-0.719-0.535-1.568-0.817-2.457-0.817	c-1.405,0-2.696,0.705-3.455,1.887l-1.21,1.891l-4.115,6.688c-0.297,0.465-0.32,1.033-0.058,1.511c0.266,0.486,0.787,0.8,1.325,0.8	c0.319,0,0.63-0.107,0.899-0.31l5.697-4.218c0.216-0.163,0.468-0.248,0.732-0.248c0.259,0,0.504,0.082,0.71,0.236l3.973,2.991	c0.719,0.535,1.568,0.817,2.457,0.817c1.405,0,2.696-0.705,3.455-1.887l1.21-1.891l4.115-6.688c0.297-0.465,0.32-1.033,0.058-1.511	C36.051,18.106,35.531,17.792,34.992,17.792L34.992,17.792z" opacity=".07"></path><path fill="#fff" d="M34.394,18.501l-5.7,4.22c-0.61,0.46-1.44,0.46-2.04,0.01L22.68,19.74	c-1.68-1.25-4.06-0.82-5.19,0.94l-1.21,1.89l-4.11,6.68c-0.6,0.94,0.55,2.01,1.44,1.34l5.7-4.22c0.61-0.46,1.44-0.46,2.04-0.01	l3.974,2.991c1.68,1.25,4.06,0.82,5.19-0.94l1.21-1.89l4.11-6.68C36.434,18.901,35.284,17.831,34.394,18.501z">
+                </path>
+            </svg>
+        </a>
     </div>
 
     <script>

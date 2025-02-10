@@ -136,6 +136,8 @@ def product_ad(request,Slug):
                 fields['Description'] = request.POST.get('Description')
                 fields['Parameter'] = request.POST.get('Parameter')
                 fields['Choose_size'] = request.POST.get('Choose_size')
+                fields['Rechange'] = request.POST.get('Rechange')
+                fields['Preserve'] = request.POST.get('Preserve')
                 fields['Discount'] = request.POST.get('Discount')
                 if fields['Discount'] and fields['Price']:
                     fields['Price_Discount'] = math.ceil((100-int(fields['Discount']))/100*int(fields['Price']))
@@ -147,6 +149,7 @@ def product_ad(request,Slug):
                 fields['Belong_Category_product_child'] = Category_product_child.objects.get(Slug=Slug)
                 obj_create_product = Product.objects.create(**fields)
                 files_img  =  request.FILES.getlist('files_img')
+                files_img.sort(key=lambda f: f.name)
                 for i in files_img:
                     Photo_product.objects.create(Photo=i,Belong_Product_Photo=obj_create_product)
                 return redirect('product_ad',Slug=Slug)
@@ -177,17 +180,25 @@ def update_product_ad(request,Slug,Slugg):
                         <input name="Price" required value="{escape(obj_product.Price)}"  type="number" min="1000"
                             class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
                     </label>
-                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                    <label class="flex flex-col text-sm w-full h-[100px] col-span-2">
                         <span class="font-medium text-stone-600">Mô tả</span>
                         <textarea name="Description" required  class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">{escape(obj_product.Description)}</textarea>
                     </label>
-                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
-                        <span class="font-medium text-stone-600">Mô tả</span>
+                    <label class="flex flex-col text-sm w-full h-[100px] col-span-2">
+                        <span class="font-medium text-stone-600">Thông số sản phẩm</span>
                         <textarea name="Parameter" required  class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">{escape(obj_product.Parameter)}</textarea>
                     </label>
-                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
-                        <span class="font-medium text-stone-600">Mô tả</span>
+                    <label class="flex flex-col text-sm w-full h-[100px] col-span-2">
+                        <span class="font-medium text-stone-600">Hướng dẫn chọn size</span>
                         <textarea name="Choose_size" required  class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">{escape(obj_product.Choose_size)}</textarea>
+                    </label>
+                    <label class="flex flex-col text-sm w-full h-[100px] col-span-2">
+                        <span class="font-medium text-stone-600">Chính sách đổi trả</span>
+                        <textarea name="Choose_size" required  class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">{escape(obj_product.Rechange)}</textarea>
+                    </label>
+                    <label class="flex flex-col text-sm w-full h-[100px] col-span-2">
+                        <span class="font-medium text-stone-600">Hướng dẫn bảo quản</span>
+                        <textarea name="Choose_size" required  class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">{escape(obj_product.Preserve)}</textarea>
                     </label>
                     <label class="block text-sm w-full">
                         <span class="font-medium text-stone-600">Giảm giá (%)</span>

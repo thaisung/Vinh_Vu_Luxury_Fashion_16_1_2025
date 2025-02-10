@@ -865,6 +865,10 @@ select {
   inset: 0px;
 }
 
+.bottom-\[40px\] {
+  bottom: 40px;
+}
+
 .right-0 {
   right: 0px;
 }
@@ -1003,6 +1007,10 @@ select {
   height: 1.5rem;
 }
 
+.h-\[100px\] {
+  height: 100px;
+}
+
 .h-\[150px\] {
   height: 150px;
 }
@@ -1039,6 +1047,10 @@ select {
   height: 100vh;
 }
 
+.h-\[42px\] {
+  height: 42px;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1049,6 +1061,10 @@ select {
 
 .w-6 {
   width: 1.5rem;
+}
+
+.w-\[150px\] {
+  width: 150px;
 }
 
 .w-\[20px\] {
@@ -1083,10 +1099,6 @@ select {
   width: 500px;
 }
 
-.w-\[60\%\] {
-  width: 60%;
-}
-
 .w-\[600px\] {
   width: 600px;
 }
@@ -1095,8 +1107,17 @@ select {
   width: 80px;
 }
 
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .w-full {
   width: 100%;
+}
+
+.w-\[10px\] {
+  width: 10px;
 }
 
 .min-w-full {
@@ -1436,6 +1457,11 @@ select {
   background-color: rgb(87 83 78 / var(--tw-bg-opacity));
 }
 
+.bg-stone-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(68 64 60 / var(--tw-bg-opacity));
+}
+
 .bg-stone-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(28 25 23 / var(--tw-bg-opacity));
@@ -1509,6 +1535,10 @@ select {
 
 .fill-white {
   fill: #fff;
+}
+
+.fill-yellow-600 {
+  fill: #ca8a04;
 }
 
 .stroke-gray-500 {
@@ -1623,6 +1653,10 @@ select {
   padding-bottom: 10px;
 }
 
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
 .pr-2 {
   padding-right: 0.5rem;
 }
@@ -1637,6 +1671,10 @@ select {
 
 .pr-\[30px\] {
   padding-right: 30px;
+}
+
+.pl-8 {
+  padding-left: 2rem;
 }
 
 .text-left {
@@ -1816,9 +1854,19 @@ select {
   color: rgb(14 165 233 / var(--tw-text-opacity));
 }
 
+.text-sky-600 {
+  --tw-text-opacity: 1;
+  color: rgb(2 132 199 / var(--tw-text-opacity));
+}
+
 .text-stone-100 {
   --tw-text-opacity: 1;
   color: rgb(245 245 244 / var(--tw-text-opacity));
+}
+
+.text-stone-200 {
+  --tw-text-opacity: 1;
+  color: rgb(231 229 228 / var(--tw-text-opacity));
 }
 
 .text-stone-500 {
@@ -1919,6 +1967,10 @@ select {
 
 .duration-150 {
   transition-duration: 150ms;
+}
+
+.hover\:cursor-pointer:hover {
+  cursor: pointer;
 }
 
 .hover\:bg-green-700:hover {
@@ -2059,6 +2111,10 @@ select {
     width: 300px;
   }
 
+  .md\:w-\[calc\(100\%-250px\)\] {
+    width: calc(100% - 250px);
+  }
+
   .md\:max-w-lg {
     max-width: 32rem;
   }
@@ -2081,6 +2137,14 @@ select {
 
   .md\:items-center {
     align-items: center;
+  }
+
+  .md\:justify-start {
+    justify-content: flex-start;
+  }
+
+  .md\:justify-end {
+    justify-content: flex-end;
   }
 
   .md\:justify-center {

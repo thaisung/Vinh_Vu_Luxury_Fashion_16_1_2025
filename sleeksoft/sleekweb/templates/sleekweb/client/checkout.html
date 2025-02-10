@@ -293,7 +293,7 @@
                                                             tên</label>
                                                         <input placeholder="Họ và tên" required
                                                             class="field-input validate[required]" size="30" type="text"
-                                                            id="billing_address_full_name" name="customerName" value="">
+                                                            id="billing_address_full_name" name="customerName" value="{{infor.customerName}}">
                                                     </div>
 
                                                 </div>
@@ -304,7 +304,7 @@
                                                             for="checkout_user_email">Email</label>
                                                         <input placeholder="Email" required class="field-input " size="30"
                                                             type="email" id="checkout_user_email" name="customerEmail"
-                                                            value="">
+                                                            value="{{infor.customerEmail}}">
                                                     </div>
                                                 </div>
 
@@ -315,7 +315,7 @@
                                                         <input placeholder="Số điện thoại" required
                                                             class="customerPointCheck customerMobile field-input validate[required, custom[phone]]"
                                                             size="30" maxlength="10" type="tel" id="customerMobile"
-                                                            name="customerMobile" autocomplete="off" value="">
+                                                            name="customerMobile" autocomplete="off" value="{{infor.customerMobile}}">
                                                         <div id="searchCustomer"></div>
                                                     </div>
 
@@ -327,7 +327,7 @@
                                                         <input placeholder="Địa chỉ" required
                                                             class="field-input validate[required]" size="30" type="text"
                                                             id="billing_address_address1" name="customerAddress"
-                                                            value="">
+                                                            value="{{infor.customerAddress}}">
                                                     </div>
 
                                                 </div>
@@ -342,7 +342,7 @@
                                                         <label class="field-label" for="cityId">Tỉnh/ Thành phố </label>
                                                         <select class="field-input validate[required]" required id="cityId"
                                                             name="customerCityId">
-                                                            <option value="">Chọn Tỉnh/ thành phố</option>
+                                                            <option value="" disabled>Chọn Tỉnh/ thành phố</option>
                                                             <option value='256'>An Giang</option>
                                                             <option value='257'>Bà Rịa - Vũng Tàu</option>
                                                             <option value='260'>Bình Dương</option>
@@ -415,7 +415,6 @@
                                                         <label class="field-label" for="districtId">Quận/ Huyện </label>
                                                         <select class="field-input validate[required]" required id="districtId"
                                                             name="customerDistrictId">
-                                                            <option value="">Chọn Quận/ Huyện</option>
                                                         </select>
                                                     </div>
 
@@ -426,7 +425,6 @@
                                                         <label class="field-label" for="wardId">Phường/ Xã </label>
                                                         <select class="field-input validate[required]" required id="wardId"
                                                             name="customerWardId">
-                                                            <option value="">Phường/ Xã</option>
                                                         </select>
                                                         <input type="hidden" name="selectIdWard">
                                                     </div>
@@ -484,6 +482,14 @@
                                                                 </div>
                                                                 <span class="radio-label-primary">Thanh toán khi nhận
                                                                     hàng (COD)</span>
+                                                            </label>
+                                                            <label class="radio-label">
+                                                                <div class="radio-input">
+                                                                    <input class="input-radio validate[required] cod"
+                                                                        checked name="paymentMethod" type="radio"
+                                                                        value="2">
+                                                                </div>
+                                                                <span class="radio-label-primary">Cọc và Thanh toán phần còn lại khi nhận hàng (COD)</span>
                                                             </label>
                                                         </div>
 
@@ -589,7 +595,7 @@
                                         </table>
                                     </div>
 
-                                    <div class="order-summary-section order-summary-section-discount"
+                                    {% comment %} <div class="order-summary-section order-summary-section-discount"
                                         data-order-summary-section="discount">
                                         <div class="fieldset">
                                             <div style="color:#f77705;margin-left:9px;font-weight:bold;display:none;">
@@ -616,7 +622,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> {% endcomment %}
 
 
                                     <div class="order-summary-section order-summary-section-total-lines">
@@ -628,7 +634,7 @@
                                                 </tr>
                                             </thead>
 
-                                            <tbody>
+                                            {% comment %} <tbody>
 
                                                 <tr class="total-line total-line-shipping shipFeeCheckHost">
                                                     <td class="total-line-name">Phí vận chuyển</td>
@@ -652,7 +658,7 @@
                                                         </style>
                                                     </td>
                                                 </tr>
-                                            </tbody>
+                                            </tbody> {% endcomment %}
 
                                             <tfoot class="total-line-table-footer">
                                                 <tr class="total-line" id="orderDiscount" style="display:none;">
@@ -746,7 +752,7 @@
                                                 success: function(response) {
                                                     if (response.success) {
                                                         alert('Đặt hàng thành công!');
-                                                        window.location.href = '{% url 'order_ad' %}';
+                                                        window.location.href = '{% url 'order_cl' %}';
                                                     } else {
                                                         alert('Có lỗi xảy ra, vui lòng thử lại.');
                                                     }

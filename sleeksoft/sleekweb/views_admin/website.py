@@ -100,8 +100,10 @@ def setting_website(request):
                     obj.Email = field['Email']
                     obj.Phone_number = field['Phone_number']
                     obj.Src_Fanpage = field['Src_Fanpage']
-                    obj.Logo = field['Logo']
-                    obj.Banner = field['Banner']
+                    if field['Logo']:
+                        obj.Logo = field['Logo']
+                    if field['Banner']:
+                        obj.Banner = field['Banner']
                     obj.save()
                 else:
                     Website.objects.create(**field)

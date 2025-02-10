@@ -69,9 +69,9 @@
                         <tr
                             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             {% if request.user.is_superuser %}
-                            <!-- <th class="px-4 py-3 ">
+                            <th class="px-4 py-3 ">
                                 <input type="checkbox" id="check_all_user" class="rounded-md w-[20px] h-[20px]  bg-transparent"/>
-                            </th> -->
+                            </th>
                             {% endif %}
                             <th class="px-4 py-3">Tài khoản</th>
                             <th class="px-4 py-3">Họ và tên</th>
@@ -85,9 +85,9 @@
                         {% for i in list_user %}
                         <tr class="text-gray-700 dark:text-gray-400">
                             {% if request.user.is_superuser %}
-                            <!-- <td class="px-4 py-3 text-sm">
+                            <td class="px-4 py-3 text-sm">
                                 <input type="checkbox" value={{i.id}} class="check_user rounded-md w-[20px] h-[20px]  bg-transparent"/>
-                            </td> -->
+                            </td>
                             {% endif %}
                             <td class="px-4 py-3 text-sm">
                                 {% if i.is_superuser %}
@@ -263,42 +263,6 @@
                 </div>
             </div>
         </form>
-        <form id="form_update_campaign_user" method="post" action="{% url 'update_data_user_campaign' %}"  style="display:none;"
-            class="form_update_campaign_user xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
-            {% csrf_token %}
-            <div
-                class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[600px] flex flex-col gap-3 justify-center items-center">
-                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">Cập chiến dịch tài khoản
-                    <span id="text_user_update_campaign" class="text-green-500 underline">th</span>
-                </h3>
-                <input type="hidden"  name="id_user_update_campaign"  id="id_user_update_campaign" />
-                <input type="hidden"  name="list_id_user_update_campaign" id="list_id_user_update_campaign" />
-                <input  type="hidden" name="list_id_user_update_campaign_delete" id="list_id_user_update_campaign_delete" />
-                <table class="w-full whitespace-no-wrap border-b-[1px] border-t-[1px] border-gray-320">
-                    <thead>
-                        <tr
-                            class="text-xs font-semibold tracking-wide text-center text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                            <th class="px-4 py-3">CD</th>
-                            <th class="px-4 py-3">Thuộc CD</th>
-                            <th class="px-4 py-3">Quyền xóa KH</th>
-                        </tr>
-                    </thead>
-                    <tbody id="boddy_update_user_campaign" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                        
-                    </tbody>
-                </table>
-                <div class="flex items-center gap-2">
-                    <button type="submit"
-                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
-                        Cập nhật
-                    </button>
-                    <a
-                        class=" close_form_update_campaign_user cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
-                        Hủy
-                    </a>
-                </div>
-            </div>
-        </form>
         <form id="form_approve"  style="display:none;"
             class="form_approve xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
             {% csrf_token %}
@@ -427,37 +391,6 @@
             });
         });
 
-        $('#submit_search_user').on('click', function (event) {
-            event.preventDefault();  // Ngừng hành động mặc định của nút
-            // Sử dụng serialize() để lấy dữ liệu từ form
-            var searchQuery_user = $('input[name="s_user"]').val();
-            $.ajax({
-                url: '{% url "search_user_page_admin" %}',  // URL của API bạn muốn gọi
-                method: 'POST',
-                data: {
-                    's':searchQuery_user,  // Gửi dữ liệu tìm kiếm với key là 's'
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('#menu_list_user').empty();  // Dọn sạch danh sách trước khi thêm mới
-                        for (let i = 0; i < response.list_user.length; i++) {
-                            const user = response.list_user[i];
-                            $('#menu_list_user').append(`
-                                <span data-user-name="${user.Full_name}" data-user-id="${user.id}" class="import_user cursor-pointer hover:text-green-700">
-                                    ${user.Full_name}
-                                </span>
-                            `);
-                        }
-                    } else {
-                        console.log('Không tìm thấy nhân viên nào');
-                    }
-                },
-                error: function (response) {
-                    console.log('Tìm kiếm thất bại', response);
-                }
-            });
-        });
     });
 </script>
 <script>
@@ -506,68 +439,6 @@ $(".open_form_update_campaign_user").click(function () {
     formData.append('id_user_update_campaign', $(this).data('id'));
 
     // Gọi API và xử lý kết quả
-    $.ajax({
-        url: '{% url "data_user_campaign" %}',
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': '{{ csrf_token }}'
-        },
-        processData: false,
-        contentType: false,
-        data: formData,
-        success: function(response) {
-            if (response.success) {
-                const tbody = $('#boddy_update_user_campaign');
-                tbody.empty(); // Xóa các dòng cũ
-
-                response.campaigns.forEach(campaign => {
-                    const tr = $(`
-                        <tr class="text-gray-700 dark:text-gray-400 text-center">
-                            <td class="px-4 py-3 text-sm">
-                                <span class="text-stone-800 font-medium">${campaign.name}</span>
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                <div class="flex justify-center items-center">
-                                    <input type="checkbox" class="check_campaign rounded-md w-[20px] h-[20px] bg-transparent" 
-                                        ${campaign.is_related ? 'checked' : ''} 
-                                    />
-                                </div>
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                <div class="flex justify-center items-center">
-                                    <input type="checkbox" class="check_campaign_delete rounded-md w-[20px] h-[20px] bg-transparent" 
-                                        ${campaign.is_deleted_related ? 'checked' : ''} 
-                                    />
-                                </div>
-                            </td>
-                        </tr>
-                    `);
-
-                    // Thêm sự kiện onchange cho checkbox
-                    tr.find('.check_campaign').change(function(event) {
-                        handleCheckboxChange(event, campaign.id, is_related_ids);
-                    });
-                    tr.find('.check_campaign_delete').change(function(event) {
-                        handleCheckboxChange(event, campaign.id, is_deleted_related_ids);
-                    });
-
-                    tbody.append(tr);
-
-                    // Thêm các ID ban đầu nếu checkbox đã được check
-                    if (campaign.is_related) is_related_ids.push(campaign.id);
-                    if (campaign.is_deleted_related) is_deleted_related_ids.push(campaign.id);
-                });
-
-                // Cập nhật giá trị các input hidden
-                updateHiddenInputs();
-            } else {
-                alert(response.message);
-            }
-        },
-        error: function(error) {
-            console.error('Lỗi khi gọi API:', error);
-        }
-    });
 });
 
         $(".close_form_update_campaign_user").click(function () {
@@ -703,36 +574,6 @@ $(".open_form_update_campaign_user").click(function () {
                 },
                 error: function(response) {
                     console.log('Tạo tài khoản thất bại', response);
-                }
-            });
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#form_update_un_and_fl').on('submit', function(event) {
-            event.preventDefault();
-        
-            var formData = new FormData(this);  // Tạo FormData từ form hiện tại
-
-            $.ajax({
-                url: '{% url 'update_un_and_fl' %}',
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
-                contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        window.location.href = response.redirect_url;
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function(response) {
-                    console.log('Cập nhật thất bại', response);
                 }
             });
         });

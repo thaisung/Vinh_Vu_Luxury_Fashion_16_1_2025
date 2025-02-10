@@ -86,7 +86,7 @@ def format_number(number):
         return f"Lỗi: {e}"
 
     
-def reset_pw_send_otp(request):
+def reset_pw_send_otp_ad(request):
     if request.method == 'GET':
         context = {}
         print('context:',context)
@@ -105,7 +105,7 @@ def reset_pw_send_otp(request):
                 <html>
                 <body>
                     <p><strong>Mã OTP để lấy lại mật khẩu của bạn là:</strong></p>
-                    <p>Mã OTP : {otp}</p>
+                    <p>{otp}</p>
                 </body>
                 </html>
                 """

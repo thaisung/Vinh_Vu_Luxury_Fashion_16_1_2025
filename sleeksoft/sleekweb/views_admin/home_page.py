@@ -89,3 +89,33 @@ def home_page_admin(request):
             return redirect('login_page_client')
     else:
         return redirect('campaign_page_admin')
+    
+    
+def clean_unused_images(request):
+    # Đường dẫn đến thư mục chứa ảnh
+    image_folder = os.path.join(settings.MEDIA_ROOT, 'Product_photo')
+
+    # Kiểm tra nếu thư mục không tồn tại
+    if not os.path.exists(image_folder):
+        return JsonResponse({"message": "Thư mục không tồn tại"}, status=400)
+
+    # Lấy danh sách ảnh đang được lưu trong database
+    db_images = set(Photo_product.objects.values_list('Photo', flat=True))
+
+    # Lấy danh sách tất cả ảnh thực tế trong thư mục
+    all_images = set(os.listdir(image_folder))
+
+    # Tìm các ảnh không có trong database
+    unused_images = all_images - {os.path.basename(image) for image in db_images if image}
+
+    # Xóa các ảnh không liên quan
+    deleted_files = []
+    for image in unused_images:
+        image_path = os.path.join(image_folder, image)
+        try:
+            os.remove(image_path)
+            deleted_files.append(image)
+        except Exception as e:
+            print(f"Lỗi khi xóa {image}: {e}")
+
+    return JsonResponse({"deleted": deleted_files, "total_deleted": len(deleted_files)})

@@ -42,6 +42,8 @@ from .views_admin.home_page import *
 
 from .views_admin.statistical_page import *
 
+from .views_client.other import *
+
 from .views_client.login_page import *
 from .views_client.register_page import *
 from .views_client.reset_pw_send_otp import *
@@ -65,10 +67,22 @@ from .views_admin.product import *
 from .views_admin.trademark import *
 from .views_admin.size_product import *
 from .views_admin.order import *
+from .views_admin.order_detail import *
 from .views_admin.website import *
 
 
 from django.contrib.auth import views as auth_views
+
+from django.contrib.sitemaps.views import sitemap
+from sleekweb.sitemaps import *
+
+sitemaps = {
+    'HomeSitemap': HomeSitemap,
+    'category_product_cl_Sitemap': category_product_cl_Sitemap,
+    # 'detail_video_Sitemap': detail_video_Sitemap,
+    # 'image_video_Sitemap': image_video_Sitemap,
+    # 'StaticSitemap1':StaticSitemap1,
+}
 
 
 urlpatterns = [
@@ -92,13 +106,15 @@ urlpatterns = [
     path('reset_pasword/', reset_pasword_cl,name='reset_pasword_cl'),
     path('checkout/', checkout_cl,name='checkout_cl'),
     path('order/', order_cl,name='order_cl'),
+    path('delete-order/', delete_order_cl,name='delete_order_cl'),
     
     path('delete-pd-checkout/', delete_pd_checkout_cl,name='delete_pd_checkout_cl'),
     path('search/', search_cl,name='search_cl'),
     
-    # Các đường dẫn khác...
-    path('reset-pw-send-otp/', reset_pw_send_otp,name='reset_pw_send_otp'),
     path('reset-pw-check-otp/', reset_pw_check_otp,name='reset_pw_check_otp'),
+    
+    path('register-email-information-cl/', register_email_information_cl,name='register_email_information_cl'),
+    
     
     # path('admin/home/', home_page_admin,name='home_page_admin'),
     
@@ -110,7 +126,7 @@ urlpatterns = [
     path('ad/update-product/<str:Slug>/<str:Slugg>/', update_product_ad,name='update_product_ad'),
     path('ad/delete-check-list-product/<str:Slug>/', delete_check_list_product_ad,name='delete_check_list_product_ad'),
     # path('admin/search-campaign/', search_category_product_ad,name='search_category_product_ad'),
-    path('admin/delete-category-product/', delete_category_product_ad,name='delete_category_product_ad'),
+    path('ad/delete-category-product/', delete_category_product_ad,name='delete_category_product_ad'),
     path('ad/update-category-product/', update_category_product_ad,name='update_category_product_ad'),
     
     path('ad/trademark/', trademark_ad,name='trademark_ad'),
@@ -125,25 +141,27 @@ urlpatterns = [
     path('ad/update-category-product-child/', update_category_product_child_ad,name='update_category_product_child_ad'),
     
     path('ad/order/', order_ad,name='order_ad'),
-    path('ad/update-order/', update_order_ad,name='update_order_ad'),
+    path('ad/order/<str:code>/', order_detail_ad,name='order_detail_ad'),
+    path('ad/order-update/', order_detail_update_ad,name='order_detail_update_ad'),
+    path('ad/delete-order/', delete_order_ad,name='delete_order_ad'),
     path('ad/update-status-order/', update_status_order,name='update_status_order'),
     path('admin/order-delete-check-list/', delete_check_list_order_ad,name='delete_check_list_order_ad'),
-    path('ad/delete-order/', delete_order_cl,name='delete_order_cl'),
+    
+    path('reset-pw-send-otp/', reset_pw_send_otp_ad,name='reset_pw_send_otp_ad'),
     
     
     
     
     
-    
-    path('admin/search-user/', search_user_page_admin,name='search_user_page_admin'),
+    # path('admin/search-user/', search_user_page_admin,name='search_user_page_admin'),
     # path('admin/search-user-campaign/', search_user_category_product_ad,name='search_user_category_product_ad'),
-    path('admin/data-user-campaign/', data_user_campaign,name='data_user_campaign'),
-    path('admin/update-data-user-campaign/', update_data_user_campaign,name='update_data_user_campaign'),
+    # path('admin/data-user-campaign/', data_user_campaign,name='data_user_campaign'),
+    # path('admin/update-data-user-campaign/', update_data_user_campaign,name='update_data_user_campaign'),
     path('ad/user/', user_page_admin,name='user_page_admin'),
-    path('admin/user-delete-check-list/', delete_check_list_user_admin,name='delete_check_list_user_admin'),
+    path('ad/user-delete-check-list/', delete_check_list_user_admin,name='delete_check_list_user_admin'),
     
-    path('admin/update-un-and-fl/', update_un_and_fl,name='update_un_and_fl'),
-    path('admin/update-campaign-user-list/', update_campaign_user_list,name='update_campaign_user_list'),
+    # path('admin/update-un-and-fl/', update_un_and_fl,name='update_un_and_fl'),
+    # path('admin/update-campaign-user-list/', update_campaign_user_list,name='update_campaign_user_list'),
     
     path('statistical/', statistical_page_admin,name='statistical_page_admin'),
 
@@ -160,7 +178,10 @@ urlpatterns = [
     path('ad-logout/', logout_page_client,name='logout_page_client'),
     path('ad-register/', register_page_client,name='register_page_client'),
     
+    path('clean-unused-images/', clean_unused_images, name='clean_unused_images'),
     
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+
     
     
 ]

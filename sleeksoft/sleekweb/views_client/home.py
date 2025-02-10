@@ -65,14 +65,15 @@ from types import SimpleNamespace
 
 def home_cl(request):
     if request.method == 'GET':
-        print('re:',request.path)
         context = {}
+        
         list_obj_website = Website.objects.all()
         if list_obj_website:
             context['obj_website'] = list_obj_website[0]
         list_obj_email = Email_setting.objects.all()
         if list_obj_email:
             context['obj_email'] = list_obj_email[0]
+            
         # Lấy giỏ hàng từ cookie
         cart = request.COOKIES.get('cart', '[]')
         try:
@@ -116,11 +117,13 @@ def home_cl(request):
                 Cart_user['total_money'] += i['quantity'] * int(i['product'].Price_Discount)
             else:
                 Cart_user['total_money'] += i['quantity'] * int(i['product'].Price)
+        Cart_user['total_money'] = format_number(Cart_user['total_money'])
         context['Cart_user'] = Cart_user
         Cart_user['count'] =  len(Cart_user['data'])
         for i in Cart_user['data']:
             i['product'].Price = format_number(i['product'].Price)
             i['product'].Price_Discount = format_number(i['product'].Price_Discount)
+            
         # Lấy tất cả danh mục lớn
         context['List_Category_product'] = Category_product.objects.all()
         context['List_Category_product'] = list(context['List_Category_product'])

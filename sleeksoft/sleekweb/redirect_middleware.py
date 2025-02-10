@@ -15,13 +15,16 @@ class RedirectOn404Middleware:
         response = self.get_response(request)
         # Nếu gặp lỗi 404, chuyển hướng đến trang đăng nhập
         if response.status_code == 404:
-            if request.user.is_authenticated:
-                if request.user.is_superuser:
-                    return redirect(reverse('category_product_ad'))
+            if 'ad' in request.path:
+                if request.user.is_authenticated:
+                    if request.user.is_superuser:
+                        return redirect(reverse('category_product_ad'))
+                    else:
+                        return redirect(reverse('lead_page_staff'))
                 else:
-                    return redirect(reverse('lead_page_staff'))
+                    return redirect(reverse('login_page_client'))  # Thay 'login' bằng tên URL của trang đăng nhập
             else:
-                return redirect(reverse('login_page_client'))  # Thay 'login' bằng tên URL của trang đăng nhập
+                return redirect(reverse('home_cl'))
         return response
 
 class EmailSettingsMiddleware:

@@ -34,24 +34,16 @@ class User(AbstractUser):
             models.Index(fields=['Full_name']),
             models.Index(fields=['is_manage']),
         ]
-        
-class Address_order(models.Model):
-    customerName = models.CharField('Họ và tên', max_length=255,blank=True, null=True)
-    customerEmail = models.CharField('Email', max_length=255,blank=True, null=True)
-    customerMobile = models.CharField('Số đt', max_length=255,blank=True, null=True)
-    customerAddress = models.CharField('Địa chỉ cụ thể', max_length=255,blank=True, null=True)
-    customerCity = models.CharField('Tỉnh', max_length=255,blank=True, null=True)
-    customerDistrict = models.CharField('Huyện', max_length=255,blank=True, null=True)
-    ward = models.CharField('Xã', max_length=255,blank=True, null=True)
-    description = models.TextField('Ghi chú', blank=True, null=True)
-    Belong_User = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_address',blank=True, null=True)
+
+class Email_information(models.Model):
+    Email = models.CharField('Họ và tên', max_length=255,blank=True, null=True)
     Creation_time = models.DateTimeField('Thời gian tạo',auto_now_add=True)
     Update_time = models.DateTimeField('Thời gian cập nhật',auto_now=True)
     class Meta:
         indexes = [
-            models.Index(fields=['Belong_User']),
-            models.Index(fields=['customerName']),
+            models.Index(fields=['Email']),
         ]
+   
         
 class Website(models.Model):
     Name = models.CharField('Tên Website', max_length=255,blank=True, null=True,default='')
@@ -107,6 +99,8 @@ class Product(models.Model):
     Description = models.TextField('Mô tả sản phẩm',blank=True, null=True)
     Parameter = models.TextField('Thông số sản phẩm',blank=True, null=True)
     Choose_size = models.TextField('Hướng dẫn chọn size',blank=True, null=True)
+    Rechange = models.TextField('Chính sách đổi trả',blank=True, null=True)
+    Preserve = models.TextField('hướng dẫn Bảo quản',blank=True, null=True)
     Discount = models.IntegerField('giảm giá',blank=True, null=True)
     Price_Discount = models.CharField('Giá sau giảm', max_length=255,blank=True, null=True)
     Belong_Category_product_child = models.ForeignKey(Category_product_child, on_delete=models.CASCADE, related_name='category_product_child_detail',blank=True, null=True)
@@ -139,26 +133,7 @@ class Photo_product(models.Model):
         indexes = [
             models.Index(fields=['Belong_Product_Photo']),
         ]
-        
-class Cart(models.Model):
-    Belong_User = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_detail_cart',blank=True, null=True)
-    Creation_time = models.DateTimeField('Thời gian tạo',auto_now_add=True)
-    Update_time = models.DateTimeField('Thời gian cập nhật',auto_now=True)
-    class Meta:
-        indexes = [
-            models.Index(fields=['Belong_User']),
-        ]
-        
-class Product_Cart(models.Model):
-    Belong_Cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart_detail',blank=True, null=True)
-    Quantity = models.CharField('Số lượng dự định mua', max_length=255,blank=True, null=True)
-    Creation_time = models.DateTimeField('Thời gian tạo',auto_now_add=True)
-    Update_time = models.DateTimeField('Thời gian cập nhật',auto_now=True)
-    class Meta:
-        indexes = [
-            models.Index(fields=['Belong_Cart']),
-        ]
-        
+
         
 class Order(models.Model):
     Code = models.CharField('Mã đơn hàng', max_length=255,blank=True, null=True)
@@ -170,6 +145,8 @@ class Order(models.Model):
     customerDistrict = models.CharField('Huyện', max_length=255,blank=True, null=True)
     ward = models.CharField('Xã', max_length=255,blank=True, null=True)
     description = models.TextField('Ghi chú', blank=True, null=True)
+    paymentMethod = models.CharField('Phương thức thanh toán', max_length=255,blank=True, null=True)
+    Deposit = models.CharField('Tiền cọc', max_length=255,blank=True, null=True,default=0)
     Data = models.JSONField('dữ liệu đơn hàng',blank=True, null=True)
     Belong_User = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_detail_order',blank=True, null=True)
     Status = models.CharField('Trạng thái đơn hàng', max_length=255,blank=True, null=True)
@@ -181,17 +158,6 @@ class Order(models.Model):
             models.Index(fields=['Belong_User']),
         ]
         
-class Product_Order(models.Model):
-    Belong_Order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_detail',blank=True, null=True)
-    Quantity = models.CharField('Số lượng mua', max_length=255,blank=True, null=True)
-    Creation_time = models.DateTimeField('Thời gian tạo',auto_now_add=True)
-    Update_time = models.DateTimeField('Thời gian cập nhật',auto_now=True)
-    class Meta:
-        indexes = [
-            models.Index(fields=['Belong_Order']),
-        ]
-        
-
 class Email_setting(models.Model):
     EMAIL_HOST = models.CharField(max_length=255,blank=True, null=True,default='')
     EMAIL_USE_TLS = models.BooleanField(blank=True, null=True,default=True)

@@ -295,35 +295,7 @@
         });
     });
 </script>
-<script>
-    $(document).ready(function () {
-        $('#form_delete_check_list_user').on('submit', function (event) {
-            event.preventDefault();
-            $.ajax({
-                url: '{% url 'delete_check_list_user_admin' %}',
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    check_list: $('#check_list').val(),
-                    text_check_list: $('#text_check_list').val()
-                }),
-                success: function (response) {
-                    if (response.success) {
-                        window.location.href = response.redirect_url;
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function (response) {
-                    console.log('Xóa thất bại', response);
-                }
-            });
-        });
-    });
-</script>
+
 <script>
     $(document).ready(function() {
         // Bắt sự kiện khi nhấn nút "Xóa người dùng"

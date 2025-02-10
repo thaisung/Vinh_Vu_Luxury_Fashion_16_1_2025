@@ -1,12 +1,74 @@
 {% extends './base.html' %}
 {% block content %}
 <main class="main-index">
-    <div class="styleArrowOwl">
+    {% comment %} <div class="styleArrowOwl">
         <div class="trackingBannerHome1 slider-banner-main owl-carousel owl-theme tp_banner_main"><a
                 href="javascript:void(0);" target="_self">
                 <img fetchpriority="high" width="1520" height="340"
                     src="{{obj_website.Banner.url}}" alt="1" /></a></div>
+    </div> {% endcomment %}
+    <div class="slider">
+        <div>
+            <img fetchpriority="high" width="1520" height="340"
+                    src="{{obj_website.Banner.url}}" alt="1" />
+        </div>
+        <div>
+            <img fetchpriority="high" width="1520" height="340"
+                    src="{{obj_website.Banner.url}}" alt="1" />
+        </div>
+        <div>
+            <img fetchpriority="high" width="1520" height="340"
+                    src="{{obj_website.Banner.url}}" alt="1" />
+        </div>
     </div>
+    <script>
+        $(document).ready(function(){
+            $('.slider').slick({
+                arrows: false,
+                dots: true,           // Hiển thị chấm tròn điều hướng
+                infinite: true,       // Lặp vô hạn
+                slidesToShow: 1,      // Hiển thị 1 slide
+                slidesToScroll: 1,    // Cuộn 1 slide mỗi lần
+                autoplay: true,       // Tự động chạy slide
+                autoplaySpeed: 3000   // Chuyển slide sau 3 giây (3000ms),
+            });
+        });
+    </script>
+    <style>
+        /* Căn giữa và đặt dấu chấm bên dưới */
+        .slick-dots {
+            position: absolute;
+            bottom: 10px; /* Điều chỉnh khoảng cách bên dưới */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Ẩn số trong chấm tròn */
+        .slick-dots li {
+            list-style: none;
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Tạo chấm tròn màu trắng nhạt */
+        .slick-dots li button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ddd; /* Màu trắng nhạt */
+            border: none;
+            cursor: pointer;
+            font-size: 0; /* Ẩn số */
+        }
+
+        /* Khi chấm tròn được chọn, đổi thành màu xám đậm */
+        .slick-dots li.slick-active button {
+            background-color: #666; /* Màu xám đậm */
+        }
+    </style>
     <section id="" class="clearfix section bestseller-pro section-collection tp_product_betseller"
         style="display: none">
         <div class="container-fluid">
@@ -898,10 +960,12 @@
                                     <div class="product-detail clearfix">
                                         <div class="product-size-cus" psid="40776044">
                                             {% for s in k.product_size_detail.all %}
+                                            {% if s.Size %}
                                             <a
                                                 href="{% url 'detail_product_cl' Slug=k.Slug %}"
-                                                class="text-main" value="40776045" title="41">
+                                                class="text-main" value="40776045" title="{{s.Size}}">
                                                 {{s.Size}}</a>
+                                            {% endif %}
                                             {% endfor %}
                                             </div>
                                         <div class="box-pro-detail">

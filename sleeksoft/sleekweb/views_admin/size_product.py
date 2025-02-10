@@ -87,7 +87,9 @@ def size_product_ad(request):
                 id_product = request.POST.get('id_product')
                 obj_product = Product.objects.get(pk=id_product)
                 Size_product.objects.create(Belong_Product_Size=obj_product,Quantity=0)
-                return redirect('product_ad',Slug=obj_product.Belong_Category_product_child.Slug)
+                previous_url = request.META.get('HTTP_REFERER', reverse('product_ad', args=[obj_product.Belong_Category_product_child.Slug]))
+                return redirect(previous_url)
+                # return redirect('product_ad',Slug=obj_product.Belong_Category_product_child.Slug)
             else:
                 return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
         else:
@@ -108,7 +110,9 @@ def update_size_product_ad(request):
                 obj_size_product.Size = Size
                 obj_size_product.Quantity = Quantity
                 obj_size_product.save()
-                return redirect('product_ad',Slug=obj_product.Belong_Category_product_child.Slug)
+                previous_url = request.META.get('HTTP_REFERER', reverse('product_ad', args=[obj_product.Belong_Category_product_child.Slug]))
+                return redirect(previous_url)
+                # return redirect('product_ad',Slug=obj_product.Belong_Category_product_child.Slug)
             else:
                 return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
         else:
@@ -124,7 +128,9 @@ def delete_size_product_ad(request):
                 obj_product = Product.objects.get(pk=id_product)
                 id_size_product = request.POST.get('id_size_product')
                 Size_product.objects.get(pk=id_size_product).delete()
-                return redirect('product_ad',Slug=obj_product.Belong_Category_product_child.Slug)
+                previous_url = request.META.get('HTTP_REFERER', reverse('product_ad', args=[obj_product.Belong_Category_product_child.Slug]))
+                return redirect(previous_url)
+                # return redirect('product_ad',Slug=obj_product.Belong_Category_product_child.Slug)
             else:
                 return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
         else:

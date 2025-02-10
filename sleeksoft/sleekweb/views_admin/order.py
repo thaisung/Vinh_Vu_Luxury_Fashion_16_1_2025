@@ -132,6 +132,61 @@ def send_email_notification(email, subject, message):
     except Exception as e:
         print(f"Đã xảy ra lỗi khi gửi email: {e}")
 
+def format_number(number):
+    """
+    Định dạng một số nguyên hoặc số thực thành chuỗi có dấu chấm ngăn cách mỗi 3 chữ số.
+
+    :param number: Số cần định dạng (int hoặc float)
+    :return: Chuỗi định dạng với dấu chấm ngăn cách
+    """
+    try:
+        number = int(number)
+        # Đảm bảo số là số nguyên hoặc số thực
+        if isinstance(number, (int, float)):
+            # Sử dụng f-string để định dạng và thay dấu phẩy thành dấu chấm
+            return f"{number:,.0f}".replace(",", ".")
+        else:
+            raise ValueError("Giá trị đầu vào phải là số nguyên hoặc số thực.")
+    except Exception as e:
+        return f"Lỗi: {e}"
+
+def format_cart(cart_items):
+    Cart_user = {'data': [], 'total_quantity': 0, 'total_money': 0,'count':0}
+    for i in cart_items:
+        try:
+            product = Product.objects.get(pk=i['id'])  # Lấy sản phẩm từ database
+        except Product.DoesNotExist:
+            continue  # Bỏ qua nếu sản phẩm không tồn tại
+
+        if product.Discount > 0:
+            total_money = format_number(int(i['quantity'])*int(product.Price_Discount))
+        else:
+            total_money = format_number(int(i['quantity'])*int(product.Price))
+
+        obj_cart = {
+            'product': product,
+            'size': i['size'],
+            'quantity': int(i['quantity']),
+            'pk':i['pk'],
+            'total_money':total_money
+        }
+        Cart_user['data'].append(obj_cart)
+
+    # Tính tổng số lượng và tổng tiền
+    for i in Cart_user['data']:
+        Cart_user['total_quantity'] += i['quantity']
+        if i['product'].Discount > 0:
+            Cart_user['total_money'] += i['quantity'] * int(i['product'].Price_Discount)
+        else:
+            Cart_user['total_money'] += i['quantity'] * int(i['product'].Price)
+            
+    Cart_user['Revenue'] = Cart_user['total_money']
+    Cart_user['total_money'] = format_number(Cart_user['total_money'])
+    Cart_user['count'] =  len(Cart_user['data'])
+    for i in Cart_user['data']:
+        i['product'].Price = format_number(i['product'].Price)
+        i['product'].Price_Discount = format_number(i['product'].Price_Discount)
+    return Cart_user
 
 def order_ad(request):
     if request.method == 'GET':
@@ -165,249 +220,9 @@ def order_ad(request):
                 return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
         else:
             return redirect('login_ad')
-    elif request.method == 'POST':
-        if request.user.is_authenticated:
-            if request.user.is_superuser or request.user.is_staff or request.user.is_manage:
-                field={}
-                field['Source'] = request.POST.get('Source')
-                field['Name'] = request.POST.get('Name')
-                field['Phone_number'] = return_phone_number(request.POST.get('Phone_number'))
-                field['Area'] = request.POST.get('Area')
-                field['Product'] = request.POST.get('Product')
-                field['Demand'] = request.POST.get('Demand')
-                field['Status'] = request.POST.get('Status')
-                field['Note'] = request.POST.get('Note')
-                Belong_Campaign = request.POST.get('Belong_Campaign')
-                Belong_User = request.POST.get('Belong_User')
-                print('Belong_User:',Belong_User)                    
-                if Belong_Campaign:
-                    try:
-                        obj_campaign = Campaign.objects.get(pk=Belong_Campaign)
-                        try:
-                            Order.objects.get(Phone_number=field['Phone_number'],Belong_Campaign=Belong_Campaign)
-                            return JsonResponse({'success': False, 'message': 'Số điện thoại trong chiến dịch đã tồn tại.'},json_dumps_params={'ensure_ascii': False})
-                        except:
-                            print('ok')
-                    except:
-                        obj_campaign = None
-                        return JsonResponse({'success': False, 'message': 'Chiến dịch không tồn tại.'},json_dumps_params={'ensure_ascii': False})
-                    if request.user.is_superuser:
-                        field['Belong_Campaign'] = obj_campaign
-                    if request.user.is_manage:
-                        list_campaign = Campaign.objects.filter(Belong_User=request.user)
-                        if obj_campaign in list_campaign:
-                            field['Belong_Campaign'] = obj_campaign
-                        else:
-                            return JsonResponse({'success': False, 'message': 'Không thể tạo bản ghi với chiến dịch không thuộc sự quản lý của bạn.'},json_dumps_params={'ensure_ascii': False})
-                    if request.user.is_staff and not request.user.is_superuser and not request.user.is_manage :
-                        list_campaign = Campaign.objects.filter(Belong_User=request.user)
-                        if obj_campaign in list_campaign:
-                            field['Belong_Campaign'] = obj_campaign
-                        else:
-                            return JsonResponse({'success': False, 'message': 'Không thể tạo bản ghi với chiến dịch mà bạn không nằm trong đó.'},json_dumps_params={'ensure_ascii': False})
-                if Belong_User == '--Ngẫu nhiên--' and obj_campaign:
-                    user_s = obj_campaign.Belong_User.all().annotate(order_count=Count('list_order')).exclude(is_superuser=True).exclude(is_manage=True).order_by('order_count').first()
-                    Belong_User = user_s.id
-                if Belong_User:
-                    try:
-                        obj_user = User.objects.get(pk=Belong_User)
-                        if  obj_user.is_superuser or obj_user.is_manage:
-                            return JsonResponse({'success': False, 'message': 'Không thể phân bổ khách hàng cho quản lý.'},json_dumps_params={'ensure_ascii': False})
-                    except:
-                        print('jjjjj')
-                        obj_user = None
-                        return JsonResponse({'success': False, 'message': 'Nhân viên phân công CSKH không tồn tại.'},json_dumps_params={'ensure_ascii': False})
-                    if request.user.is_superuser:
-                        field['Belong_User'] = obj_user
-                    if request.user.is_manage:
-                        list_user = User.objects.filter(list_campaign__in=list_campaign).distinct()
-                        if obj_user in list_user:
-                            field['Belong_User'] = obj_user
-                        else:
-                            return JsonResponse({'success': False, 'message': 'Không thể tạo bản ghi với nhân viên không thuộc sự quản lý của bạn.'},json_dumps_params={'ensure_ascii': False})
-                else:
-                    obj_user = None
-                    if request.user.is_staff and not request.user.is_superuser and not request.user.is_manage:
-                        field['Belong_User'] = request.user
-                obj_order = Order.objects.create(**field)
-                History.objects.create(history='Tạo mới khách hàng',Belong_Lead=obj_order)
-                link_order = reverse('order_page_staff_detail', kwargs={'pk': obj_order.id})
-                if obj_user and obj_order:
-                    email = obj_user.email
-                    subject = f"[{field['Name']}] Đăng ký - TB từ chiến dịch [{field['Belong_Campaign'].Name}]"
-                    message_Link_KH = f"""
-                    <html>
-                    <body>
-                        <p><strong>Bạn đã được phân công chăm sóc khách hàng mới [{field['Name']}] :</strong></p>
-                        <p>Dự án: {field['Belong_Campaign'].Name}</p>
-                        <p>Tên khách hàng: {field['Name']}</p>
-                        <p>Số điện thoại: Click <a href="https://lead.ns.name.vn{link_order}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: #0ea5e9;">https://lead.ns.name.vn{link_order}</a></p>
-                        <p>Tình trạng: {field['Status']}</p>
-                    </body>
-                    </html>
-                    """
-                    message_So_DT = f"""
-                    <html>
-                    <body>
-                        <p><strong>Bạn đã được phân công chăm sóc khách hàng mới [{field['Name']}] :</strong></p>
-                        <p>Dự án: {field['Belong_Campaign'].Name}</p>
-                        <p>Tên khách hàng: {field['Name']}</p>
-                        <p>Số điện thoại: {field['Phone_number']}</p>
-                        <p>Tình trạng: {field['Status']}</p>
-                    </body>
-                    </html>
-                    """
-                    if obj_campaign.Link_KH:
-                        send_email_notification(email, subject, message_Link_KH)
-                    else:
-                        send_email_notification(email, subject, message_So_DT)
-                    # email = EmailMessage(subject, message, to=[email])
-                    # email.content_subtype = "html"  # Đặt định dạng nội dung email là HTML
-                    # email.send()
-                if request.user.is_superuser or request.user.is_manage:
-                    return redirect('order_ad')
-                if request.user.is_staff and not request.user.is_superuser and not request.user.is_manage:
-                    return redirect('order_page_staff')
-            else:
-                return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
-        else:
-            return redirect('login_ad')
     else:
         return redirect('login_ad')
     
-def update_order_ad(request):
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            if request.user.is_superuser or request.user.is_staff or request.user.is_manage:
-                id_order_update = request.POST.get('id_order_update')
-                obj_order = Order.objects.get(pk=id_order_update)
-                obj_user_old = obj_order.Belong_User
-                obj_order.Source = request.POST.get('Source')
-                obj_order.Name = request.POST.get('Name')
-                obj_order.Area = request.POST.get('Area')
-                obj_order.Product = request.POST.get('Product')
-                obj_order.Demand = request.POST.get('Demand')
-                obj_order.Status = request.POST.get('Status')
-                obj_order.Note = request.POST.get('Note')
-                Belong_Campaign = request.POST.get('Belong_Campaign')
-                Belong_User = request.POST.get('Belong_User')
-                print(f"""
-                    id_order_update: {id_order_update}
-                    obj_order: {obj_order}
-                    obj_user_old: {obj_user_old}
-                    Name: {obj_order.Name}
-                    Phone_number: {obj_order.Phone_number}
-                    Area: {obj_order.Area}
-                    Product: {obj_order.Product}
-                    Demand: {obj_order.Demand}
-                    Status: {obj_order.Status}
-                    Note: {obj_order.Note}
-                    Belong_Campaign: {Belong_Campaign}
-                    Belong_User: {Belong_User}
-                    """)
-                if Belong_Campaign:
-                    print('obj_order.Phone_number:',obj_order.Phone_number)
-                    print('obj_order.Phone_numberád:',return_phone_number(request.POST.get('Phone_number')))
-                    if obj_order.Phone_number == return_phone_number(request.POST.get('Phone_number')):
-                        obj_order.Phone_number = return_phone_number(request.POST.get('Phone_number'))
-                        obj_campaign = Campaign.objects.get(pk=Belong_Campaign)
-                        print('1')
-                    else:
-                        print('2')
-                        try:
-                            obj_campaign = Campaign.objects.get(pk=Belong_Campaign)
-                            dk_phone_number = Order.objects.filter(Phone_number=return_phone_number(request.POST.get('Phone_number')),Belong_Campaign=obj_campaign)
-                            if dk_phone_number:
-                                return JsonResponse({'success': False, 'message': 'Số điện thoại trong chiến dịch đã tồn tại.'},json_dumps_params={'ensure_ascii': False})
-                            else:
-                                obj_order.Phone_number = return_phone_number(request.POST.get('Phone_number'))
-                        except:
-                            return JsonResponse({'success': False, 'message': 'Chiến dịch không tồn tại.'},json_dumps_params={'ensure_ascii': False})
-                    if request.user.is_superuser:
-                        obj_order.Belong_Campaign = obj_campaign
-                    if request.user.is_manage:
-                        list_campaign = Campaign.objects.filter(Belong_User=request.user)
-                        if obj_campaign in list_campaign:
-                            obj_order.Belong_Campaign = obj_campaign
-                        else:
-                            return JsonResponse({'success': False, 'message': 'Không thể cập nhật bản ghi với chiến dịch không thuộc sự quản lý của bạn.'},json_dumps_params={'ensure_ascii': False})
-                    if request.user.is_staff and not request.user.is_superuser:
-                        list_campaign = Campaign.objects.filter(Belong_User=request.user)
-                        if obj_campaign in list_campaign:
-                            obj_order.Belong_Campaign = obj_campaign
-                        else:
-                            return JsonResponse({'success': False, 'message': 'Không thể cập nhật bản ghi với chiến dịch mà bạn không nằm trong đó.'},json_dumps_params={'ensure_ascii': False})
-                if Belong_User == '--Ngẫu nhiên--' and obj_campaign:
-                    user_s = obj_campaign.Belong_User.all().annotate(order_count=Count('list_order')).exclude(is_superuser=True).exclude(is_manage=True).order_by('order_count').first()
-                    Belong_User = user_s.id
-                if Belong_User:
-                    try:
-                        obj_user = User.objects.get(pk=Belong_User)
-                        if  obj_user.is_superuser or obj_user.is_manage:
-                            return JsonResponse({'success': False, 'message': 'Không thể phân bổ khách hàng cho quản lý.'},json_dumps_params={'ensure_ascii': False})
-                    except:
-                        return JsonResponse({'success': False, 'message': 'Nhân viên phân công CSKH không tồn tại.'},json_dumps_params={'ensure_ascii': False})
-                    if request.user.is_superuser:
-                        obj_order.Belong_User = obj_user
-                    if request.user.is_manage:
-                        list_user = User.objects.filter(list_campaign__in=list_campaign).distinct()
-                        if obj_user in list_user:
-                            obj_order.Belong_User = obj_user
-                        else:
-                            return JsonResponse({'success': False, 'message': 'Không thể cập nhật bản ghi với nhân viên không thuộc sự quản lý của bạn.'},json_dumps_params={'ensure_ascii': False})
-                    if request.user.is_staff and not request.user.is_superuser:
-                        obj_order.Belong_User = request.user
-                obj_order.save()
-                History.objects.create(history='Cập nhật dữ liệu khách hàng',Belong_Lead=obj_order)
-                link_order = reverse('order_page_staff_detail', kwargs={'pk': obj_order.id})
-                if request.user.is_superuser or request.user.is_manage:
-                    if obj_user_old and  int(obj_user_old.id) != int(obj_user.id):
-                        if obj_user:
-                            print('EMAIL_HOST:',settings.EMAIL_HOST)
-                            print('EMAIL_HOST_USER:',settings.EMAIL_HOST_USER)
-                            email = obj_user.email
-                            subject = f"[{request.POST.get('Name')}] Đăng ký - TB từ chiến dịch [{Campaign.objects.get(pk=Belong_Campaign).Name}]"
-                            message_Link_KH = f"""
-                            <html>
-                            <body>
-                                <p><strong>Bạn đã được phân công chăm sóc khách hàng mới [{request.POST.get('Name')}] :</strong></p>
-                                <p>Dự án: {Campaign.objects.get(pk=Belong_Campaign).Name}</p>
-                                <p>Tên khách hàng: {request.POST.get('Name')}</p>
-                                <p>Số điện thoại: Click <a href="https://lead.ns.name.vn{link_order}" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: #0ea5e9;">https://lead.ns.name.vn{link_order}</a></p>
-                                <p>Tình trạng: {request.POST.get('Status')}</p>
-                                <p>Ghi chú: {request.POST.get('Note')}</p>
-                            </body>
-                            </html>
-                            """
-                            message_So_DT = f"""
-                            <html>
-                            <body>
-                                <p><strong>Bạn đã được phân công chăm sóc khách hàng mới [{request.POST.get('Name')}] :</strong></p>
-                                <p>Dự án: {Campaign.objects.get(pk=Belong_Campaign).Name}</p>
-                                <p>Tên khách hàng: {request.POST.get('Name')}</p>
-                                <p>Số điện thoại: {request.POST.get('Phone_number')}</p>
-                                <p>Tình trạng: {request.POST.get('Status')}</p>
-                                <p>Ghi chú: {request.POST.get('Note')}</p>
-                            </body>
-                            </html>
-                            """
-                            if obj_campaign.Link_KH:
-                                send_email_notification(email, subject, message_Link_KH)
-                            else:
-                                send_email_notification(email, subject, message_So_DT)
-                            # email = EmailMessage(subject, message, to=[email])
-                            # email.content_subtype = "html"  # Đặt định dạng nội dung email là HTML
-                            # email.send()
-                    return redirect('order_ad')
-                if request.user.is_staff and not request.user.is_superuser:
-                    return redirect('order_page_staff')
-            else:
-                return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
-        else:
-            return redirect('login_ad')
-    else:
-        return redirect('login_ad')
-
 def delete_check_list_order_ad(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -437,3 +252,11 @@ def update_status_order(request):
         obj_order.Status = status
         obj_order.save()
         return redirect('order_ad')
+    
+def delete_order_ad(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        Order.objects.get(pk=id).delete()
+        return JsonResponse({'success': True, 'message': 'Xóa thành công đơn hàng.'},json_dumps_params={'ensure_ascii': False})
+    else:
+        return redirect('order_cl')

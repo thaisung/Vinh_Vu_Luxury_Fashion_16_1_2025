@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sleekweb',
+    'django.contrib.sitemaps',
     'tailwind',
     'theme',
     'django_browser_reload',

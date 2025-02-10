@@ -103,15 +103,6 @@
                                                                     {{i.total_money}}₫ </span>
 
                                                             </div>
-                                                            {% if j.Status %}
-                                                            <form method="post" action="{% url 'delete_order_cl' %}">
-                                                                {% csrf_token %}
-                                                                <input type="hidden" name="id" value="{{j.pk}}"  />
-                                                                <button style="border:none;">
-                                                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                                                </button>
-                                                            </form>
-                                                            {% endif %}
                                                         </td>
 
                                                         <td class="hidden-xs quantity quantityVariantCart">
@@ -133,69 +124,45 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <div class="titleInfoCart" style="text-align:center;">Tổng giá trị đơn hàng : {{j.Data.total_money}}₫</div>
+                                    {% if j.Status == 'Chờ xác nhận' %}
+                                    <form id="formOder_delete" class="flex justify-center">
+                                        <input name="code" type="hidden" value="{{j.Code}}" />
+                                        <input name="id" type="hidden" value="{{j.id}}" />
+                                        <button type="submit" class="p-2 border-[1px] rounded-md bg-stone-700 text-stone-200 text-[14px] font-semibold">Xóa đơn hàng</button>
+                                    </form>
+                                    <script>
+                                        $(document).ready(function() {
+                                            $('#formOder_delete').on('submit', function(event) {
+                                                event.preventDefault();
+                                                var formData = new FormData(this);  // Tạo FormData từ form hiện tại
+                                                alert('Bạn có chắc chắn muốn xóa đơn hàng ' + formData.get('code') + '!');
+                                                $.ajax({
+                                                    url: '{% url 'delete_order_cl' %}',
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'X-CSRFToken': '{{ csrf_token }}'
+                                                    },
+                                                    processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
+                                                    contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
+                                                    data: formData,
+                                                    success: function(response) {
+                                                        if (response.success) {
+                                                            window.location.href = "{% url 'order_cl' %}";
+                                                        } else {
+                                                            alert(response.message);
+                                                        }
+                                                    },
+                                                    error: function(response) {
+                                                        alert('Xóa đơn hàng thất bại !');
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                    {% endif %}
                                 </div>
                                 {% endfor %}
-                            </div>
-                            <div class="col-xs-12 col-sm-4">
-                                <div class="boxRightCart clearfix">
-                                    <div class="titleInfoCart">
-                                        TÓM TẮT ĐƠN HÀNG </div>
-                                    <div class="summary-subtotal clearfix">
-                                        <p class="order-infor">
-                                            <span class="titleOrder">Chưa bao gồm phí vận chuyển:</span>
-                                        </p>
-                                        <p class="order-infor boldPrice">
-                                            <span class="titleOrder"><b>Tổng tiền:</b></span>
-                                            <span class="valOrder total_price">
-                                                <b>
-                                                    {{Cart_user.total_money}}₫ </b>
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div class="note-subtotal clearfix">
-                                        <i>Bạn có thể nhập mã giảm giá ở trang thanh toán</i>
-                                    </div>
-
-                                    <div class="cart-buttons">
-                                        <button type="button" onclick="location.href = '{% url 'checkout_cl' %}'"
-                                            id="checkout" name="checkout" class="checkLimitCart">Tiến hành đặt
-                                            hàng</button>
-                                        <a class="link-continue" href="/" title="Tiếp tục mua hàng">Mua thêm sản
-                                            phẩm</a>
-                                    </div>
-
-
-                                </div>
-
-                                <ul class="policyProduct policyCart clearfix">
-                                    <li>
-                                        <img src="https://web.nvnstatic.net/tp/T0298/img/tmp/img_policy_1.png?v=7"
-                                            alt="free ship">
-                                        <span class="infoPolicy">
-
-
-                                            <h5>MIỄN PHÍ GIAO HÀNG NỘI THÀNH HÀ NỘI VÀ CÁC ĐƠN HÀNG CHUYỂN KHOẢN TRƯỚC
-                                            </h5>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <img src="https://web.nvnstatic.net/tp/T0298/img/tmp/img_policy_3.png?v=7"
-                                            alt="Return">
-                                        <span class="infoPolicy">
-
-                                            <h5>ĐỔI TRẢ TRONG VÒNG 3 NGÀY&nbsp;</h5>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <img src="https://web.nvnstatic.net/tp/T0298/img/tmp/img_policy_4.png?v=7"
-                                            alt="Hotline">
-                                        <span class="infoPolicy">
-
-                                            <p>SỐ 14 ĐƯỜNG PHÙNG HƯNG ( &nbsp;Nhỏ ) , HOÀN KIẾM , HÀ NỘI - HOTLINE :
-                                                0902458989&nbsp;</p>
-                                        </span>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
 

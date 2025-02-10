@@ -1,0 +1,819 @@
+{% extends './base.html' %}
+{% block content %}
+<div class="flex-1 flex-col w-full h-full" style="width: calc(100% - 250px);">
+    <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800 flex px-[10px] justify-start md:justify-center items-start md:items-center">
+        <button class="open_menu_website p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-green"
+          @click="toggleSideMenu" aria-label="Menu">
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        <!-- Search input -->
+        <div class="flex md:flex-col flex-row justify-center items-center gap-2 w-full h-full overflow-x-auto">
+          <div class="flex flex-col md:flex-row justify-start h-full   gap-3 ">
+            {% comment %} <button
+              class="open_form_create flex gap-2 shadow-md items-center justify-between self-start px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+              <svg class="fill-white w-[20px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-plus">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span class="whitespace-nowrap hidden md:block">Tạo đơn hàng mới</span>
+            </button> {% endcomment %}
+          </div>
+          <form class="flex flex-col md:flex-row justify-center items-center grow md:grow-0  gap-2 ">
+            <div class="flex  relative items-center w-full md:w-[300px]">
+              <input placeholder="Tìm kiếm đơn hàng" name="s" value="{{s}}"
+                class="block pr-[30px] w-full bg-stone-100 text-sm text-stone-800 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md " />
+              <button type="submit" class="absolute right-0 cursor-pointer">
+                <svg class="w-[30px]" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+                  <title>icon 111 search</title>
+                  <desc>Created with Sketch.</desc>
+                  <defs></defs>
+                  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                    <g id="icon-111-search" sketch:type="MSArtboardGroup" fill="#000000">
+                      <path
+                        d="M19.4271164,21.4271164 C18.0372495,22.4174803 16.3366522,23 14.5,23 C9.80557939,23 6,19.1944206 6,14.5 C6,9.80557939 9.80557939,6 14.5,6 C19.1944206,6 23,9.80557939 23,14.5 C23,16.3366522 22.4174803,18.0372495 21.4271164,19.4271164 L27.0119176,25.0119176 C27.5621186,25.5621186 27.5575313,26.4424687 27.0117185,26.9882815 L26.9882815,27.0117185 C26.4438648,27.5561352 25.5576204,27.5576204 25.0119176,27.0119176 L19.4271164,21.4271164 L19.4271164,21.4271164 Z M14.5,21 C18.0898511,21 21,18.0898511 21,14.5 C21,10.9101489 18.0898511,8 14.5,8 C10.9101489,8 8,10.9101489 8,14.5 C8,18.0898511 10.9101489,21 14.5,21 L14.5,21 Z"
+                        id="search" sketch:type="MSShapeGroup"></path>
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </div>
+            <select name="st" onchange="this.form.submit()" value="{{st}}"
+              class="bg-stone-100 text-sm text-stone-800 w-full md:w-[250px]   focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                <option value="" class="bg-stone-100">--- Trạng thái đơn hàng ---</option>
+                <option value="Chờ xác nhận" {% if st == 'Chờ xác nhận' %}selected{% endif %} class="bg-stone-100">Chờ xác nhận</option>
+                <option value="Đã xác nhận" {% if st == 'Đã xác nhận' %}selected{% endif %} class="bg-stone-100">Đã xác nhận</option>
+                <option value="Đang gửi hàng" {% if st == 'Đang gửi hàng' %}selected{% endif %} class="bg-stone-100">Đang gửi hàng</option>
+                <option value="Đã gửi hàng" {% if st == 'Đã gửi hàng' %}selected{% endif %} class="bg-stone-100">Đã gửi hàng</option>
+            </select>
+          </form>
+        </div>
+    </header>
+    <main class="relative flex flex-col gap-2 p-[10px] bg-stone-100">
+        <h1 class="flex gap-2 items-center text-[18px] font-bold text-stone-800">
+            Chi tiết đơn hàng {{obj_order.Code}}
+            <a title="Trở lại" href="javascript:void(0);" onclick="window.history.back();">
+                <svg class=" stroke-green-500 w-[30px] cursor-pointer p-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left-circle"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 8 12 12 16"></polyline><line x1="16" y1="12" x2="8" y2="12"></line></svg>
+            </a>
+        </h1>
+        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs flex gap-3">
+            <div class="w-fit grid grid-cols-2 bg-stone-200 rounded-lg p-3 gap-2">
+                <div class="  flex flex-col gap-1">
+                    <label class="font-medium">
+                        Họ và tên
+                    </label>
+                    <input readonly type="text" class="rounded-lg bg-stone-300" value="{{obj_order.customerName}}" />
+                </div>
+                <div class="  flex flex-col gap-1">
+                    <label class="font-medium">
+                        Email
+                    </label>
+                    <input readonly type="text" class="rounded-lg bg-stone-300" value="{{obj_order.customerEmail}}" />
+                </div>
+                <div class="  flex flex-col gap-1 col-span-2">
+                    <label class="font-medium">
+                        Số điện thoại
+                    </label>
+                    <input readonly type="text" class="rounded-lg bg-stone-300" value="{{obj_order.customerMobile}}" />
+                </div>
+                <div class="  flex flex-col gap-1 col-span-2 ">
+                    <label class="font-medium text-sky-600">
+                        Địa chỉ cụ thể
+                    </label>
+                    <input readonly type="text" class="rounded-lg bg-stone-300" value="{{obj_order.customerAddress}}" />
+                </div>
+                <div class="  flex flex-col gap-1 col-span-2">
+                    <label class="font-medium text-sky-600">
+                        Xã - Huyện - Tỉnh
+                    </label>
+                    <input readonly type="text" class="rounded-lg bg-stone-300" value="{{obj_order.ward}} - {{obj_order.customerDistrict}} - {{obj_order.customerCity}}" />
+                </div>
+                <div class="  flex flex-col gap-1 col-span-2">
+                    <label class="font-medium">
+                        Ghi chú
+                    </label>
+                    <textarea readonly class="rounded-lg bg-stone-300">{{obj_order.description}}</textarea>
+                </div>
+                <div class="  flex flex-col gap-1 col-span-2">
+                    <label class="font-medium">
+                        Tài khoản - Thời gian tạo đơn hàng
+                    </label>
+                    <input readonly type="text" class="rounded-lg bg-stone-300" value="{{obj_order.Belong_User}} - {{ obj_order.Creation_time|date:"d-m-Y H:i" }}" />
+                </div>
+            </div>
+            <div class="flex flex-col gap-1 bg-stone-200 p-3 rounded-lg">
+                <table class="table-cart">
+                    <thead>
+                        <tr>
+                            <th width="20%" class="image">&nbsp;</th>
+                            <th width="40%" class="item"></th>
+                            <th width="20%" class="quantity"></th>
+                            <th width="20%" class="remove">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody class="updateItem">
+                        {% for i in obj_order.Data.data %}
+                        <tr class="clearfix line-item-container " >
+                            <td class="image imageVariantCart">
+                                <div class="product_image">
+                                    <a
+                                        href="{% url 'detail_product_cl' Slug=i.product.Slug %}">
+                                        <img src="{{i.product.product_photo_detail.all.first.Photo.url}}"
+                                            alt="{{i.product.Name}} - {{i.size}}" class="w-[150px]">
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="item itemVariantCart">
+                                <p>
+                                    <a
+                                        href="{% url 'detail_product_cl' Slug=i.product.Slug %}">
+                                    </a>
+                                </p>
+                                <h3><a class="pl-2"
+                                        href="{% url 'detail_product_cl' Slug=i.product.Slug %}">
+                                        {{i.product.Name}} - {{i.size}}
+                                    </a></h3><a
+                                    href="{% url 'detail_product_cl' Slug=i.product.Slug %}">
+                                </a>
+                                <p></p>
+                            </td>
+    
+                            <td class="hidden-xs quantity quantityVariantCart">
+                                <div class="qty quantity-partent qty-click clearfix">
+                                    <input type="text" size="4" min="1" max="0"
+                                        data-id="40777466" value="{{i.quantity}}"
+                                        class="text-center rounded-lg w-fit" readonly="" >
+                                </div>
+                            </td>
+                            <td class="hidden-xs totalLinePriceVariantCart">
+                                <p class="price price-flex font-medium pl-8">
+                                    <span class="line-item-total">
+                                        {{i.total_money}}₫ </span>
+                                </p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p class="font-bold">Tổng giá trị đơn hàng : {{obj_order.Data.total_money}}₫</p>
+                <div class="flex flex-col gap-1">
+                    <div class="flex items-center gap-2">
+                        <p class="font-bold text-yellow-600 whitespace-nowrap">Đã cọc : {{obj_order.Deposit}}₫</p>
+                        <svg id="open_form_Deposit" class="fill-yellow-600 w-[30px] hover:cursor-pointer" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M14 20l10 10 10-10z"></path><path d="M0 0h48v48h-48z" fill="none"></path></svg>
+                    </div>
+                    <form method="post" action="{% url 'order_detail_update_ad' %}" class="flex items-center gap-1">
+                        {% csrf_token %}
+                        <input type="hidden" name="Code" value="{{obj_order.Code}}" placeholder="Nhập số tiền đã cọc" class="w-full" />
+                        <input placeholder="Nhập số tiền đã cọc" name="Deposit" class="w-full" />
+                        <button type="submit" class="bg-green-500 p-2 font-medium h-[42px] whitespace-nowrap">Lưu lại</button>
+                    </form>
+                </div>
+                <p class="font-bold text-green-600">Thu : {{obj_order.Revenue}}₫</p>
+            </div>
+        </div>
+        <form method="POST" action="{% url 'order_ad' %}" style="display:none;"
+            class="form_create xxx fixed z-9999   pb-[10px] md:pt-[0px] md:pb-[0px] overflow-x-auto inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <div
+                class="relative p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">Tạo đơn hàng mới</h3>
+                <div class="grid grid-cols-2 gap-2 w-full">
+                    <label class="block text-sm w-full col-span-2">
+                        <span class="font-medium text-stone-600">Nguồn đơn hàng</span>
+                        <select name="Source" required
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                            {% for i in Select_setting.Source %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Tên đơn hàng</span>
+                        <input name="Name" required
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Số điện thoại</span>
+                        <input name="Phone_number" required 
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Khu vực</span>
+                        <select name="Area" required
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                            {% for i in Select_setting.Area %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Sản phẩm</span>
+                        <select name="Product" required
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                            {% for i in Select_setting.Product %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Nhu cầu</span>
+                        <select name="Demand" required
+                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                            {% for i in Select_setting.Demand %}
+                            <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label class="block text-sm w-full">
+                        <span class="font-medium text-stone-600">Tình trạng</span>
+                        <input name="Status" required readonly value="Khách hàng mới"
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
+                    </label>
+                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                        <span class="font-medium text-stone-600">Ghi chú</span>
+                        <textarea name="Note" required class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "></textarea>
+                    </label>
+                    <label class="flex flex-col text-sm w-full h-[250px]">
+                        <span class="font-medium text-stone-600">Chiến dịch</span>
+                        <input type="hidden" name="Belong_Campaign" id="Belong_Campaign"
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
+                            >
+                        <input id="Belong_Campaign_label"
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
+                            readonly>
+                        <div class="flex flex-col grow rounded-md overflow-hidden p-2 bg-stone-300 mt-2 gap-2 h-full">
+                            <div id="menu_list_campaign" class="flex flex-col gap-1 h-full overflow-y-auto">
+                                <!-- Chiến dịch -->
+                            </div>
+                            <!-- <div class="flex  relative items-center w-full">
+                                <input placeholder="Tìm kiếm Chiến dịch" name="s_campaign"
+                                    class="block pr-[30px] w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md " />
+                                <svg id="submit_search_campaign"  class="w-[30px] absolute right-0 cursor-pointer" viewBox="0 0 32 32" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+                                    <title>icon 111 search</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <defs></defs>
+                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                                        sketch:type="MSPage">
+                                        <g id="icon-111-search" sketch:type="MSArtboardGroup" fill="#000000">
+                                            <path
+                                                d="M19.4271164,21.4271164 C18.0372495,22.4174803 16.3366522,23 14.5,23 C9.80557939,23 6,19.1944206 6,14.5 C6,9.80557939 9.80557939,6 14.5,6 C19.1944206,6 23,9.80557939 23,14.5 C23,16.3366522 22.4174803,18.0372495 21.4271164,19.4271164 L27.0119176,25.0119176 C27.5621186,25.5621186 27.5575313,26.4424687 27.0117185,26.9882815 L26.9882815,27.0117185 C26.4438648,27.5561352 25.5576204,27.5576204 25.0119176,27.0119176 L19.4271164,21.4271164 L19.4271164,21.4271164 Z M14.5,21 C18.0898511,21 21,18.0898511 21,14.5 C21,10.9101489 18.0898511,8 14.5,8 C10.9101489,8 8,10.9101489 8,14.5 C8,18.0898511 10.9101489,21 14.5,21 L14.5,21 Z"
+                                                id="search" sketch:type="MSShapeGroup"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div> -->
+                        </div>
+                    </label>
+                    <label class="flex flex-col text-sm w-full h-[250px]">
+                        <span class="font-medium text-stone-600">Nhân viên chăm sóc</span>
+                        <input type="hidden" name="Belong_User" id="Belong_User"
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
+                            >
+                        <input id="Belong_User_label"
+                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
+                            readonly>
+                        <div class="flex flex-col grow rounded-md overflow-hidden p-2 bg-stone-300 mt-2  h-full justify-between">
+                            <div id="menu_list_user" class="flex flex-col gap-1 grow overflow-y-auto">
+                                <!-- Chiến dịch -->
+                            </div>
+                            <div class="flex  relative items-center w-full">
+                                <input placeholder="Tìm kiếm Nhân viên" name="s_user"
+                                    class="block pr-[30px] w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md " />
+                                <svg id="submit_search_user"  class="w-[30px] absolute right-0 cursor-pointer" viewBox="0 0 32 32" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+                                    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
+                                    <title>icon 111 search</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <defs></defs>
+                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                                        sketch:type="MSPage">
+                                        <g id="icon-111-search" sketch:type="MSArtboardGroup" fill="#000000">
+                                            <path
+                                                d="M19.4271164,21.4271164 C18.0372495,22.4174803 16.3366522,23 14.5,23 C9.80557939,23 6,19.1944206 6,14.5 C6,9.80557939 9.80557939,6 14.5,6 C19.1944206,6 23,9.80557939 23,14.5 C23,16.3366522 22.4174803,18.0372495 21.4271164,19.4271164 L27.0119176,25.0119176 C27.5621186,25.5621186 27.5575313,26.4424687 27.0117185,26.9882815 L26.9882815,27.0117185 C26.4438648,27.5561352 25.5576204,27.5576204 25.0119176,27.0119176 L19.4271164,21.4271164 L19.4271164,21.4271164 Z M14.5,21 C18.0898511,21 21,18.0898511 21,14.5 C21,10.9101489 18.0898511,8 14.5,8 C10.9101489,8 8,10.9101489 8,14.5 C8,18.0898511 10.9101489,21 14.5,21 L14.5,21 Z"
+                                                id="search" sketch:type="MSShapeGroup"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div style="display: none;" id="loader_form_create" class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
+                    <span  class="loader"></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="submit"
+                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+                        Tạo ngay
+                    </button>
+                    <a
+                        class=" close_form_create cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Hủy
+                    </a>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function() {
+                    $('.form_create').on('submit', function(event) {
+                        $('#loader_form_create').show();
+                    });
+                });
+            </script>
+            <style>
+                .loader {
+                    width: 80px;
+                    height: 80px;
+                    border: 13px dotted #22c55e;
+                    border-radius: 50%;
+                    display: inline-block;
+                    position: relative;
+                    box-sizing: border-box;
+                    animation: rotation 2s linear infinite;
+                }
+                
+                @keyframes rotation {
+                    0% {
+                    transform: rotate(0deg);
+                    }
+                    100% {
+                    transform: rotate(360deg);
+                    }
+                }  
+            </style>
+        </form>
+        <form id="form_delete_check_list_order" style="display:none;" class=" xxx px-[10px] fixed z-9999 inset-0  flex justify-center items-center bg-black bg-opacity-50">
+            <div id="" class="relative  flex gap-3 flex-col justify-center items-center p-4 bg-white rounded-lg shadow-md text-red-500 font-medium ">
+                <input type="hidden" id="check_list" />
+                <span>* Danh sách đơn hàng đã chọn sẽ bị xóa *</span>
+                <span class="text-stone-500">Nhập "<span class="text_code text-green-500">Tôi đồng ý xóa danh sách đơn hàng đã chọn</span>" vào ô bên dưới và tiến hành xóa</span>
+                <input type="text"  placeholder="" id="text_check_list"  class=" w-full rounded-md text-center bg-stone-200 text-green-500" required/>
+                <div></div>
+                <div class="flex items-center gap-2">
+                    <button type="submit"
+                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
+                        Xóa đơn hàng đã chọn
+                    </button>
+                    <a
+                        class="close_form_delete_check_list_order cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Hủy
+                    </a>
+                </div>
+            </div>
+        </form>
+        <div style="display:none;"
+            class="form_update_report xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <input type="hidden" name="id_lead_update_report" id="id_lead_update_report" />
+            <div
+                class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">
+                    <span class="underline">Báo cáo</span> đơn hàng
+                    <br>
+                    <span class="text_lead_report text-green-500">"Vũ Văn Thái"</span>
+                </h3>
+                <div class="grid grid-cols-1 w-full">
+                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                        <textarea name="report_update" id="report_update" required class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "></textarea>
+                    </label>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a
+                        class=" close_form_update_report cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Đóng
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div style="display:none;"
+            class="form_update_history xxx fixed z-9999 inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
+            {% csrf_token %}
+            <input type="hidden" name="id_lead_update_history" id="id_lead_update_history" />
+            <div
+                class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
+                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">
+                    <span class="underline">Ghi chú lịch sử</span> đơn hàng
+                    <br>
+                    <span class="text_lead_history text-green-500">"Vũ Văn Thái"</span>
+                </h3>
+                <div class="grid grid-cols-1 w-full">
+                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
+                        <textarea name="history_update" id="history_update" required class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "></textarea>
+                    </label>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a
+                        class=" close_form_update_history cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
+                        Đóng
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#formOder_delete').on('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);  // Tạo FormData từ form hiện tại
+            alert('Bạn có chắc chắn muốn xóa đơn hàng ' + formData.get('code') + '!');
+            $.ajax({
+                url: '{% url 'delete_order_ad' %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
+                contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = "{% url 'order_ad' %}";
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(response) {
+                    alert('Đăng kí thất bại');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open_form_Report").click(function () {
+            $(".xxx").hide();
+            $(".form_update_report").show();
+            $("#id_lead_update_report").val($(this).data('id'));
+            $("#report_update").val($(this).data('report'));
+            $(".text_lead_report").text($(this).data('name'));
+        });
+        $(".close_form_update_report").click(function () {
+            $(".form_update_report").hide();
+        });
+
+        $(".open_form_History").click(function () {
+            $(".xxx").hide();
+            $(".form_update_history").show();
+            $("#id_lead_update_history").val($(this).data('id'));
+            $("#history_update").val($(this).data('history'));
+            $(".text_lead_history").text($(this).data('name'));
+        });
+        $(".close_form_update_history").click(function () {
+            $(".form_update_history").hide();
+        });
+
+        
+        $(".close_form_setting_select").click(function () {
+            $(".form_setting_select").hide();
+        });
+    });
+</script>
+<script>
+    $(document).on('click', '.import_campaign', function () {
+        $("#Belong_Campaign_label").val($(this).data('campaign-name'));
+        $("#Belong_Campaign").val($(this).data('campaign-id'));
+    });
+</script>
+<script>
+    $(document).on('click', '.import_user', function () {
+        $("#Belong_User_label").val($(this).data('user-name'));
+        $("#Belong_User").val($(this).data('user-id'));
+        $.ajax({
+            url: '',  // URL của API bạn muốn gọi
+            method: 'POST',
+            data: {
+                'id_user': $(this).data('user-id'),  // Gửi dữ liệu tìm kiếm với key là 's'
+                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#menu_list_campaign').empty();  // Dọn sạch danh sách trước khi thêm mới
+                    for (let i = 0; i < response.list_campaign.length; i++) {
+                        const campaign = response.list_campaign[i];
+                        $('#menu_list_campaign').append(`
+                            <span data-campaign-name="${campaign.Name}" data-campaign-id="${campaign.id}" class="import_campaign cursor-pointer hover:text-green-700">
+                                ${campaign.Name}
+                            </span>
+                        `);
+                    }
+                } else {
+                    console.log('Không tìm thấy chiến dịch nào');
+                }
+            },
+            error: function (response) {
+                console.log('Tìm kiếm thất bại', response);
+            }
+        });
+    });
+</script>
+<script>
+    $(document).on('click', '.import_campaign_update', function () {
+        $("#Belong_Campaign_label_update").val($(this).data('campaign-name'));
+        $("#Belong_Campaign_update").val($(this).data('campaign-id'));
+    });
+</script>
+<script>
+    $(document).on('click', '.import_user_update', function () {
+        $("#Belong_User_label_update").val($(this).data('user-name'));
+        $("#Belong_User_update").val($(this).data('user-id'));
+
+        $.ajax({
+            url: '',  // URL của API bạn muốn gọi
+            method: 'POST',
+            data: {
+                'id_user': $(this).data('user-id'),  // Gửi dữ liệu tìm kiếm với key là 's'
+                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#menu_list_campaign_update').empty();  // Dọn sạch danh sách trước khi thêm mới
+                    for (let i = 0; i < response.list_campaign.length; i++) {
+                        const campaign = response.list_campaign[i];
+                        $('#menu_list_campaign_update').append(`
+                            <span data-campaign-name="${campaign.Name}" data-campaign-id="${campaign.id}" class="import_campaign_update cursor-pointer hover:text-green-700">
+                                ${campaign.Name}
+                            </span>
+                        `);
+                    }
+                } else {
+                    console.log('Không tìm thấy chiến dịch nào');
+                }
+            },
+            error: function (response) {
+                console.log('Tìm kiếm thất bại', response);
+            }
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".open_form_update").click(function () {
+            $(".xxx").hide();
+            $(".form_update").show();
+
+            $("#id_lead_update").val($(this).data('id'));
+            $("#Source_update").val($(this).data('source'));
+            $("#Name_update").val($(this).data('name'));
+            $("#Phone_number_update").val($(this).data('phone-number'));
+            $("#Area_update").val($(this).data('area'));
+            $("#Product_update").val($(this).data('product'));
+            $("#Demand_update").val($(this).data('demand'));
+            $("#Status_update").val($(this).data('status'));
+            $("#Note_update").val($(this).data('note'));
+            $("#Belong_Campaign_label_update").val($(this).data('belong-campaign-name'));
+            $("#Belong_Campaign_update").val($(this).data('belong-campaign-id'));
+            $("#Belong_User_label_update").val($(this).data('belong-user-username'));
+            $("#Belong_User_update").val($(this).data('belong-user-id'));
+
+        });
+
+        $(".close_form_update").click(function () {
+            $(".form_update").hide();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".open_form_delete").click(function () {
+            $(".xxx").hide();
+            $(".form_delete").show();
+            $("#id_delete").val($(this).data('id'));
+            $("#text_delete").text($(this).data('name'));
+        });
+
+        $(".close_form_delete").click(function () {
+            $(".form_delete").hide();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Khi nhấn nút SVG (nút tìm kiếm)
+        $('#submit_search_campaign').on('click', function (event) {
+            event.preventDefault();  // Ngừng hành động mặc định của nút
+            // Sử dụng serialize() để lấy dữ liệu từ form
+            var searchQuery_campaign = $('input[name="s_campaign"]').val();
+            $.ajax({
+                url: '',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's': searchQuery_campaign,  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_campaign').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        for (let i = 0; i < response.list_campaign.length; i++) {
+                            const campaign = response.list_campaign[i];
+                            $('#menu_list_campaign').append(`
+                                <span data-campaign-name="${campaign.Name}" data-campaign-id="${campaign.id}" class="import_campaign cursor-pointer hover:text-green-700">
+                                    ${campaign.Name}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy chiến dịch nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+
+       
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Khi nhấn nút SVG (nút tìm kiếm)
+        $('#submit_search_campaign_update').on('click', function (event) {
+            event.preventDefault();  // Ngừng hành động mặc định của nút
+            // Sử dụng serialize() để lấy dữ liệu từ form
+            var searchQuery_campaign_update = $('input[name="s_campaign_update"]').val();
+            $.ajax({
+                url: '',  // URL của API bạn muốn gọi
+                method: 'POST',
+                data: {
+                    's': searchQuery_campaign_update,  // Gửi dữ liệu tìm kiếm với key là 's'
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#menu_list_campaign_update').empty();  // Dọn sạch danh sách trước khi thêm mới
+                        for (let i = 0; i < response.list_campaign.length; i++) {
+                            const campaign = response.list_campaign[i];
+                            $('#menu_list_campaign_update').append(`
+                                <span data-campaign-name="${campaign.Name}" data-campaign-id="${campaign.id}" class="import_campaign_update cursor-pointer hover:text-green-700">
+                                    ${campaign.Name}
+                                </span>
+                            `);
+                        }
+                    } else {
+                        console.log('Không tìm thấy chiến dịch nào');
+                    }
+                },
+                error: function (response) {
+                    console.log('Tìm kiếm thất bại', response);
+                }
+            });
+        });
+
+    });
+</script>
+<script>
+    // JavaScript/jQuery
+    $(document).ready(function() {
+        // Khi checkbox 'check_all_user' thay đổi trạng thái
+        $('#check_all_lead').on('change', function() {
+            var isChecked = $(this).is(':checked');
+            
+            // Cập nhật trạng thái của tất cả các checkbox 'check_lead'
+            $('.check_lead').prop('checked', isChecked);
+
+            // Rà soát tất cả các checkbox 'check_lead' được chọn và lưu giá trị vào input hidden
+            updateCheckedValues();
+        });
+
+        // Khi bất kỳ checkbox 'check_lead' thay đổi trạng thái
+        $('.check_lead').on('change', function() {
+            // Kiểm tra trạng thái của checkbox 'check_all_lead'
+            var allChecked = $('.check_lead').length === $('.check_lead:checked').length;
+            $('#check_all_lead').prop('checked', allChecked);
+
+            // Rà soát tất cả các checkbox 'check_lead' được chọn và lưu giá trị vào input hidden
+            updateCheckedValues();
+        });
+
+        function updateCheckedValues() {
+            var checkedValues = [];
+            $('.check_lead:checked').each(function() {
+                checkedValues.push($(this).val());
+            });
+            $('#check_list').val(JSON.stringify(checkedValues)); // Gán mảng giá trị vào input hidden
+            if (checkedValues.length > 0) {
+                $('#open_form_delete_check_list_order').show();
+            } else {
+                $('#open_form_delete_check_list_order').hide();
+            }
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#form_delete_check_list_order').on('submit', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '{% url 'delete_check_list_order_ad' %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    check_list: $('#check_list').val(),
+                    text_check_list: $('#text_check_list').val()
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.redirect_url;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (response) {
+                    console.log('Xóa thất bại', response);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    // selecting required element
+    const element = document.querySelector(".pagination ul");
+    let totalPages = {{list_order.paginator.num_pages}};
+    let page = {{list_order.number}};
+    let s_l = "{{ s|default:'' }}";  // Nếu s không có giá trị, dùng giá trị mặc định là ''
+    let f_l = "{{ f|default:'' }}";  // Nếu f không có giá trị, dùng giá trị mặc định là ''
+    let st_l = "{{ st|default:'' }}";  // Nếu st không có giá trị, dùng giá trị mặc định là ''
+
+    //calling function with passing parameters and adding inside element which is ul tag
+    element.innerHTML = createPagination(totalPages, page);
+    function createPagination(totalPages, page) {
+        let liTag = '';
+        let active;
+        let beforePage = page - 1;
+        let afterPage = page + 1;
+
+        // Hiển thị nút "Trang trước" nếu không phải là trang đầu tiên
+        if (page > 1) {
+            liTag += `<a href="?p=${page - 1}&s=${s_l}&f=${f_l}&st=${st_l}" class="btn prev"><span><i class="fas fa-angle-left"></i>Trang trước</span></a>`;
+        }
+
+        // Nếu tổng số trang nhỏ hơn 8, hiển thị tất cả các trang mà không cần dấu ba chấm
+        if (totalPages < 8) {
+            for (let i = 1; i <= totalPages; i++) {
+                active = (page == i) ? "active" : "";
+                liTag += `<a href="?p=${i}&s=${s_l}&f=${f_l}&st=${st_l}" class="numb ${active}"><span>${i}</span></a>`;
+            }
+        } else {
+            // Nếu tổng số trang >= 8, hiển thị có điều kiện các trang với dấu ba chấm
+            if (page > 2) {
+                liTag += `<a href="?p=1&s=${s_l}&f=${f_l}&st=${st_l}" class="first numb"><span>1</span></a>`;
+                if (page > 3) {
+                    liTag += `<a class="dots"><span>...</span></a>`;
+                }
+            }
+
+            // Điều chỉnh trước và sau trang hiện tại
+            if (page == totalPages) {
+                beforePage = beforePage - 2;
+            } else if (page == totalPages - 1) {
+                beforePage = beforePage - 1;
+            }
+            if (page == 1) {
+                afterPage = afterPage + 2;
+            } else if (page == 2) {
+                afterPage = afterPage + 1;
+            }
+
+            // Hiển thị các trang trong khoảng trước và sau trang hiện tại
+            for (let plength = beforePage; plength <= afterPage; plength++) {
+                if (plength > totalPages) continue;
+                if (plength == 0) plength = 1;
+                active = (page == plength) ? "active" : "";
+                liTag += `<a href="?p=${plength}&s=${s_l}&f=${f_l}&st=${st_l}" class="numb ${active}"><span>${plength}</span></a>`;
+            }
+
+            // Hiển thị trang cuối cùng với dấu ba chấm nếu cần
+            if (page < totalPages - 1) {
+                if (page < totalPages - 2) {
+                    liTag += `<a class="dots"><span>...</span></a>`;
+                }
+                liTag += `<a href="?p=${totalPages}&s=${s_l}&f=${f_l}&st=${st_l}" class="last numb"><span>${totalPages}</span></a>`;
+            }
+        }
+
+        // Hiển thị nút "Trang sau" nếu không phải là trang cuối cùng
+        if (page < totalPages) {
+            liTag += `<a href="?p=${page + 1}&s=${s_l}&f=${f_l}&st=${st_l}" class="btn next"><span>Trang sau <i class="fas fa-angle-right"></i></span></a>`;
+        }
+
+        element.innerHTML = liTag;
+        return liTag;
+    }
+</script>
+{% endblock %}

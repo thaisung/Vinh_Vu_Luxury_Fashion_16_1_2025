@@ -45,7 +45,7 @@
                                 {% for i in obj_Product.product_photo_detail.all %}
                                 <a class="p-img-item " href="{{i.Photo.url}}" data-image="{{i.Photo.url}}"
                                     data-fancybox-group="button" data-fancybox="gallery" data-caption="Single image">
-                                    <img src="https://milanauth.com.vn{{i.Photo.url}}" alt="{{obj_Product.Name}}">
+                                    <img src="{{i.Photo.url}}" alt="{{obj_Product.Name}}">
                                 </a>
                                 {% endfor %}
                             </div>
@@ -109,6 +109,7 @@
                                             style="width:20px;" />
                                         <div class="select-swap attr-size req" data-column="i1">
                                             {% for i in obj_Product.product_size_detail.all %}
+                                            {% if i.Size %}
                                             {% if i.Quantity == 0 %}
                                             <div data-value="" class=" n-sd swatch-element">
                                                 <label data-value="1944615"
@@ -132,6 +133,7 @@
                                                         data-src="https://web.nvnstatic.net/tp/T0298/img/soldout.png?v=7">
                                                 </label>
                                             </div>
+                                            {% endif %}
                                             {% endif %}
                                             {% endfor %}
                                             <script>
@@ -317,6 +319,7 @@
                                 </div>
                                 <div class="description-content first-class">
                                     <div class="main_details">
+                                        {{obj_Product.Parameter}}
                                     </div>
                                 </div>
                             </div>
@@ -330,13 +333,11 @@
                                 <div class="description-content">
                                     <div class="description-productdetail">
                                         <div class="description-productdetail">
-                                            <p>ĐỔI TRẢ TRONG VÒNG 3 NGÀY , SẢN PHẨM CÒN NGUYÊN TAG VÀ CHƯA SỬ DỤNG&nbsp;
-                                            </p>
+                                            {{obj_Product.Rechange}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="product-description title_none preservation-area dnone-96772 ">
                                 <div class="title-bl">
                                     <h2>
@@ -345,9 +346,22 @@
                                 </div>
                                 <div class="description-content">
                                     <div class="description-productdetail">
+                                        {{obj_Product.Preserve}}
                                     </div>
                                 </div>
                             </div>
+
+                            <script>
+                                $(document).ready(function () {
+                                    $(".icon-open").click(function () {
+                                        var parent = $(this).closest(".product-description"); // Tìm thẻ cha gần nhất
+                                        var content = parent.find(".description-content"); // Chỉ tìm nội dung trong thẻ cha đó
+                                
+                                        $(this).toggleClass("active"); // Thêm hoặc xóa class active cho icon
+                                        content.slideToggle(); // Hiển thị hoặc ẩn nội dung tương ứng
+                                    });
+                                });                                
+                            </script>
 
                             <div class="product-description-infor">
                                 <ul class="policyProduct policyCart clearfix">
@@ -430,9 +444,11 @@
                                                     <div class="product-detail clearfix">
                                                         <div class="product-size-cus" psid="40777248">
                                                             {% for f in i.product_size_detail.all %}
+                                                            {% if f.Size %}
                                                             <a href="{% url 'detail_product_cl' Slug=i.Slug %}"
-                                                                class="text-main" value="40777249" title="46">
+                                                                class="text-main" value="40777249" title="{{f.Size}}">
                                                                 {{f.Size}}</a>
+                                                                {% endif %}
                                                             {% endfor %}
                                                             </div>
                                                         <div class="box-pro-detail">

@@ -63,30 +63,32 @@
                     <thead>
                         <tr
                             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-stone-200 dark:text-gray-400 dark:bg-gray-800">
-                            <th class="px-4 py-3 ">
+                            {% comment %} <th class="px-4 py-3 ">
                                 <input type="checkbox" id="check_all_lead" class="rounded-md w-[20px] h-[20px]  bg-transparent"/>
-                            </th>
+                            </th> {% endcomment %}
                             <th class="px-4 py-3">Code</th>
+                            <th class="px-4 py-3">Trạng thái</th>
+                            <th class="px-4 py-3">Chức năng</th>
                             <th class="px-4 py-3">Tài khoản</th>
-                            <th class="px-4 py-3">Họ và tên</th>
+                            {% comment %} <th class="px-4 py-3">Họ và tên</th>
                             <th class="px-4 py-3">Email</th>
                             <th class="px-4 py-3">Số ĐT</th>
                             <th class="px-4 py-3">Đại chỉ chi tiết</th>
                             <th class="px-4 py-3">Xã</th>
                             <th class="px-4 py-3">Huyện</th>
-                            <th class="px-4 py-3">Tỉnh</th>
-                            <th class="px-4 py-3">Trạng thái</th>
+                            <th class="px-4 py-3">Tỉnh</th> {% endcomment %}
                             <th class="px-4 py-3">Ngày tạo</th>
+                            {% comment %} <th class="px-4 py-3">Cọc - Thu</th> {% endcomment %}
                             <!-- <th class="px-4 py-3">Chức năng</th> -->
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800 ">
                         {% for i in list_order %}
                         <tr class="text-gray-700 dark:text-gray-400 h-full">
-                            <td class="px-4 py-3 text-sm">
+                            {% comment %} <td class="px-4 py-3 text-sm">
                                 <input type="checkbox" value={{i.id}} class="check_lead rounded-md w-[20px] h-[20px]  bg-transparent"/>
-                            </td>
-                            <td title="Cập nhật"
+                            </td> {% endcomment %}
+                            {% comment %} <td title="Cập nhật"
                                 data-id="{{i.id}}"
                                 data-source="{{i.Source}}"
                                 data-name="{{i.Name}}"
@@ -113,30 +115,9 @@
                                             </g>
                                         </g>
                                     </svg>                            
-                            </td>
-                            <td class="px-4 py-3 text-sm hover:underline whitespace-nowrap">
-                                {{i.Belong_User.email|default:""}}
-                            </td>
+                            </td> {% endcomment %}
                             <td class="px-4 py-3 text-sm whitespace-nowrap">
-                                {{i.customerName|default:""}}
-                            </td>
-                            <td class="px-4 py-3 text-sm max-w-[200px] overflow-x-auto whitespace-nowrap">
-                                {{i.customerEmail|default:""}}
-                            </td>
-                            <td class="px-4 py-3 text-sm whitespace-nowrap">
-                                {{i.customerMobile|default:""}}
-                            </td>
-                            <td class="px-4 py-3 text-sm whitespace-nowrap">
-                                {{i.customerAddress|default:""}}
-                            </td>
-                            <td class="px-4 py-3 text-sm whitespace-nowrap {% if i.is_deletable %}text-green-600{% endif %}">
-                                {{i.customerCity|default:""}}
-                            </td>
-                            <td class="px-4 py-3 text-sm whitespace-nowrap ">
-                                {{i.customerDistrict|default:""}}
-                            </td>
-                            <td class="px-4 py-3 text-sm whitespace-nowrap">
-                                {{i.ward|default:""}}
+                                {{i.Code|default:""}}
                             </td>
                             <td class="px-4 py-3 text-sm whitespace-nowrap">
                                 <form method="post" action="{% url 'update_status_order' %}" class="">
@@ -154,8 +135,47 @@
                                 </form>
                             </td>
                             <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                <div class="flex gap-2 items-center">
+                                    <form id="formOder_delete">
+                                        <input type="hidden" name="id" value="{{i.id}}"/>
+                                        <input type="hidden" name="code" value="{{i.Code}}"/>
+                                        <button type="submit" class="rounded bg-red-600 p-2 text-stone-900 font-bold">Xóa đơn hàng</button>
+                                    </form>
+                                    <a title="Chi tiết đơn hàng {{i.Code}}" href="{% url 'order_detail_ad' code=i.Code %}">
+                                        <svg class=" stroke-green-500 w-[30px] cursor-pointer p-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right-circle"><circle cx="12" cy="12" r="10"></circle><polyline points="12 16 16 12 12 8"></polyline><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-sm hover:underline whitespace-nowrap">
+                                {{i.Belong_User.email|default:""}}
+                            </td>
+                            {% comment %} <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                {{i.customerName|default:""}}
+                            </td>
+                            <td class="px-4 py-3 text-sm max-w-[200px] overflow-x-auto whitespace-nowrap">
+                                {{i.customerEmail|default:""}}
+                            </td>
+                            <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                {{i.customerMobile|default:""}}
+                            </td>
+                            <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                {{i.customerAddress|default:""}}
+                            </td>
+                            <td class="px-4 py-3 text-sm whitespace-nowrap {% if i.is_deletable %}text-green-600{% endif %}">
+                                {{i.ward|default:""}}
+                            </td>
+                            <td class="px-4 py-3 text-sm whitespace-nowrap ">
+                                {{i.customerDistrict|default:""}}
+                            </td>
+                            <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                {{i.customerCity|default:""}}
+                            </td> {% endcomment %}
+                            <td class="px-4 py-3 text-sm whitespace-nowrap">
                                 {{i.Creation_time|date:"d-m-Y h:m:s"}}
                             </td>
+                            {% comment %} <td class="px-4 py-3 text-sm whitespace-nowrap">
+                                Cọc - Thu
+                            </td> {% endcomment %}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -339,159 +359,6 @@
                 }  
             </style>
         </form>
-        <form method="POST" action="{% url 'update_order_ad' %}" style="display:none;"
-            class="form_update xxx fixed z-9999   pb-[10px] md:pt-[0px] md:pb-[0px] overflow-x-auto inset-0 bg-black bg-opacity-50 flex justify-center items-center px-[10px]">
-            {% csrf_token %}
-            <input type="hidden" name="id_lead_update" id="id_lead_update" />
-            <div
-                class="p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 w-[500px] flex flex-col gap-3 justify-center items-center">
-                <h3 class="text-[18px] font-bold text-stone-800 w-full text-center">Cập nhật đơn hàng</h3>
-                <div class="grid grid-cols-2 gap-2 w-full">
-                    <label class="block text-sm w-full col-span-2">
-                        <span class="font-medium text-stone-600">Nguồn đơn hàng</span>
-                        <select name="Source" id="Source_update" required
-                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
-                            {% for i in Select_setting.Source %}
-                            <option value="{{i}}">{{i}}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                    <label class="block text-sm w-full">
-                        <span class="font-medium text-stone-600">Tên đơn hàng</span>
-                        <input name="Name" id="Name_update" required
-                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
-                    </label>
-                    <label class="block text-sm w-full">
-                        <span class="font-medium text-stone-600">Số điện thoại</span>
-                        <input name="Phone_number" id="Phone_number_update" required 
-                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md">
-                    </label>
-                    <label class="block text-sm w-full">
-                        <span class="font-medium text-stone-600">Khu vực</span>
-                        <select name="Area" id="Area_update" required
-                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
-                            {% for i in Select_setting.Area %}
-                            <option value="{{i}}">{{i}}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                    <label class="block text-sm w-full">
-                        <span class="font-medium text-stone-600">Sản phẩm</span>
-                        <select name="Product" id="Product_update" required
-                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
-                            {% for i in Select_setting.Product %}
-                            <option value="{{i}}">{{i}}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                    <label class="block text-sm w-full">
-                        <span class="font-medium text-stone-600">Nhu cầu</span>
-                        <select name="Demand" id="Demand_update"  required
-                        class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
-                            {% for i in Select_setting.Demand %}
-                            <option value="{{i}}">{{i}}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                    <label class="block text-sm w-full">
-                        <span class="font-medium text-stone-600">Tình trạng</span>
-                        <input name="Status" id="Status_update" required readonly
-                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md ">
-                    </label>
-                    <label class="flex flex-col text-sm w-full h-[150px] col-span-2">
-                        <span class="font-medium text-stone-600">Ghi chú</span>
-                        <textarea name="Note" id="Note_update" required class="w-full grow block  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "></textarea>
-                    </label>
-                    <label class="flex flex-col text-sm w-full h-[250px]">
-                        <span class="font-medium text-stone-600">Chiến dịch</span>
-                        <input type="hidden" name="Belong_Campaign" id="Belong_Campaign_update"
-                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
-                            >
-                        <input id="Belong_Campaign_label_update"
-                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
-                            readonly>
-                        <div class="flex flex-col grow rounded-md overflow-hidden p-2 bg-stone-300 mt-2 gap-2 h-full">
-                            <div id="menu_list_campaign_update" class="flex flex-col gap-1 h-full overflow-y-auto">
-                                <!-- Chiến dịch -->
-                            </div>
-                            <!-- <div class="flex  relative items-center w-full">
-                                <input placeholder="Tìm kiếm Chiến dịch" name="s_campaign_update"
-                                    class="block pr-[30px] w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md " />
-                                <svg id="submit_search_campaign_update"  class="w-[30px] absolute right-0 cursor-pointer" viewBox="0 0 32 32" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-                                    <title>icon 111 search</title>
-                                    <desc>Created with Sketch.</desc>
-                                    <defs></defs>
-                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
-                                        sketch:type="MSPage">
-                                        <g id="icon-111-search" sketch:type="MSArtboardGroup" fill="#000000">
-                                            <path
-                                                d="M19.4271164,21.4271164 C18.0372495,22.4174803 16.3366522,23 14.5,23 C9.80557939,23 6,19.1944206 6,14.5 C6,9.80557939 9.80557939,6 14.5,6 C19.1944206,6 23,9.80557939 23,14.5 C23,16.3366522 22.4174803,18.0372495 21.4271164,19.4271164 L27.0119176,25.0119176 C27.5621186,25.5621186 27.5575313,26.4424687 27.0117185,26.9882815 L26.9882815,27.0117185 C26.4438648,27.5561352 25.5576204,27.5576204 25.0119176,27.0119176 L19.4271164,21.4271164 L19.4271164,21.4271164 Z M14.5,21 C18.0898511,21 21,18.0898511 21,14.5 C21,10.9101489 18.0898511,8 14.5,8 C10.9101489,8 8,10.9101489 8,14.5 C8,18.0898511 10.9101489,21 14.5,21 L14.5,21 Z"
-                                                id="search" sketch:type="MSShapeGroup"></path>
-                                        </g>
-                                    </g>
-                                </svg>
-                            </div> -->
-                        </div>
-                    </label>
-                    <label class="flex flex-col text-sm w-full h-[250px]">
-                        <span class="font-medium text-stone-600">Nhân viên chăm sóc</span>
-                        <input type="hidden" name="Belong_User" id="Belong_User_update"
-                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
-                            >
-                        <input id="Belong_User_label_update"
-                            class="block w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md "
-                            readonly>
-                        <div class="flex flex-col grow rounded-md overflow-hidden p-2 bg-stone-300 mt-2  h-full justify-between">
-                            <div id="menu_list_user_update" class="flex flex-col gap-1 grow overflow-y-auto">
-                                <!-- Chiến dịch -->
-                            </div>
-                            <div class="flex  relative items-center w-full">
-                                <input placeholder="Tìm kiếm Nhân viên" name="s_user_update"
-                                    class="block pr-[30px] w-full  text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input rounded-md " />
-                                <svg id="submit_search_user_update"  class="w-[30px] absolute right-0 cursor-pointer" viewBox="0 0 32 32" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-                                    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
-                                    <title>icon 111 search</title>
-                                    <desc>Created with Sketch.</desc>
-                                    <defs></defs>
-                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
-                                        sketch:type="MSPage">
-                                        <g id="icon-111-search" sketch:type="MSArtboardGroup" fill="#000000">
-                                            <path
-                                                d="M19.4271164,21.4271164 C18.0372495,22.4174803 16.3366522,23 14.5,23 C9.80557939,23 6,19.1944206 6,14.5 C6,9.80557939 9.80557939,6 14.5,6 C19.1944206,6 23,9.80557939 23,14.5 C23,16.3366522 22.4174803,18.0372495 21.4271164,19.4271164 L27.0119176,25.0119176 C27.5621186,25.5621186 27.5575313,26.4424687 27.0117185,26.9882815 L26.9882815,27.0117185 C26.4438648,27.5561352 25.5576204,27.5576204 25.0119176,27.0119176 L19.4271164,21.4271164 L19.4271164,21.4271164 Z M14.5,21 C18.0898511,21 21,18.0898511 21,14.5 C21,10.9101489 18.0898511,8 14.5,8 C10.9101489,8 8,10.9101489 8,14.5 C8,18.0898511 10.9101489,21 14.5,21 L14.5,21 Z"
-                                                id="search" sketch:type="MSShapeGroup"></path>
-                                        </g>
-                                    </g>
-                                </svg>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div style="display: none;" id="loader_form_update" class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
-                    <span  class="loader"></span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button type="submit"
-                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
-                        Cập nhật
-                    </button>
-                    <a
-                        class=" close_form_update cursor-pointer px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-stone-600 border border-transparent rounded-md active:bg-stone-600 hover:bg-stone-700 focus:outline-none focus:shadow-outline-green">
-                        Hủy
-                    </a>
-                </div>
-            </div>
-            <script>
-                $(document).ready(function() {
-                    $('.form_update').on('submit', function(event) {
-                        $('#loader_form_update').show();
-                    });
-                });
-            </script>
-        </form>
         <form id="form_delete_check_list_order" style="display:none;" class=" xxx px-[10px] fixed z-9999 inset-0  flex justify-center items-center bg-black bg-opacity-50">
             <div id="" class="relative  flex gap-3 flex-col justify-center items-center p-4 bg-white rounded-lg shadow-md text-red-500 font-medium ">
                 <input type="hidden" id="check_list" />
@@ -562,6 +429,35 @@
         
     </main>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#formOder_delete').on('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);  // Tạo FormData từ form hiện tại
+            alert('Bạn có chắc chắn muốn xóa đơn hàng ' + formData.get('code') + '!');
+            $.ajax({
+                url: '{% url 'delete_order_ad' %}',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                processData: false,  // Không xử lý dữ liệu (cần thiết khi sử dụng FormData)
+                contentType: false,  // Không đặt kiểu content (cần thiết khi sử dụng FormData)
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = "{% url 'order_ad' %}";
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(response) {
+                    alert('Đăng kí thất bại');
+                }
+            });
+        });
+    });
+</script>
 <script>
     $(document).ready(function () {
         $(".open_form_Report").click(function () {
@@ -670,56 +566,7 @@
 
     });
 </script>
-<script>
-    $(document).ready(function () {
-        $(".open_form_create").click(function () {
-            $(".xxx").hide();
-            $(".form_create").show();
-            $.ajax({
-                url: '{% url "search_user_page_admin" %}',  // URL của API bạn muốn gọi
-                method: 'POST',
-                data: {
-                    's':'',  // Gửi dữ liệu tìm kiếm với key là 's'
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('#menu_list_user').empty();  // Dọn sạch danh sách trước khi thêm mới
-                        $('#menu_list_user').append(`
-                        <span data-user-name="--Ngẫu nhiên--" data-user-id="--Ngẫu nhiên--" class="import_user cursor-pointer hover:text-green-700">
-                            --Ngẫu nhiên--
-                        </span>
-                        `);
-                        for (let i = 0; i < response.list_user.length; i++) {
-                            const user = response.list_user[i];
-                            $('#menu_list_user').append(`
-                                <span data-user-name="${user.Full_name}" data-user-id="${user.id}" class="import_user cursor-pointer hover:text-green-700">
-                                    ${user.Full_name}
-                                </span>
-                            `);
-                        }
-                    } else {
-                        console.log('Không tìm thấy nhân viên nào');
-                    }
-                },
-                error: function (response) {
-                    console.log('Tìm kiếm thất bại', response);
-                }
-            });
-        });
-        $(".close_form_create").click(function () {
-            $(".form_create").hide();
-        });
 
-        $('#open_form_delete_check_list_order').click(function(){
-            $(".xxx").hide();
-            $('#form_delete_check_list_order').show();
-        });
-        $('.close_form_delete_check_list_order').click(function(){
-            $('#form_delete_check_list_order').hide();
-        });
-    });
-</script>
 <script>
     $(document).ready(function () {
         $(".open_form_update").click(function () {
@@ -740,37 +587,6 @@
             $("#Belong_User_label_update").val($(this).data('belong-user-username'));
             $("#Belong_User_update").val($(this).data('belong-user-id'));
 
-            $.ajax({
-                url: '{% url "search_user_page_admin" %}',  // URL của API bạn muốn gọi
-                method: 'POST',
-                data: {
-                    's':'',  // Gửi dữ liệu tìm kiếm với key là 's'
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('#menu_list_user_update').empty();  // Dọn sạch danh sách trước khi thêm mới
-                        $('#menu_list_user_update').append(`
-                        <span data-user-name="--Ngẫu nhiên--" data-user-id="--Ngẫu nhiên--" class="import_user_update cursor-pointer hover:text-green-700">
-                            --Ngẫu nhiên--
-                        </span>
-                        `);
-                        for (let i = 0; i < response.list_user.length; i++) {
-                            const user = response.list_user[i];
-                            $('#menu_list_user_update').append(`
-                                <span data-user-name="${user.Full_name}" data-user-id="${user.id}" class="import_user_update cursor-pointer hover:text-green-700">
-                                    ${user.Full_name}
-                                </span>
-                            `);
-                        }
-                    } else {
-                        console.log('Không tìm thấy nhân viên nào');
-                    }
-                },
-                error: function (response) {
-                    console.log('Tìm kiếm thất bại', response);
-                }
-            });
         });
 
         $(".close_form_update").click(function () {
@@ -827,37 +643,7 @@
             });
         });
 
-        $('#submit_search_user').on('click', function (event) {
-            event.preventDefault();  // Ngừng hành động mặc định của nút
-            // Sử dụng serialize() để lấy dữ liệu từ form
-            var searchQuery_user = $('input[name="s_user"]').val();
-            $.ajax({
-                url: '{% url "search_user_page_admin" %}',  // URL của API bạn muốn gọi
-                method: 'POST',
-                data: {
-                    's':searchQuery_user,  // Gửi dữ liệu tìm kiếm với key là 's'
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('#menu_list_user').empty();  // Dọn sạch danh sách trước khi thêm mới
-                        for (let i = 0; i < response.list_user.length; i++) {
-                            const user = response.list_user[i];
-                            $('#menu_list_user').append(`
-                                <span data-user-name="${user.Full_name}" data-user-id="${user.id}" class="import_user cursor-pointer hover:text-green-700">
-                                    ${user.Full_name}
-                                </span>
-                            `);
-                        }
-                    } else {
-                        console.log('Không tìm thấy nhân viên nào');
-                    }
-                },
-                error: function (response) {
-                    console.log('Tìm kiếm thất bại', response);
-                }
-            });
-        });
+       
     });
 </script>
 <script>
@@ -895,37 +681,6 @@
             });
         });
 
-        $('#submit_search_user_update').on('click', function (event) {
-            event.preventDefault();  // Ngừng hành động mặc định của nút
-            // Sử dụng serialize() để lấy dữ liệu từ form
-            var searchQuery_user_update = $('input[name="s_user_update"]').val();
-            $.ajax({
-                url: '{% url "search_user_page_admin" %}',  // URL của API bạn muốn gọi
-                method: 'POST',
-                data: {
-                    's':searchQuery_user_update,  // Gửi dữ liệu tìm kiếm với key là 's'
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Đảm bảo CSRF token có trong request
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('#menu_list_user_update').empty();  // Dọn sạch danh sách trước khi thêm mới
-                        for (let i = 0; i < response.list_user.length; i++) {
-                            const user = response.list_user[i];
-                            $('#menu_list_user_update').append(`
-                                <span data-user-name="${user.Full_name}" data-user-id="${user.id}" class="import_user_update cursor-pointer hover:text-green-700">
-                                    ${user.Full_name}
-                                </span>
-                            `);
-                        }
-                    } else {
-                        console.log('Không tìm thấy nhân viên nào');
-                    }
-                },
-                error: function (response) {
-                    console.log('Tìm kiếm thất bại', response);
-                }
-            });
-        });
     });
 </script>
 <script>
