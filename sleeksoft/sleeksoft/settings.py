@@ -130,27 +130,27 @@ WSGI_APPLICATION = 'sleeksoft.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sleeksoft',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',  # Hoặc địa chỉ IP của máy chủ PostgreSQL
-        'PORT': '5432',  # Cổng mặc định của PostgreSQL
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'sleeksoft',
-#         'USER': 'sleekuser',
-#         'PASSWORD': 's133ks0ft',
-#         'HOST': 'localhost',
-#         'PORT': '',
+#         'USER': 'postgres',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',  # Hoặc địa chỉ IP của máy chủ PostgreSQL
+#         'PORT': '5432',  # Cổng mặc định của PostgreSQL
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'sleeksoft',
+        'USER': 'sleekuser',
+        'PASSWORD': 's133ks0ft',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
