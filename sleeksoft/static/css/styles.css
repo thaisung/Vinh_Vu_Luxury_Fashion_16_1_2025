@@ -865,6 +865,10 @@ select {
   inset: 0px;
 }
 
+.inset-3 {
+  inset: 0.75rem;
+}
+
 .bottom-\[40px\] {
   bottom: 40px;
 }
@@ -1072,6 +1076,10 @@ select {
   height: 400px;
 }
 
+.max-h-\[400px\] {
+  max-height: 400px;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1167,6 +1175,10 @@ select {
 
 .max-w-none {
   max-width: none;
+}
+
+.max-w-\[1000px\] {
+  max-width: 1000px;
 }
 
 .flex-1 {
@@ -2221,6 +2233,18 @@ select {
 }
 
 @media (min-width: 1024px) {
+  .lg\:block {
+    display: block;
+  }
+
+  .lg\:flex {
+    display: flex;
+  }
+
+  .lg\:hidden {
+    display: none;
+  }
+
   .lg\:w-\[150px\] {
     width: 150px;
   }
