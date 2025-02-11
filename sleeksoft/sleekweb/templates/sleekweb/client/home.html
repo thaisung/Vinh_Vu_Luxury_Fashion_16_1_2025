@@ -7,8 +7,8 @@
             <img id="banner_img" fetchpriority="high" width="1520" height="340"
                 src="{{obj_website.Banner.url}}" alt="1" />
         </a>
-        <div class="flex w-[1000px] h-[400px] items-center absolute inset-0 bg-stone-100 mx-auto my-auto">
-            <img src="{{obj_website.Banner.url}}" class="h-full w-[50%]" />
+        <div class="flex max-w-[1000px] max-h-[400px] items-center absolute inset-3 bg-stone-100 mx-auto my-auto">
+            <img src="{{obj_website.Banner.url}}" class=" responsive-element h-full w-[50%]" />
             <p class="flex flex-col text-[18px] text-left justify-start font-mono p-[20px]">
                 <span class="font-bold text-[25px]">Hi Visitors,</span>
                 <br>
@@ -34,7 +34,18 @@
             height: 100%;
             object-fit: cover; /* Hoặc "contain" tùy theo cách hiển thị mong muốn */
             max-height: 559px;
-        }        
+        }
+        /* Ẩn phần tử mặc định */
+        .responsive-element {
+            display: none;
+        }
+
+        /* Hiển thị phần tử trên màn hình lớn */
+        @media (min-width: 1024px) {
+            .responsive-element {
+            display: block;
+            }
+        }  
     </style>
     <!-- <div class="slider">
         <div>
