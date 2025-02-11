@@ -39,7 +39,7 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC4sQTFX7IiUYjglBJBfR/B1ZBFS+X6ohNZB9e0heJr
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','milanauth.com.vn']
 
 
 # Application definition
