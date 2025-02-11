@@ -535,6 +535,18 @@
 </div>
 <script>
     $(document).ready(function () {
+        $(".open_form_create").click(function () {
+            $(".xxx").hide();
+            $(".form_create").show();
+        });
+
+        $(".close_form_create").click(function () {
+            $(".form_create").hide();
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
         $(".open_form_Report").click(function () {
             $(".xxx").hide();
             $(".form_update_report").show();
