@@ -79,6 +79,8 @@ from sleekweb.sitemaps import *
 sitemaps = {
     'HomeSitemap': HomeSitemap,
     'category_product_cl_Sitemap': category_product_cl_Sitemap,
+    'category_product_child_cl_Sitemap': category_product_child_cl_Sitemap,
+    'detail_product_cl_Sitemap': detail_product_cl_Sitemap,
     # 'detail_video_Sitemap': detail_video_Sitemap,
     # 'image_video_Sitemap': image_video_Sitemap,
     # 'StaticSitemap1':StaticSitemap1,
