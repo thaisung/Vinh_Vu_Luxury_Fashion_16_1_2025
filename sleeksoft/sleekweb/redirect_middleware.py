@@ -16,13 +16,8 @@ class RedirectOn404Middleware:
         # Nếu gặp lỗi 404, chuyển hướng đến trang đăng nhập
         if response.status_code == 404:
             if 'ad' in request.path:
-                if request.user.is_authenticated:
-                    if request.user.is_superuser:
-                        return redirect(reverse('category_product_ad'))
-                    else:
-                        return redirect(reverse('lead_page_staff'))
-                else:
-                    return redirect(reverse('login_page_client'))  # Thay 'login' bằng tên URL của trang đăng nhập
+                print('jkhagshkgdghjk')
+                return redirect(reverse('login_page_client'))  # Thay 'login' bằng tên URL của trang đăng nhập
             else:
                 return redirect(reverse('home_cl'))
         return response
