@@ -143,6 +143,16 @@ DATABASES = {
 
 # DATABASES = {
 #     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'sleeksoft',
+#         'USER': 'sleekuser',
+#         'PASSWORD': 's133ks0ft',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+# DATABASES = {
+#     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'Website_Account_Game',
 #         'USER': 'postgres',
@@ -168,7 +178,7 @@ EMAIL_PORT = ''
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 
-PAGE = 1
+PAGE = 10
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

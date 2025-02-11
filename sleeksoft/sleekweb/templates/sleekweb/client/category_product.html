@@ -167,14 +167,16 @@
                                                 </span>
                                                 <select class="sort-by custom-dropdown__select" id="f_arrange"
                                                     name="f_arrange">
-                                                    <option value="" {% if not f_arrange %}selected{% endif %}>Mới nhất
-                                                    </option>
+                                                    <option value="" {% if not f_arrange %}selected{% endif %}>Mới nhất </option>
                                                     <option value="priceDesc" {% if f_arrange == 'priceDesc' %}selected{% endif %}>Giá giảm dần</option>
                                                     <option value="priceAsc" {% if f_arrange == 'priceAsc' %}selected{% endif %}>Giá tăng dần</option>
                                                     <option value="discount" {% if f_arrange == 'discount' %}selected{% endif %}>Sale</option>
                                                 </select>
                                             </span>
                                         </form>
+                                        <style>
+                                            
+                                        </style>
                                         <script>
                                             $(document).ready(function () {
                                                 $('#f_arrange').change(function () {
