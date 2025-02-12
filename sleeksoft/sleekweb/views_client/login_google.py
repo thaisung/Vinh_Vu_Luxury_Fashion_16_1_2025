@@ -7,6 +7,7 @@ from django.contrib.auth import login
 GOOGLE_CLIENT_ID = "29474878071-j0kinpris517ascir55ck8e9u7nsaqch.apps.googleusercontent.com"
 GOOGLE_CLIENT_SECRET = "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"
 GOOGLE_REDIRECT_URI = "http://localhost:8000/accounts/google/callback/"
+# GOOGLE_REDIRECT_URI = "https://milanauth.com.vn/accounts/google/callback/"
 GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/auth"
 
 def google_login(request):

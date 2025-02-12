@@ -8,6 +8,7 @@ from django.http import JsonResponse
 FACEBOOK_CLIENT_ID = "2233110823786626"
 FACEBOOK_CLIENT_SECRET = "6010834a778b1f1eb575072d15c20fee"
 FACEBOOK_REDIRECT_URI = "http://localhost:8000/accounts/facebook/callback/"
+# FACEBOOK_REDIRECT_URI = "https://milanauth.com.vn/accounts/facebook/callback/"
 
 FACEBOOK_TOKEN_URL = "https://graph.facebook.com/v18.0/oauth/access_token"
 FACEBOOK_USER_INFO_URL = "https://graph.facebook.com/me?fields=id,name,email"
