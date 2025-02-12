@@ -132,12 +132,12 @@ C:\Users\Admin\Desktop\Sound_web\sleeksoft
 Phần 1: Cài đặt các gói cần thiết
 Trước khi đi sâu vào cài đặt các gói cần thiết, chúng ta cần cập nhật và nâng cấp máy chủ cũng như các gói hiện có lên phiên bản mới nhất.
 
-sudo apt update -y|
-sudo apt upgrade -y|
+sudo apt update -y||
+sudo apt upgrade -y||
 
 Cài đặt tất cả các gói cần thiết trong một lệnh.
 
-sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl file|
+sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl file||
 
 Danh sách các gói được cài đặt là:
 Pip (trình cài đặt gói Python)
@@ -149,62 +149,62 @@ XOĂN
 Phần 2: Tạo người dùng và cơ sở dữ liệu Postgres
 Chạy lệnh sau để vào môi trường Postgres. Theo mặc định khi Postgres được cài đặt, chúng tôi sẽ có một người dùng tên là 'postgres' có quyền quản trị trong PostgreSQL. Chúng tôi sử dụng người dùng này để tạo Cơ sở dữ liệu và tài khoản Người dùng trong postgres cho dự án của chúng tôi.
 
-sudo -u postgres psql|
+sudo -u postgres psql||
 
 Tạo cơ sở dữ liệu cho dự án của chúng tôi
 
-CREATE DATABASE sleeksoft;|
+CREATE DATABASE sleeksoft;||
 
 Lưu ý:  Mọi câu lệnh Postgres PHẢI kết thúc bằng dấu chấm phẩy
 
 Tạo người dùng cơ sở dữ liệu cho dự án của chúng tôi. Đảm bảo chọn mật khẩu an toàn.
 
-CREATE USER sleekuser WITH PASSWORD 's133ks0ft';|
+CREATE USER sleekuser WITH PASSWORD 's133ks0ft';||
 
 Lưu ý: Người dùng cơ sở dữ liệu ở đây là 'sleekuser' và mật khẩu là 's133ks0ft'
 
 Đặt mã hóa mặc định thành UTF-8, được Django khuyên dùng
 
-ALTER ROLE sleekuser SET client_encoding TO 'utf8';|
+ALTER ROLE sleekuser SET client_encoding TO 'utf8';||
 
 Đặt sơ đồ cách ly giao dịch mặc định thành 'đọc đã cam kết'. Điều này chặn việc đọc từ các giao dịch không được cam kết.
 
-ALTER ROLE sleekuser SET default_transaction_isolation TO 'read committed';|
+ALTER ROLE sleekuser SET default_transaction_isolation TO 'read committed';||
 
 Đặt múi giờ mặc định thành UTC. Đây là múi giờ mặc định mà dự án Django của chúng tôi cũng sẽ có.
 
-ALTER ROLE sleekuser SET timezone TO 'UTC';|
+ALTER ROLE sleekuser SET timezone TO 'UTC';||
 
 Bây giờ, hãy cung cấp cho người dùng cơ sở dữ liệu của chúng tôi 'sleekuser' để có tất cả các đặc quyền trong cơ sở dữ liệu 'sleeksoft' .
 
-GRANT ALL PRIVILEGES ON DATABASE sleeksoft TO sleekuser;|
+GRANT ALL PRIVILEGES ON DATABASE sleeksoft TO sleekuser;||
 
 Bây giờ chúng tôi đã tạo thành công cơ sở dữ liệu và người dùng cơ sở dữ liệu có tất cả các đặc quyền đối với cơ sở dữ liệu mà chúng tôi đã tạo trong PostgreSQL. Thoát khỏi môi trường Postgres.
 
-\q
+\q ||
 
 Phần 3: Tạo môi trường ảo Python
 Nâng cấp pip và cài đặt môi trường ảo Python.
 
-sudo -H pip3 install --upgrade pip|
-sudo -H pip3 install virtualenv|
+sudo -H pip3 install --upgrade pip||
+sudo -H pip3 install virtualenv||
 
 Tạo một thư mục dự án nơi bạn có thể tạo môi trường ảo và cài đặt django, gunicorn, v.v. cho dự án của chúng tôi. Trong hướng dẫn này, tôi sẽ tạo thư mục dự án bên trong thư mục /home/ .
 
-cd /home|
-mkdir sleekproject|
+cd /home||
+mkdir sleekproject||
 
 Điều hướng đến thư mục/thư mục dự án.
 
-cd sleekproject/|
+cd sleekproject/||
 
 Tạo môi trường ảo bên trong thư mục dự án. Tôi đặt tên môi trường virut là 'sleekenv' .
 
-virtualenv sleekenv|
+virtualenv sleekenv||
 
 Điều này sẽ tạo một thư mục có tên  ' sleekenv'  trong thư mục ' sleekproject'  . Bên trong, nó sẽ cài đặt phiên bản cục bộ của Python và phiên bản cục bộ của  pip. Chúng ta có thể sử dụng điều này để cài đặt và định cấu hình môi trường Python riêng biệt cho dự án của mình. Trước khi cài đặt các yêu cầu Python của dự án, chúng ta cần kích hoạt môi trường ảo.
 
-source sleekenv/bin/activate|
+source sleekenv/bin/activate||
 
 Dấu nhắc đầu cuối sẽ thay đổi để cho biết rằng bạn hiện đang hoạt động trong môi trường ảo Python. Nó sẽ trông giống như thế này
 
@@ -212,7 +212,7 @@ Dấu nhắc đầu cuối sẽ thay đổi để cho biết rằng bạn hiện
 
 Khi môi trường ảo được kích hoạt, giờ đây chúng ta có thể cài đặt Django, Gunicorn và bộ điều hợp PostgreSQL (psycopg2) bằng pip. Trong môi trường ảo, chúng ta chỉ có thể sử dụng pip thay vì pip3 bất kể bạn có đang sử dụng Python phiên bản 3 hay không.
 
-pip install django gunicorn psycopg2-binary pillow|
+pip install django gunicorn psycopg2-binary pillow||
 
 Bây giờ chúng tôi có tất cả phần mềm cần thiết để bắt đầu dự án Django.
 
@@ -245,18 +245,18 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 Hãy thực hiện quá trình di chuyển ban đầu, thao tác này sẽ thiết lập các bảng cơ sở dữ liệu, v.v.. Bạn cần phải ở trong dự án Django mà chúng tôi đã tạo để chạy các lệnh sau /home/sleekproject/sleeksoft.
 
-cd sleeksoft/
-python3 manage.py makemigrations
-python3 manage.py migrate
+cd sleeksoft/||
+python3 manage.py makemigrations||
+python3 manage.py migrate||
 Bây giờ, hãy tạo một siêu người dùng cho trang web của chúng tôi.
 
-python3 manage.py createsuperuser
+python3 manage.py createsuperuser||
 Bạn nên nhập tên người dùng, email và mật khẩu để tạo tài khoản superuser. Sau này, hãy thực hiện lệnh collstatic sẽ thu thập tất cả các tệp tĩnh trong trang web của chúng tôi vào thư mục /static/. Hãy nhớ rằng chúng ta đã xác định thư mục '/static/' trong settings.py.
 
-python3 manage.py collectstatic
+python3 manage.py collectstatic||
 Tạo một ngoại lệ cho cổng 8000. Vì vậy, chúng tôi có thể kiểm tra xem thiết lập Django đã được cài đặt đúng cách chưa.
 
-sudo ufw allow 8000
+sudo ufw allow 8000||
 Bây giờ, chúng tôi có thể kiểm tra dự án của mình bằng cách khởi động máy chủ phát triển Django bằng lệnh sau
 
 python3 manage.py runserver 0.0.0.0:8000
@@ -271,14 +271,14 @@ Chúng ta có thể đăng nhập vào quản trị viên django bằng cách tr
 Liên kết Gunicorn với dự án của chúng tôi
 Chạy lệnh sau để liên kết Gunicorn với dự án của chúng tôi.
 
-gunicorn --bind 0.0.0.0:8000 sleeksoft.wsgi
+gunicorn --bind 0.0.0.0:8000 sleeksoft.wsgi||
 Điều này sẽ khởi động Gunicorn trên cùng giao diện mà máy chủ phát triển Django đang chạy. Chúng ta có thể quay lại và kiểm tra lại trang web. Sự khác biệt duy nhất là chúng tôi không thực hiện lệnh startserver từ Django, thay vào đó Gunicorn sẽ đảm nhiệm việc đó.
 
 Lưu ý:  Trong một số trường hợp, giao diện quản trị sẽ không được áp dụng bất kỳ kiểu dáng nào vì Gunicorn không biết cách tìm nội dung CSS tĩnh chịu trách nhiệm cho việc này. Chúng tôi sẽ cấu hình nó trong Nginx.
 
 Sau khi kiểm tra xong, hãy sử dụng CTRL-C  trong cửa sổ terminal để dừng Gunicorn. Bây giờ chúng ta đã hoàn tất việc định cấu hình ứng dụng / Trang web Django của mình. Chúng ta có thể thoát khỏi môi trường ảo bằng lệnh sau.
 
-deactivate
+deactivate||
 Chỉ báo môi trường ảo trong dấu nhắc lệnh sẽ bị xóa.
 
 Phần 5: Tạo các tập tin dịch vụ và socket systemd cho Gunicorn
@@ -286,7 +286,7 @@ Chúng tôi đã kiểm tra rằng Gunicorn có thể tương tác với ứng d
 
 Tạo và mở tệp socket systemd cho Gunicorn theo đường dẫn sau.
 
-sudo touch /etc/systemd/system/gunicorn.socket
+sudo touch /etc/systemd/system/gunicorn.socket||
 Tệp gunicorn.socket sẽ được tạo theo đường dẫn trên, tải xuống qua FTP và bắt đầu thêm đoạn mã sau vào nó.
 
 [Unit]
@@ -307,7 +307,7 @@ Lưu, đóng và tải tệp lên qua FTP khi bạn hoàn tất.
 
 Tiếp theo, tạo và mở tệp dịch vụ systemd cho Gunicorn với đặc quyền sudo. Tên tệp dịch vụ phải khớp với tên tệp ổ cắm ngoại trừ phần mở rộng:
 
-sudo touch /etc/systemd/system/gunicorn.service
+sudo touch /etc/systemd/system/gunicorn.service||
 Tệp gunicorn.service sẽ được tạo theo đường dẫn trên, tải xuống qua FTP và bắt đầu thêm đoạn mã sau vào nó.
 
 [Unit]
@@ -337,11 +337,11 @@ Lưu, đóng và tải tệp lên qua FTP khi bạn hoàn tất.
 
 Bây giờ, tệp dịch vụ systemd của chúng tôi đã hoàn tất. Bây giờ chúng ta có thể bắt đầu và kích hoạt ổ cắm Gunicorn. Điều này sẽ tạo tệp ổ cắm tại /run/gunicorn.sock ngay bây giờ và khi khởi động. Khi kết nối được thực hiện với ổ cắm đó, systemd sẽ tự động khởi động gunicorn.service để xử lý nó.
 
-sudo systemctl start gunicorn.socket
-sudo systemctl enable gunicorn.socket
+sudo systemctl start gunicorn.socket||
+sudo systemctl enable gunicorn.socket||
 Chúng tôi có thể xác nhận rằng thao tác đã thành công bằng cách kiểm tra tệp ổ cắm. Kiểm tra trạng thái của quá trình để tìm hiểu xem nó có thể bắt đầu hay không:
 
-sudo systemctl status gunicorn.socket
+sudo systemctl status gunicorn.socket||
 Tiếp theo, kiểm tra sự tồn tại của file gunicorn.sock trong thư mục /run
 
 file /run/gunicorn.sock
@@ -390,12 +390,12 @@ Nếu đầu ra từ Curl hoặc đầu ra của systemctl status cho biết đ�
 sudo journalctl -u gunicorn
 Kiểm tra tệp /etc/systemd/system/gunicorn.service xem có vấn đề gì không. Nếu chúng tôi thực hiện các thay đổi đối với tệp /etc/systemd/system/gunicorn.service , hãy tải lại daemon để đọc lại định nghĩa dịch vụ và khởi động lại quy trình Gunicorn bằng lệnh sau
 
-sudo systemctl daemon-reload
-sudo systemctl restart gunicorn
+sudo systemctl daemon-reload|||
+sudo systemctl restart gunicorn|||
 Phần 6: Cấu hình máy chủ web Nginx
 Chúng ta cần định cấu hình Nginx để chuyển lưu lượng truy cập đến quy trình Gunicorn. Chúng ta cần tạo và mở một khối máy chủ mới trong thư mục có sẵn trên các trang của Nginx bằng lệnh sau.
 
-sudo touch /etc/nginx/sites-available/sleeksoft
+sudo touch /etc/nginx/sites-available/sleeksoft||
 Tải tập tin này qua FTP và bắt đầu chỉnh sửa. Chúng tôi sẽ thêm phần sau vào khối máy chủ này.
 
 Chỉ định rằng khối này sẽ lắng nghe trên cổng 80 bình thường và nó sẽ phản hồi với tên miền hoặc địa chỉ IP của máy chủ của chúng tôi.
@@ -416,40 +416,40 @@ server {
 }
 Lưu, đóng và tải tệp lên qua FTP khi bạn hoàn tất. Bây giờ, chúng ta có thể kích hoạt tệp bằng cách liên kết nó với thư mục hỗ trợ trang web
 
-sudo ln -s /etc/nginx/sites-available/sleeksoft /etc/nginx/sites-enabled
+sudo ln -s /etc/nginx/sites-available/sleeksoft /etc/nginx/sites-enabled||
 Kiểm tra cấu hình Nginx để tìm lỗi cú pháp bằng cách sử dụng lệnh sau
 
-sudo nginx -t
+sudo nginx -t||
 Nếu không có lỗi nào được báo cáo thì chúng ta có thể tiếp tục và khởi động lại Nginx bằng cách sử dụng lệnh sau
 
-sudo systemctl restart nginx
+sudo systemctl restart nginx||
 Bây giờ, chúng tôi cần mở tường lửa của mình cho lưu lượng truy cập bình thường trên cổng 80. Vì chúng tôi không cần quyền truy cập vào máy chủ phát triển nữa nên chúng tôi có thể xóa quy tắc mở cổng 8000 ngay bây giờ.
 
-sudo ufw delete allow 8000
-sudo ufw allow 'Nginx Full'
+sudo ufw delete allow 8000||
+sudo ufw allow 'Nginx Full'||
 Bây giờ chúng ta có thể truy cập miền hoặc địa chỉ IP của máy chủ để xem ứng dụng/trang web Django của chúng ta.
 
 Phần 7: Cài đặt Certbot để kích hoạt SSL
 cài đặt snapd
 
-sudo apt install snapd
+sudo apt install snapd||
 Thực hiện các hướng dẫn sau trên dòng lệnh trên máy để đảm bảo rằng bạn có phiên bản snapd mới nhất
 
-sudo snap install core; sudo snap refresh core
+sudo snap install core; sudo snap refresh core||
 Chạy lệnh này trên dòng lệnh trên máy để cài đặt Certbot.
 
-sudo snap install --classic certbot
+sudo snap install --classic certbot||
 Thực hiện hướng dẫn sau trên dòng lệnh trên máy để đảm bảo rằng lệnh certbot có thể chạy được.
 
-sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot||
 Chạy lệnh này để nhận chứng chỉ và để Certbot tự động chỉnh sửa cấu hình Nginx của bạn để phục vụ nó, bật quyền truy cập HTTPS chỉ trong một bước.
 
-sudo certbot --nginx
+sudo certbot --nginx||
 Khi được nhắc, hãy nhập giá trị mong muốn. Điều này sẽ tự động tạo chứng chỉ SSL cho tên miền trỏ.
 
 Bây giờ khởi động lại máy chủ.
 
-reboot
+reboot||
 Tín dụng:
 
 Đại dương kỹ thuật số

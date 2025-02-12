@@ -60,6 +60,8 @@ from .views_client.getpassword import *
 from .views_client.checkout import *
 from .views_client.search import *
 from .views_client.order import *
+from .views_client.login_google import *
+from .views_client.login_facebook import *
 
 from .views_admin.category_product import *
 from .views_admin.category_product_child import *
@@ -69,6 +71,7 @@ from .views_admin.size_product import *
 from .views_admin.order import *
 from .views_admin.order_detail import *
 from .views_admin.website import *
+
 
 
 from django.contrib.auth import views as auth_views
@@ -184,6 +187,9 @@ urlpatterns = [
     
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 
-    
+    path("accounts/google/login/", google_login, name="google_login"),
+    path("accounts/google/callback/", google_callback, name="google_callback"),
+    path("accounts/facebook/login/", facebook_login, name="facebook_login"),
+    path("accounts/facebook/callback/", facebook_callback, name="facebook_callback"),
     
 ]

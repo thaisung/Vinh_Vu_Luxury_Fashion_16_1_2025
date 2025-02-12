@@ -32,6 +32,8 @@ git push
 ========================================================================================
 1- Tải sự đường_dẫn_tới_dự_án
 git clone URL_REPOSITORY
+git clone https://github.com/thaisung/Vinh_Vu_Luxury_Fashion_16_1_2025.git .
+
 2 - cập nhật dự án mới nhất
 git pull
 
