@@ -129,6 +129,11 @@ def detail_product_cl(request,Slug):
             i['product'].Price_Discount = format_number(i['product'].Price_Discount)
         
         context['obj_Product'] = Product.objects.get(Slug=Slug)
+        # Kiểm tra hết hàng
+        total_quantity = context['obj_Product'].product_size_detail.aggregate(
+            total=models.Sum('Quantity')
+        )['total'] or 0
+        context['obj_Product'].is_out_of_stock = total_quantity == 0  # True nếu hết hàng
         # Lấy tất cả danh mục lớn
         context['List_Category_product'] = list(Category_product.objects.all())
         

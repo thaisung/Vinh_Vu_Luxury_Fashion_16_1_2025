@@ -57,7 +57,11 @@
 
 
                                 <span class="pro-soldold">
+                                    {% if obj_Product.is_out_of_stock %}
+                                    <span class="statusProduct">Hết hàng</span>
+                                    {% else %}
                                     <span class="statusProduct">Còn hàng</span>
+                                    {% endif %}
                                 </span>
                             </div>
                             <div class="product-price main-price" id="price-preview" itemscope=""
@@ -185,6 +189,7 @@
                                         <span class="pro-soldold status-56700">
                                             <span class="statusProduct">Còn hàng</span>
                                         </span>
+                                        {% if not obj_Product.is_out_of_stock %}
                                         <div class="wrap-addcart clearfix">
                                             <button type="button" id="add-to-cart" class="btnAddToCart tp_button"
                                                 data-psid="40777448" data-selid="40777449" data-ck="1" data-size="1"
@@ -197,10 +202,11 @@
                                                 Mua ngay
                                             </button>
                                         </div>
+                                        {% endif %}
                                         <div class="pview-hightlight clearfix">
                                         </div>
 
-                                        <div class="wishlist whist iWishAdd" psid="40777448">
+                                        {% comment %} <div class="wishlist whist iWishAdd" psid="40777448">
                                             <i class="fa fa-heart-o"></i>
                                             <span class="favorite">YÊU THÍCH</span>
                                         </div>
@@ -209,7 +215,7 @@
                                             <a
                                                 href="https://www.facebook.com/sharer/sharer.php?u=https://cuongpopauth.com/so-mi-dolce-lua-nu-hoang-martini-g5ej1t-hp5zs-p40777448.html"><i
                                                     class="fa fa-facebook"></i></a>
-                                        </div>
+                                        </div> {% endcomment %}
                                     </div>
                                     <div class="product-action-bottom visible-xs">
                                         <div class="input-bottom hide">
