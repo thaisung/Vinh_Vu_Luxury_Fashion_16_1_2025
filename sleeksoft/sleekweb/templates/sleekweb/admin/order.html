@@ -128,7 +128,7 @@
                                 {% endif %}
                             </td>
                             <td class="px-4 py-3 text-sm whitespace-nowrap">
-                                <form method="post" action="{% url 'update_status_order' %}?p={{p}}" class="">
+                                <form method="post" action="{% url 'update_status_order' %}?p={{p}}&s={{s}}" class="">
                                     {% csrf_token %}
                                     <input name="id" type="hidden" value="{{i.id}}" name="id" />
                                     <select  onchange="this.form.submit()" name="status"
