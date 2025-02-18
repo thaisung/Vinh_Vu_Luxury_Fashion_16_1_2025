@@ -181,7 +181,7 @@ def getpassword_cl(request):
                 user.save()
                 if user:
                     email = username
-                    subject = f'Thông báo từ hệ thống CSKH'
+                    subject = f'Thông báo từ hệ thống CSKH Milan Ngô'
                     message = f"""
                     <html>
                     <body>

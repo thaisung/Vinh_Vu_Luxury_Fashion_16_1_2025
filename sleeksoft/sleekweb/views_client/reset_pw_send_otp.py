@@ -100,7 +100,7 @@ def reset_pw_send_otp_ad(request):
             user.save()
             if user:
                 email = un
-                subject = f'Thông báo từ hệ thống CSKH'
+                subject = f'Thông báo từ hệ thống CSKH Milan Ngô'
                 message = f"""
                 <html>
                 <body>

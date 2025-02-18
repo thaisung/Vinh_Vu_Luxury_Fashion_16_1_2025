@@ -46,3 +46,14 @@ nano .gitignore
 git config --global user.email "vuthaind@gmail.com"
 git config --global user.name "Thai Pt"
 
+
+
+✅ Cách nhanh nhất: Xóa file untracked rồi pull
+🚨 Lưu ý: Cách này sẽ xóa toàn bộ file chưa được theo dõi! Nếu cần giữ lại, hãy sao lưu trước.
+
+sh
+Copy
+Edit
+git clean -df
+git reset --hard HEAD
+git pull origin <branch_name>
