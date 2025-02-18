@@ -1,7 +1,7 @@
 {% extends './base.html' %}
 {% block content %}
 <main class="main-index">
-    <div class="relative">
+    <!-- <div class="relative">
         <a
             href="javascript:void(0);" target="_self">
             <img id="banner_img" fetchpriority="high" width="1520" height="340"
@@ -27,7 +27,7 @@
                 </span>
             </p>
         </div>
-    </div>
+    </div> -->
     <style>
         #banner_img {
             width: 100%;
@@ -39,13 +39,20 @@
         .responsive-element {
             display: none;
         }
+        #banner_reponsive{
+            display: none;
+        }
 
         /* Hiển thị phần tử trên màn hình lớn */
         @media (min-width: 1024px) {
             .responsive-element {
             display: block;
             }
-        }  
+            #banner_reponsive{
+                display: flex;
+            }
+        }
+
     </style>
     <!-- <div class="slider">
         <div>
@@ -61,7 +68,81 @@
                     src="{{obj_website.Banner.url}}" alt="1" />
         </div>
     </div> -->
-    <!-- <script>
+    <div id="banner_reponsive" class="lg:flex" style="background-color: white;">
+        <div class="slider w-[50%] h-[400px] ">
+            <div class="w-full h-[400px] ">
+                <img  class="w-full h-[400px] object-fill" src="/upload/banner/6_1.png" alt="1" />
+            </div>
+            <div class="w-full h-[400px] ">
+                <img class="w-full h-[400px] object-fill"  src="/upload/banner/3_1.png" alt="1" />
+            </div>
+            <div class="w-full h-[400px]">
+                <img class="w-full h-[400px] object-fill"  src="/upload/banner/5_1.png" alt="1" />
+            </div>
+        </div>
+        <p id="text_gt" class="flex-col text-[18px] text-left justify-start font-mono p-[20px] w-[50%]">
+            <span class="font-bold text-[25px]">Welcome to MilanNgo Authentic 🤗🤗🤗</span>
+            <br>
+            <br>
+            <span class="font-bold text-[25px]">⚜️MilanNgô Authentic since 2019 !</span>
+            <br>
+            <br>
+            <span class="leading-relaxed">
+                Chuyên Cung Cấp các sản phẩm quần áo , giầy dép , phụ kiện … thời trang cao cấp chính hãng (Authentic) đến từ các thương hiệu nổi tiếng Dolce&Gabbana, Dsquared2, Amiri,Burberry, Versace …. 
+            </span>
+            <br>
+            <span class="leading-relaxed">
+                Chúng Tôi cam kết bán hàng chuẩn 💯 % Authentic được trực tiếp mua tại Châu Âu . Bảo Hành Authentic trọn đời Sản Phẩm Shop bán ra .
+            </span>
+            <br>
+            <span>
+                Trân Trọng Cảm Ơn !
+            <span>
+            <br>
+            <br>
+            <span class="font-bold text-[25px]">
+                Milan Ngô
+            </span>
+        </p>
+    </div>
+    <div class="flex lg:hidden flex-col w-full" style="background-color: white;">
+        <p id="text_gt" class="flex-col text-[18px] text-left justify-start font-mono p-[20px]">
+            <span class="font-bold text-[25px]">Welcome to MilanNgo Authentic 🤗🤗🤗</span>
+            <br>
+            <br>
+            <span class="font-bold text-[25px]">⚜️MilanNgô Authentic since 2019 !</span>
+            <br>
+            <br>
+            <span class="leading-relaxed">
+                Chuyên Cung Cấp các sản phẩm quần áo , giầy dép , phụ kiện … thời trang cao cấp chính hãng (Authentic) đến từ các thương hiệu nổi tiếng Dolce&Gabbana, Dsquared2, Amiri,Burberry, Versace …. 
+            </span>
+            <br>
+            <span class="leading-relaxed">
+                Chúng Tôi cam kết bán hàng chuẩn 💯 % Authentic được trực tiếp mua tại Châu Âu . Bảo Hành Authentic trọn đời Sản Phẩm Shop bán ra .
+            </span>
+            <br>
+            <span>
+                Trân Trọng Cảm Ơn !
+            <span>
+            <br>
+            <br>
+            <span class="font-bold text-[25px]">
+                Milan Ngô
+            </span>
+        </p>
+        <div class="slider w-full">
+            <div>
+                <img  src="/upload/banner/6.jpg" alt="1" />
+            </div>
+            <div >
+                <img  src="/upload/banner/3.jpg" alt="1" />
+            </div>
+            <div >
+                <img  src="/upload/banner/5.jpg" alt="1" />
+            </div>
+        </div>
+    </div>
+    <script>
         $(document).ready(function(){
             $('.slider').slick({
                 arrows: false,
@@ -73,7 +154,7 @@
                 autoplaySpeed: 3000   
             });
         });
-    </script> -->
+    </script>
     <style>
         /* Căn giữa và đặt dấu chấm bên dưới */
         .slick-dots {
