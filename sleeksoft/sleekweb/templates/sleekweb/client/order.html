@@ -125,6 +125,9 @@
                                         </div>
                                     </div>
                                     <div class="titleInfoCart" style="text-align:center;">Tổng giá trị đơn hàng : {{j.Data.total_money}}₫</div>
+                                    {% if j.Deposit %}
+                                    <div class="titleInfoCart text-yellow-700" style="text-align:center;">Đã cọc : {{j.Deposit}}₫</div>
+                                    {% endif %}
                                     {% if j.Status == 'Chờ xác nhận' %}
                                     <form id="formOder_delete" class="flex justify-center">
                                         <input name="code" type="hidden" value="{{j.Code}}" />

@@ -234,6 +234,9 @@ def order_cl(request):
         for i in context['List_Order']:
             i.Data = format_cart(i.Data)
             print('Data:',i.Data)
+            if i.Deposit and int(i.Deposit) > 0:
+                print('i.Deposit:',i.Deposit)
+                i.Deposit = format_number(int(i.Deposit))
             
         context['List_Product_Love'] = Product.objects.all()
         print('List_Product_Love:',context['List_Product_Love'])

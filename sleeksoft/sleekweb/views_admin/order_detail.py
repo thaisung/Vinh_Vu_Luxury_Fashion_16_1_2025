@@ -216,7 +216,23 @@ def order_detail_ad(request,code):
         return redirect('login_ad')
     
 def order_detail_update_ad(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            if request.user.is_superuser:
+                context = {}
+                try:
+                    Code = request.GET.get('Code')
+                    obj_order = Order.objects.get(Code=Code)
+                    obj_order.Deposit = ''
+                    obj_order.save()
+                    return redirect('order_detail_ad',code=Code)
+                except:
+                    return redirect('order_ad')
+            else:
+                return JsonResponse({'success': False, 'message': 'Bạn chưa được cấp quyền để thực hiện chức năng'},json_dumps_params={'ensure_ascii': False})
+        else:
+            return redirect('login_ad')
+    elif request.method == 'POST':
         if request.user.is_authenticated:
             if request.user.is_superuser:
                 context = {}

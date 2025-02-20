@@ -62,7 +62,7 @@
                 <svg class=" stroke-green-500 w-[30px] cursor-pointer p-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left-circle"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 8 12 12 16"></polyline><line x1="16" y1="12" x2="8" y2="12"></line></svg>
             </a>
         </h1>
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs flex gap-3">
+        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs flex flex-col lg:flex-row gap-3">
             <div class="w-fit grid grid-cols-2 bg-stone-200 rounded-lg p-3 gap-2">
                 <div class="  flex flex-col gap-1">
                     <label class="font-medium">
@@ -173,12 +173,19 @@
                         <p class="font-bold text-yellow-600 whitespace-nowrap">Đã cọc : {{obj_order.Deposit}}₫</p>
                         <svg id="open_form_Deposit" class="fill-yellow-600 w-[30px] hover:cursor-pointer" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M14 20l10 10 10-10z"></path><path d="M0 0h48v48h-48z" fill="none"></path></svg>
                     </div>
-                    <form method="post" action="{% url 'order_detail_update_ad' %}" class="flex items-center gap-1">
-                        {% csrf_token %}
-                        <input type="hidden" name="Code" value="{{obj_order.Code}}" placeholder="Nhập số tiền đã cọc" class="w-full" />
-                        <input placeholder="Nhập số tiền đã cọc" name="Deposit" class="w-full" />
-                        <button type="submit" class="bg-green-500 p-2 font-medium h-[42px] whitespace-nowrap">Lưu lại</button>
-                    </form>
+                    <div class="flex gap-2">
+                        <form method="post" action="{% url 'order_detail_update_ad' %}" class="flex items-center gap-1">
+                            {% csrf_token %}
+                            <input type="hidden" name="Code" value="{{obj_order.Code}}" placeholder="Nhập số tiền đã cọc" class="w-full" />
+                            <input type="number" placeholder="Nhập số tiền đã cọc" name="Deposit" class="w-full" min="1000"  />
+                            <button type="submit" class="bg-green-500 p-2 font-medium h-[42px] whitespace-nowrap">Lưu lại</button>
+                        </form>
+                        <form method="get" action="{% url 'order_detail_update_ad' %}" class="flex items-center gap-1">
+                            {% csrf_token %}
+                            <input type="hidden" name="Code" value="{{obj_order.Code}}" placeholder="Nhập số tiền đã cọc" class="w-full" />
+                            <button type="submit" class="bg-red-500 p-2 font-medium h-[42px] whitespace-nowrap">Xóa cọc</button>
+                        </form>
+                    </div>
                 </div>
                 <p class="font-bold text-green-600">Thu : {{obj_order.Revenue}}₫</p>
             </div>
